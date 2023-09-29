@@ -13,11 +13,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Objects;
+
 public class SignUpActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
+    private DatabaseConnector mDatabaseConnector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         // Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+        mDatabaseConnector = new DatabaseConnector();
 
         Button btnSignIn = findViewById(R.id.sign_in_button);
         Button btnSignUp = findViewById(R.id.sign_up_button);
@@ -69,6 +73,11 @@ public class SignUpActivity extends AppCompatActivity {
                             Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException(),
                                     Toast.LENGTH_SHORT).show();
                         } else {
+                            // Write user data to the database
+                            String userId = Objects.requireNonNull(auth.getCurrentUser()).getUid();
+                            String data = "User data";
+                            mDatabaseConnector.writeData(userId, data);
+
                             startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                             finish();
                         }
