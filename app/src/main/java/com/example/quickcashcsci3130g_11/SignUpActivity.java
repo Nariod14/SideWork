@@ -11,7 +11,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
 import java.util.Objects;
 
@@ -26,6 +28,9 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        // Initialize Firebase
+        FirebaseApp.initializeApp(this);
 
         // Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -52,13 +57,18 @@ public class SignUpActivity extends AppCompatActivity {
                 return;
             }
 
+            if (!isValidEmail(email)) {
+                Toast.makeText(getApplicationContext(), "Enter a valid email address", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             if (TextUtils.isEmpty(password)) {
                 Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if (password.length() < 6) {
-                Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+            if (!isValidPassword(password)) {
+                Toast.makeText(getApplicationContext(), "Password must contain at least 6 characters, Allowed characters – A-Za-z0-9", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -66,12 +76,13 @@ public class SignUpActivity extends AppCompatActivity {
             //create user
             auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(SignUpActivity.this, task -> {
-                        Toast.makeText(SignUpActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
-                        progressBar.setVisibility(View.GONE);
-
+                        //Toast.makeText(SignUpActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show()
                         if (!task.isSuccessful()) {
-                            Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException(),
-                                    Toast.LENGTH_SHORT).show();
+                            if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                                Toast.makeText(SignUpActivity.this, "Account with this email id already exists. Kindly click on login or try again with a different email id.", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException(), Toast.LENGTH_SHORT).show();
+                            }
                         } else {
                             // Write user data to the database
                             String userId = Objects.requireNonNull(auth.getCurrentUser()).getUid();
@@ -81,6 +92,7 @@ public class SignUpActivity extends AppCompatActivity {
                             startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                             finish();
                         }
+                        progressBar.setVisibility(View.GONE);
                     });
 
         });
@@ -90,5 +102,13 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         progressBar.setVisibility(View.GONE);
+    }
+
+    private boolean isValidEmail(CharSequence target) {
+        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+    }
+
+    private boolean isValidPassword(String password) {
+        return password.length() >= 6 && password.matches("[A-Za-z0-9]+");
     }
 }
