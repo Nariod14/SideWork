@@ -30,9 +30,16 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    packaging {
+
+   packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+
+    configurations {
+        implementation {
+            exclude(module = "protobuf-java")
         }
     }
 
@@ -58,8 +65,11 @@ dependencies {
     implementation("com.google.firebase:firebase-database")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
     implementation("com.google.gms:google-services:4.4.0")
+    implementation("com.google.firebase:firebase-firestore:24.8.1")
+    implementation ("com.google.auth:google-auth-library-oauth2-http:1.19.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation ("androidx.test.espresso:espresso-intents:3.5.1")
 }
 

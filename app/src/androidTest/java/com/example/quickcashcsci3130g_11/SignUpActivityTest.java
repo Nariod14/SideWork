@@ -1,9 +1,13 @@
 package com.example.quickcashcsci3130g_11;
 
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
+import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
@@ -15,6 +19,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.io.IOException;
 
 @RunWith(AndroidJUnit4ClassRunner.class)
 @LargeTest
@@ -30,15 +36,31 @@ public class SignUpActivityTest {
             new ActivityScenarioRule<>(SignUpActivity.class);
 
     @Test
-    public void testSignUpWithValidCredentials() {
+    public void testSignUpWithValidCredentials() throws IOException {
+
+        //My attempt to delete a user
+        /*FirebaseOptions options = new FirebaseOptions.Builder()
+                .setCredentials(GoogleCredentials.fromStream(new FileInputStream("path/to/serviceAccountKey.json")))
+                .setDatabaseUrl("https://your-project-id.firebaseio.com")
+                .build();*/
         Espresso.onView(ViewMatchers.withId(R.id.email))
                 .perform(ViewActions.typeText("test@example.com"));
         Espresso.onView(ViewMatchers.withId(R.id.password))
                 .perform(ViewActions.typeText("password"));
         Espresso.onView(ViewMatchers.withId(R.id.sign_up_button))
                 .perform(ViewActions.click());
-        Espresso.onView(ViewMatchers.withId(R.id.progressBar))
-                .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+
+        // Check if ProfileActivity is launched
+        Intents.init();
+        intended(hasComponent(ProfileActivity.class.getName()));
+        Intents.release();
+
+       /* // Delete the user from Firebase
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String uid = user.getUid();
+            FirebaseAuth.getInstance().deleteUser(uid);
+        }*/
     }
 
     @Test

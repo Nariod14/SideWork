@@ -7,10 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
@@ -53,35 +53,35 @@ public class SignUpActivity extends AppCompatActivity {
             String password = inputPassword.getText().toString().trim();
 
             if (TextUtils.isEmpty(email)) {
-                Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+                Snackbar.make(v, "Enter email address!", Snackbar.LENGTH_SHORT).show();
                 return;
             }
 
             if (!isValidEmail(email)) {
-                Toast.makeText(getApplicationContext(), "Enter a valid email address", Toast.LENGTH_SHORT).show();
+                Snackbar.make(v, "Enter a valid email address", Snackbar.LENGTH_SHORT).show();
                 return;
             }
 
             if (TextUtils.isEmpty(password)) {
-                Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+                Snackbar.make(v, "Enter password!", Snackbar.LENGTH_SHORT).show();
                 return;
             }
 
             if (!isValidPassword(password)) {
-                Toast.makeText(getApplicationContext(), "Password must contain at least 6 characters, Allowed characters – A-Za-z0-9", Toast.LENGTH_SHORT).show();
+                Snackbar.make(v, "Password must contain at least 6 characters, Allowed characters – A-Za-z0-9", Snackbar.LENGTH_SHORT).show();
                 return;
             }
 
             progressBar.setVisibility(View.VISIBLE);
-            //create user
+
+            //create user w firebase
             auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(SignUpActivity.this, task -> {
-                        //Toast.makeText(SignUpActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show()
                         if (!task.isSuccessful()) {
                             if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                                Toast.makeText(SignUpActivity.this, "Account with this email id already exists. Kindly click on login or try again with a different email id.", Toast.LENGTH_LONG).show();
+                                Snackbar.make(v, "Account with this email id already exists. Kindly click on login or try again with a different email id.", Snackbar.LENGTH_LONG).show();
                             } else {
-                                Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException(), Toast.LENGTH_SHORT).show();
+                                Snackbar.make(v, "Authentication failed." + task.getException(), Snackbar.LENGTH_SHORT).show();
                             }
                         } else {
                             // Write user data to the database
@@ -89,7 +89,7 @@ public class SignUpActivity extends AppCompatActivity {
                             String data = "User data";
                             mDatabaseConnector.writeData(userId, data);
 
-                            startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+                            startActivity(new Intent(SignUpActivity.this, ProfileActivity.class));
                             finish();
                         }
                         progressBar.setVisibility(View.GONE);
