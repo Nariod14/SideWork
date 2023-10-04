@@ -79,7 +79,7 @@ public class SignUpActivity extends AppCompatActivity {
                     .addOnCompleteListener(SignUpActivity.this, task -> {
                         if (!task.isSuccessful()) {
                             if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                                Snackbar.make(v, "Account with this email id already exists. Kindly click on login or try again with a different email id.", Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(v, R.string.ACCOUNT_EXISTS, Snackbar.LENGTH_LONG).show();
                             } else {
                                 Snackbar.make(v, "Authentication failed." + task.getException(), Snackbar.LENGTH_SHORT).show();
                             }

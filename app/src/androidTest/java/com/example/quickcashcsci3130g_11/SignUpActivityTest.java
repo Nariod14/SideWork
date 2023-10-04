@@ -37,12 +37,6 @@ public class SignUpActivityTest {
 
     @Test
     public void testSignUpWithValidCredentials() throws IOException {
-
-        //My attempt to delete a user
-        /*FirebaseOptions options = new FirebaseOptions.Builder()
-                .setCredentials(GoogleCredentials.fromStream(new FileInputStream("path/to/serviceAccountKey.json")))
-                .setDatabaseUrl("https://your-project-id.firebaseio.com")
-                .build();*/
         Espresso.onView(ViewMatchers.withId(R.id.email))
                 .perform(ViewActions.typeText("test@example.com"));
         Espresso.onView(ViewMatchers.withId(R.id.password))
@@ -55,12 +49,6 @@ public class SignUpActivityTest {
         intended(hasComponent(ProfileActivity.class.getName()));
         Intents.release();
 
-       /* // Delete the user from Firebase
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            String uid = user.getUid();
-            FirebaseAuth.getInstance().deleteUser(uid);
-        }*/
     }
 
     @Test
@@ -72,10 +60,8 @@ public class SignUpActivityTest {
                 .perform(ViewActions.typeText("password"));
         Espresso.onView(ViewMatchers.withId(R.id.sign_up_button))
                 .perform(ViewActions.click());
-
         Thread.sleep(2000);
-        // Check that the error message is displayed
-        Espresso.onView(ViewMatchers.withText("Account with this email id already exists. Kindly click on login or try again with a different email id."))
+        Espresso.onView(ViewMatchers.withText(R.string.ACCOUNT_EXISTS))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
