@@ -14,14 +14,15 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-
-import java.util.Objects;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignUpActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
+
+    FirebaseDatabase database = null;
     private DatabaseConnector mDatabaseConnector;
 
     @Override
@@ -84,11 +85,6 @@ public class SignUpActivity extends AppCompatActivity {
                                 Snackbar.make(v, "Authentication failed." + task.getException(), Snackbar.LENGTH_SHORT).show();
                             }
                         } else {
-                            // Write user data to the database
-                            String userId = Objects.requireNonNull(auth.getCurrentUser()).getUid();
-                            String data = "User data";
-                            mDatabaseConnector.writeData(userId, data);
-
                             startActivity(new Intent(SignUpActivity.this, ProfileActivity.class));
                             finish();
                         }
@@ -102,6 +98,10 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         progressBar.setVisibility(View.GONE);
+    }
+
+    protected void initializeDatabase() {
+        database = FirebaseDatabase.getInstance("https://csci3130-fall2023-a2-8bc9b-default-rtdb.firebaseio.com/");
     }
 
     private boolean isValidEmail(CharSequence target) {
