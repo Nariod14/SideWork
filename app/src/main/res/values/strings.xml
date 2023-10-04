@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Quick Cash CSCI3130 G-11</string>
+    <string name="ACCOUNT_EXISTS">Account with this email id already exists. Kindly click on login or try again with a different email id.</string>
 </resources>
