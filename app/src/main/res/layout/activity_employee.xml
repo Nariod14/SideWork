@@ -19,44 +19,44 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        android:id="@+id/rLauout"
-        tools:context=".ProfileActivity">
+        android:id="@+id/eLayout"
+        tools:context=".EmployeeProfileActivity">
 
         <TextView
             android:id="@+id/emailTextView"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:layout_height="wrap_content"
             android:text="Email"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/roleTextView"
+            android:id="@+id/employeeTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/emailTextView"
-            android:text="Employer Profile"
+            android:text="Employee Profile"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/switchRoleButton"
+            android:id="@+id/switch2EmployerButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/orange"
-            android:layout_below="@id/roleTextView"
+            android:layout_below="@id/employeeTextView"
             android:layout_marginTop="16dp"
-            android:text="Switch Role" />
+            android:text="Switch Role to Employer" />
         <Button
-            android:id="@+id/newJobButton"
+            android:id="@+id/addJobButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/switchRoleButton"
-            android:layout_marginTop="16dp"
             android:backgroundTint="@color/lightBlue"
-            android:text="Add a New Job" />
+            android:layout_below="@id/switch2EmployerButton"
+            android:layout_marginTop="16dp"
+            android:text="Switch Role to Employer" />
 
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
