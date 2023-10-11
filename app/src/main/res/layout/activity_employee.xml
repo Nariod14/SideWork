@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EmployeeActivity">
+
+    <Button
+        android:id="@+id/employerReport"
+        android:layout_width="170dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="50dp"
+        android:text="Report "
+        app:cornerRadius="30dp"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/employerViewJobs"
+        app:layout_constraintTop_toBottomOf="@+id/employerAddJob" />
+
+    <Button
+        android:id="@+id/employerAddJob"
+        android:layout_width="170dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="90dp"
+        android:text="Applied Jobs"
+        app:cornerRadius="30dp"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/employerPreferredEmployees"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/employerPreferredEmployees"
+        android:layout_width="170dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="90dp"
+        android:text="Available Jobs"
+        app:cornerRadius="30dp"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/employerAddJob"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/employerViewJobs"
+        android:layout_width="170dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="50dp"
+        android:text="Accepted Jobs"
+        app:cornerRadius="30dp"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/employerReport"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/employerPreferredEmployees" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="145dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:text="TextView"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
