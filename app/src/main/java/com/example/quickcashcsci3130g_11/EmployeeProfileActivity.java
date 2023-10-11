@@ -28,26 +28,30 @@ public class EmployeeProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_employee);
         switch2EmployerButton = findViewById(R.id.switch2EmployerButton);
         mEmailTextView = findViewById(R.id.emailTextView);
-        this.showProfileInfo();
+
+        String email = this.showProfileInfo();
+        this.showEmployeeMessage(email);
         this.switch2Employer();
-        this.showEmployeeMessage();
 
 
     }
 
-    protected void showProfileInfo() {
+    protected String showProfileInfo() {
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         if (user != null) {
             String email = user.getEmail();
             mEmailTextView.setText(email);
+            return email;
         }
+//        if no profile of user, handle that scenario
+        return null;
     }
 
-    protected void showEmployeeMessage() {
+    protected void showEmployeeMessage(String email) {
         RelativeLayout relativeLayout = findViewById(R.id.eLayout);
+        String employeeMessage = getString(R.string.EMPLOYEE_MESSAGE, email);
 
-        String employeeMessage = getString(R.string.EMPLOYEE_MESSAGE, user);
         Snackbar employeeSnack = Snackbar.make(relativeLayout, employeeMessage, Snackbar.LENGTH_SHORT);
         employeeSnack.show();
     }
