@@ -16,11 +16,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.FirebaseDatabase;
 
+
 public class SignUpActivity extends AppCompatActivity {
 
-    private EditText inputEmail, inputPassword;
-    private ProgressBar progressBar;
-    private FirebaseAuth auth;
+    public View btnSignUp;
+    EditText inputEmail;
+    EditText inputPassword;
+    ProgressBar progressBar;
+    FirebaseAuth auth;
 
     FirebaseDatabase database = null;
     private DatabaseConnector mDatabaseConnector;
@@ -104,11 +107,11 @@ public class SignUpActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance("https://csci3130-fall2023-a2-8bc9b-default-rtdb.firebaseio.com/");
     }
 
-    private boolean isValidEmail(CharSequence target) {
+    public boolean isValidEmail(CharSequence target) {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
-    private boolean isValidPassword(String password) {
+    public boolean isValidPassword(String password) {
         return password.length() >= 6 && password.matches("[A-Za-z0-9]+");
     }
 }
