@@ -1,7 +1,8 @@
-/*
+
 package com.example.quickcashcsci3130g_11;
 
 import static androidx.fragment.app.FragmentManager.TAG;
+
 import static org.junit.Assert.assertNotNull;
 
 import android.util.Log;
@@ -50,6 +51,9 @@ public class SignUpUiAutomator {
         UiObject signUpButton = device.findObject(new UiSelector().text("Sign Up"));
         signUpButton.click();
 
+        // Wait for the ProfileActivity to launch
+        device.wait(Until.hasObject(By.text("Switch Role")), 5000);
+
         // Check if ProfileActivity is launched
         UiObject2 profileActivityObject = device.wait(Until.findObject(By.text("Switch Role")), 5000);
         assertNotNull("ProfileActivity not launched", profileActivityObject);
@@ -68,4 +72,3 @@ public class SignUpUiAutomator {
         }
     }
 }
-*/

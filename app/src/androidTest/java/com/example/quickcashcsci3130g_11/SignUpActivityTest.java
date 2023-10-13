@@ -32,36 +32,6 @@ public class SignUpActivityTest {
     public ActivityScenarioRule<SignUpActivity> activityRule =
             new ActivityScenarioRule<>(SignUpActivity.class);
 
-    /*@Test
-    public void testSignUpWithValidCredentials() throws InterruptedException {
-        Espresso.onView(ViewMatchers.withId(R.id.email))
-                .perform(ViewActions.typeText("test@example.com"));
-        Espresso.onView(ViewMatchers.withId(R.id.password))
-                .perform(ViewActions.typeText("password"));
-        Espresso.onView(ViewMatchers.withId(R.id.sign_up_button))
-                .perform(ViewActions.click());
-
-        // Check if ProfileActivity is launched
-        Thread.sleep(2000);
-        Intents.init();
-        intended(hasComponent(ProfileActivity.class.getName()));
-        Intents.release();
-
-
-        // Delete the user account
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            user.delete()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "User account deleted.");
-                        } else {
-                            Log.w(TAG, "Error deleting user account.", task.getException());
-                        }
-                    });
-        }
-    }*/
-
     @Test
     public void testSignUpWithExistingEmail() throws InterruptedException {
         // Type an email that already exists in the database
