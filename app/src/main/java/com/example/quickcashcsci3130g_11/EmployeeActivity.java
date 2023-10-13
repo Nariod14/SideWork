@@ -1,12 +1,26 @@
 package com.example.quickcashcsci3130g_11;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class EmployeeActivity extends AppCompatActivity{
+
+    private TextView mEmailTextView;
+    private TextView EmployeeTextView;
+    private Button switch2EmployerButton;
+    private FirebaseUser user;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +30,13 @@ public class EmployeeActivity extends AppCompatActivity{
         Button AppliedJobs = (Button) findViewById(R.id.employerAddJob);
         Button AcceptedJobs = (Button) findViewById(R.id.employerViewJobs);
         Button Report = (Button) findViewById(R.id.employerReport);
+
+        switch2EmployerButton = findViewById(R.id.switch2EmployerButton);
+        mEmailTextView = findViewById(R.id.emailTextView);
+
+        String email = this.showProfileInfo();
+        this.showEmployeeMessage(email);
+        this.switch2Employer();
 
         AvailableJobs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,4 +69,40 @@ public class EmployeeActivity extends AppCompatActivity{
             }
         });
     }
+
+
+
+    protected String showProfileInfo() {
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        if (user != null) {
+            String email = user.getEmail();
+            mEmailTextView.setText(email);
+            return email;
+        }
+//        if no profile of user, handle that scenario
+        return null;
+    }
+
+    protected void showEmployeeMessage(String email) {
+        ConstraintLayout constraintLayout = findViewById(R.id.eLayout);
+        String employeeMessage = getString(R.string.EMPLOYEE_MESSAGE, email);
+
+        Snackbar employeeSnack = Snackbar.make(constraintLayout, employeeMessage, Snackbar.LENGTH_SHORT);
+        employeeSnack.show();
+    }
+    protected void switch2Employer() {
+        switch2EmployerButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick (View view){
+                Intent intent = new Intent(EmployeeActivity.this, EmployerActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+    }
+
+
 }

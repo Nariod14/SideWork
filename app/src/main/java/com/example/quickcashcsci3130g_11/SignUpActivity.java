@@ -85,7 +85,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 Snackbar.make(v, "Authentication failed." + task.getException(), Snackbar.LENGTH_SHORT).show();
                             }
                         } else {
-                            startActivity(new Intent(SignUpActivity.this, ProfileActivity.class));
+                            startActivity(new Intent(SignUpActivity.this, EmployerActivity.class));
                             finish();
                         }
                         progressBar.setVisibility(View.GONE);

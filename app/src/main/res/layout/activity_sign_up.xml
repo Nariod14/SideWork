@@ -34,6 +34,7 @@
         android:id="@+id/sign_up_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/lightBlue"
         android:layout_below="@id/password"
         android:layout_marginTop="16dp"
         android:text="Sign Up" />
@@ -42,6 +43,7 @@
         android:id="@+id/sign_in_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/darkBlue"
         android:layout_below="@id/sign_up_button"
         android:layout_marginTop="16dp"
         android:text="Already have an account? Sign in" />
@@ -50,6 +52,7 @@
         android:id="@+id/btn_reset_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/orange"
         android:layout_below="@id/sign_in_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
