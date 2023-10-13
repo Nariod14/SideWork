@@ -10,6 +10,7 @@ android {
     defaultConfig {
         applicationId = "com.example.quickcashcsci3130g11"
         minSdk = 26
+        maxSdk = 34
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -35,6 +36,7 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
             excludes += "META-INF/DEPENDENCIES"
+            excludes += "META-INF/gradle/incremental.annotation.processors"
         }
     }
 
@@ -43,6 +45,15 @@ android {
             exclude(module = "protobuf-java")
         }
     }
+
+    testOptions {
+        // Used for Unit testing Android dependent elements in /test folder
+        unitTests.isIncludeAndroidResources = true
+        unitTests.isReturnDefaultValues = true
+    }
+
+
+
 
 }
 
@@ -57,35 +68,48 @@ dependencies {
         }
     }
 
-    // Android Core Dependencies
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.2.0-alpha12")
-    implementation("androidx.appcompat:appcompat:1.7.0-alpha03")
-
-    // Firebase Dependencies
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("androidx.appcompat:appcompat:1.7.0-alpha03")
     implementation("com.google.firebase:firebase-database")
-    implementation("com.google.firebase:firebase-firestore:24.8.1")
-    implementation("com.google.auth:google-auth-library-oauth2-http:1.19.0")
-
-    // Google Play Services Dependencies
     implementation("com.google.android.gms:play-services-auth:20.7.0")
     implementation("com.google.gms:google-services:4.4.0")
+    implementation("com.google.firebase:firebase-firestore:24.8.1")
+    implementation ("com.google.auth:google-auth-library-oauth2-http:1.19.0")
+    implementation("androidx.test:core:1.5.0")
+    implementation("org.mockito:mockito-core:5.5.0")
+    implementation("androidx.test.uiautomator:uiautomator:2.2.0")
+    implementation("androidx.core:core-ktx:1.12.0")
 
-    // Testing Dependencies
+
+
+
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+    /*androidTestImplementation("com.android.support.test.espresso:espresso-intents:3.0.2")
+*/
+
     testImplementation("junit:junit:4.13.2")
+/*
+    testImplementation("androidx.test:runner:1.5.2")
+*/
+/*
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+*/
 
-    // Espresso Testing Dependencies
+
+    testImplementation("androidx.test:core:1.5.0")
+    testImplementation("androidx.test:rules:1.5.0")
+    testImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
+/*
+    androidTestImplementation("junit:junit:4.13.2")
+*/
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
-
-    // UI Automator Testing Dependency
-    androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
-
-    // Mockito Dependency (for mocking in tests)
-    testImplementation("org.mockito:mockito-core:4.0.0")
+    androidTestImplementation ("androidx.test.espresso:espresso-intents:3.5.1")
 }
 
