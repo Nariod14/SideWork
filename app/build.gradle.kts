@@ -57,20 +57,35 @@ dependencies {
         }
     }
 
+    // Android Core Dependencies
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.2.0-alpha12")
+    implementation("androidx.appcompat:appcompat:1.7.0-alpha03")
+
+    // Firebase Dependencies
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-auth-ktx")
-    implementation("androidx.appcompat:appcompat:1.7.0-alpha03")
     implementation("com.google.firebase:firebase-database")
+    implementation("com.google.firebase:firebase-firestore:24.8.1")
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.19.0")
+
+    // Google Play Services Dependencies
     implementation("com.google.android.gms:play-services-auth:20.7.0")
     implementation("com.google.gms:google-services:4.4.0")
-    implementation("com.google.firebase:firebase-firestore:24.8.1")
-    implementation ("com.google.auth:google-auth-library-oauth2-http:1.19.0")
+
+    // Testing Dependencies
     testImplementation("junit:junit:4.13.2")
+
+    // Espresso Testing Dependencies
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation ("androidx.test.espresso:espresso-intents:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
+
+    // UI Automator Testing Dependency
+    androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
+
+    // Mockito Dependency (for mocking in tests)
+    testImplementation("org.mockito:mockito-core:4.0.0")
 }
 
