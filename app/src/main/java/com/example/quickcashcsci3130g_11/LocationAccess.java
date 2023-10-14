@@ -5,7 +5,6 @@ public class LocationAccess {
     private double longitude;
 
     public LocationAccess() {
-        // Default constructor required for Firebase
     }
 
     public LocationAccess(double latitude, double longitude) {
