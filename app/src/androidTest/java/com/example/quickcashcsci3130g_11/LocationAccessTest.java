@@ -22,7 +22,6 @@ public class LocationAccessTest{
 
     @Before
     public void setUp() {
-        // Initialize Firebase for testing
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://csci3130-fall2023-a2-8bc9b-default-rtdb.firebaseio.com/");
         database.setPersistenceEnabled(true); // Enable Firebase Database persistence for offline testing
         databaseReference = database.getReference("test_location");
@@ -30,7 +29,6 @@ public class LocationAccessTest{
 
     @After
     public void tearDown() {
-        // Clean up any test data
         databaseReference.removeValue();
     }
 
@@ -41,10 +39,8 @@ public class LocationAccessTest{
 
         LocationAccess testLocation = new LocationAccess(testLatitude, testLongitude);
 
-        // Store the test location in Firebase
         databaseReference.setValue(testLocation);
 
-        // Read the location from Firebase
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -55,7 +51,6 @@ public class LocationAccessTest{
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Handle errors, if any
             }
         });
     }
