@@ -35,9 +35,9 @@ public class SignUpActivityTest {
     @Test
     public void testSignUpWithExistingEmail() throws InterruptedException {
         // Type an email that already exists in the database
-        Espresso.onView(ViewMatchers.withId(R.id.email))
+        Espresso.onView(ViewMatchers.withId(R.id.emailLogin))
                 .perform(ViewActions.typeText("existing_email@example.com"));
-        Espresso.onView(ViewMatchers.withId(R.id.password))
+        Espresso.onView(ViewMatchers.withId(R.id.passwordLogin))
                 .perform(ViewActions.typeText("password"));
         Espresso.onView(ViewMatchers.withId(R.id.sign_up_button))
                 .perform(ViewActions.click());
@@ -50,9 +50,9 @@ public class SignUpActivityTest {
     @Test
     public void testSignUpWithInvalidPassword() {
         // Type an email that does not exist in the database
-        Espresso.onView(ViewMatchers.withId(R.id.email))
+        Espresso.onView(ViewMatchers.withId(R.id.emailLogin))
                 .perform(ViewActions.typeText("new_email@example.com"));
-        Espresso.onView(ViewMatchers.withId(R.id.password))
+        Espresso.onView(ViewMatchers.withId(R.id.passwordLogin))
                 .perform(ViewActions.typeText("short"));
         Espresso.onView(ViewMatchers.withId(R.id.sign_up_button))
                 .perform(ViewActions.click());
@@ -65,9 +65,9 @@ public class SignUpActivityTest {
     @Test
     public void testSignUpWithInvalidEmail() {
         // Type an invalid email address
-        Espresso.onView(ViewMatchers.withId(R.id.email))
+        Espresso.onView(ViewMatchers.withId(R.id.emailLogin))
                 .perform(ViewActions.typeText("invalid_email"));
-        Espresso.onView(ViewMatchers.withId(R.id.password))
+        Espresso.onView(ViewMatchers.withId(R.id.passwordLogin))
                 .perform(ViewActions.typeText("password"));
         Espresso.onView(ViewMatchers.withId(R.id.sign_up_button))
                 .perform(ViewActions.click());
