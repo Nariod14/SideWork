@@ -22,7 +22,7 @@ public class ResetPasswordActivityTest {
 
     @Test
     public void testResetPasswordWithValidEmail() {
-        Espresso.onView(ViewMatchers.withId(R.id.email))
+        Espresso.onView(ViewMatchers.withId(R.id.emailLogin))
                 .perform(ViewActions.typeText("test@example.com"));
         Espresso.onView(ViewMatchers.withId(R.id.btn_reset_password))
                 .perform(ViewActions.click());
@@ -32,7 +32,7 @@ public class ResetPasswordActivityTest {
 
     @Test
     public void testResetPasswordWithInvalidEmail() {
-        Espresso.onView(ViewMatchers.withId(R.id.email))
+        Espresso.onView(ViewMatchers.withId(R.id.emailLogin))
                 .perform(ViewActions.typeText("invalid_email"));
         Espresso.onView(ViewMatchers.withId(R.id.btn_reset_password))
                 .perform(ViewActions.click());

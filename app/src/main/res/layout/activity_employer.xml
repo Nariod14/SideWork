@@ -23,13 +23,14 @@
         android:id="@+id/switch2EmployeeButton"
         android:layout_width="370dp"
         android:layout_height="50dp"
-        android:layout_below="@id/employerTextView"
-        android:layout_marginTop="32dp"
+
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/orange"
         android:text="Switch Role to Employee"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.39"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/logout" />
 
     <TextView
         android:id="@+id/emailTextView"
@@ -127,4 +128,19 @@
         app:layout_constraintStart_toEndOf="@+id/employerAddJob"
         app:layout_constraintTop_toBottomOf="@+id/switch2EmployeeButton" />
 
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="147dp"
+        android:layout_marginEnd="171dp"
+        android:text="Logout"
+        app:layout_constraintBaseline_toBottomOf="parent"
+        app:layout_constraintBaseline_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/switch2EmployeeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.343" />
 </androidx.constraintlayout.widget.ConstraintLayout>

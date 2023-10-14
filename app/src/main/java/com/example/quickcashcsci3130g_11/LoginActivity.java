@@ -3,10 +3,9 @@ package com.example.quickcashcsci3130g_11;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,9 +15,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseUser;
-import org.w3c.dom.Text;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -32,14 +28,15 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
        mAuth = FirebaseAuth.getInstance();
 
-        emailEditText = findViewById(R.id.email);
-        passwordEditText = findViewById(R.id.password);
+        emailEditText = findViewById(R.id.emailLogin);
+        passwordEditText = findViewById(R.id.passwordLogin);
         loginButton = findViewById(R.id.login_button);
         signUpText = findViewById(R.id.signup);
 
