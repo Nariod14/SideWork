@@ -44,8 +44,8 @@ public class SignUpActivity extends AppCompatActivity {
 
         Button btnSignIn = findViewById(R.id.sign_in_button);
         Button btnSignUp = findViewById(R.id.sign_up_button);
-        inputEmail = findViewById(R.id.email);
-        inputPassword = findViewById(R.id.password);
+        inputEmail = findViewById(R.id.emailSignup);
+        inputPassword = findViewById(R.id.passwordSignup);
         progressBar = findViewById(R.id.progressBar);
         Button btnResetPassword = findViewById(R.id.btn_reset_password);
 
