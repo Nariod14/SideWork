@@ -1,7 +1,4 @@
 package com.example.quickcashcsci3130g_11;
-
-
-
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;

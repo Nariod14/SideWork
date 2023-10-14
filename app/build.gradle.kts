@@ -78,7 +78,7 @@ dependencies {
             because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
         }
     }
-
+    androidTestImplementation("androidx.test.uiautomator:uiautomator:2.3.0-alpha03")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.2.0-alpha12")
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
@@ -91,7 +91,8 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:24.8.1")
     implementation ("com.google.auth:google-auth-library-oauth2-http:1.19.0")
     implementation("com.google.android.gms:play-services-location:21.0.1")
-    testImplementation("junit:junit:4.13.2")
+    testImplementation("junit:junit:4.12")
+
 /*
     testImplementation("androidx.test:runner:1.5.2")
 */
