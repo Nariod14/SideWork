@@ -90,6 +90,7 @@ dependencies {
     implementation("com.google.gms:google-services:4.4.0")
     implementation("com.google.firebase:firebase-firestore:24.8.1")
     implementation ("com.google.auth:google-auth-library-oauth2-http:1.19.0")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
     testImplementation("junit:junit:4.13.2")
 /*
     testImplementation("androidx.test:runner:1.5.2")
