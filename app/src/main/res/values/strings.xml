@@ -3,4 +3,5 @@
     <string name="ACCOUNT_EXISTS">Account with this email id already exists. Kindly click on login or try again with a different email id.</string>
     <string name="EMPLOYEE_MESSAGE"> %s, you are in the employee profile</string>
     <string name="EMPLOYER_MESSAGE"> %s, you are in the employer profile</string>
+    <string name="EMAIL_EMPTY">Fill in registered email</string>
 </resources>

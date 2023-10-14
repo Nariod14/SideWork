@@ -32,6 +32,7 @@ public class EmployerActivity extends AppCompatActivity {
         Button ViewPreferredEmployees = (Button) findViewById(R.id.employerPreferredEmployees);
         Button AcceptedApplications = (Button) findViewById(R.id.employerAcceptedApplications);
         Button Report = (Button) findViewById(R.id.employerReport);
+        Button logout=(Button)findViewById(R.id.logout);
 
         mSwitchRoleButton = findViewById(R.id.switch2EmployeeButton);
         mEmailTextView = findViewById(R.id.emailTextView);
@@ -40,6 +41,16 @@ public class EmployerActivity extends AppCompatActivity {
         this.showProfileInfo();
         this.showEmployerMessage();;
         this.switch2Employee();
+
+        logout.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    });
 
         AddJobPosting.setOnClickListener(new View.OnClickListener() {
             @Override
