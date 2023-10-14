@@ -55,7 +55,7 @@ public class SignUpUiAutomator {
         device.wait(Until.hasObject(By.text("Switch Role")), 5000);
 
         // Check if ProfileActivity is launched
-        UiObject2 profileActivityObject = device.wait(Until.findObject(By.text("Switch Role")), 5000);
+        UiObject2 profileActivityObject = device.wait(Until.findObject(By.text("test@example.com")), 5000);
         assertNotNull("ProfileActivity not launched", profileActivityObject);
 
         // Delete the user account
