@@ -57,6 +57,10 @@ android {
 
 }
 
+repositories {
+    maven("https://dl.bintray.com/algolia/maven")
+}
+
 dependencies {
 
     // Import the Firebase BoM
@@ -66,6 +70,7 @@ dependencies {
     // TODO: Add the dependencies for Firebase products you want to use
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation ("com.google.firebase:firebase-analytics")
+    implementation("com.algolia:algoliasearch:4.0.0-beta.10")
 
 
     // Add the dependencies for any other desired Firebase products
