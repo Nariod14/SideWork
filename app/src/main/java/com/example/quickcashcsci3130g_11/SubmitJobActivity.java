@@ -43,6 +43,8 @@ public class SubmitJobActivity extends AppCompatActivity {
 
         databaseReference = FirebaseDatabase.getInstance().getReference("jobs");
 
+        // Betsy: edit the job entries to have options
+
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

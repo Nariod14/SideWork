@@ -74,6 +74,10 @@
             android:exported="true">
         </activity>
         <activity
+            android:name=".SubmitJobActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".JobSearchActivity"
             android:exported="true">
         </activity>

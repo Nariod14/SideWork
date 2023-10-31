@@ -57,9 +57,6 @@ android {
 
 }
 
-repositories {
-    maven("https://dl.bintray.com/algolia/maven")
-}
 
 dependencies {
 
