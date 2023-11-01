@@ -9,8 +9,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="416dp"
-        android:layout_height="71dp"
+        android:layout_width="561dp"
+        android:layout_height="70dp"
         android:background="#051877"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"

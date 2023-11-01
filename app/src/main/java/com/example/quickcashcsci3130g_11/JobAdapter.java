@@ -36,10 +36,11 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> impl
         holder.titleTextView.setText(job.getTitle());
         holder.jobTypeTextView.setText(job.getJobType());
         holder.dateTextView.setText(job.getDate());
-        holder.durationTextView.setText(job.getDuration());
-        holder.urgencyTextView.setText(job.getUrgency());
-        holder.salaryTextView.setText(job.getSalary());
+        holder.durationTextView.setText(job.getDuration() + job.getDurationType());
+        holder.urgencyTextView.setText(job.getUrgencyType());
+        holder.salaryTextView.setText(job.getSalary() + job.getSalaryType());
         holder.locationTextView.setText(job.getLocation());
+        holder.descriptionTextView.setText(job.getDescription());
         holder.employerIdTextView.setText(job.getEmployerId());
     }
 
@@ -53,17 +54,20 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> impl
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                String query = constraint.toString().toLowerCase();
+                String query = constraint.toString().toLowerCase().trim();
                 List<Job> filteredList = new ArrayList<>();
+
                 if (query.isEmpty()) {
-                    filteredList = mJobList;
+                    // If the query is empty, show all jobs
+                    filteredList.addAll(mJobList);
                 } else {
+                    // Filter jobs based on the search query
                     for (Job job : mJobList) {
                         if (job.getTitle().toLowerCase().contains(query) ||
                                 job.getJobType().toLowerCase().contains(query) ||
                                 job.getDate().toLowerCase().contains(query) ||
                                 job.getDuration().toLowerCase().contains(query) ||
-                                job.getUrgency().toLowerCase().contains(query) ||
+                                job.getUrgencyType().toLowerCase().contains(query) ||
                                 job.getSalary().toLowerCase().contains(query) ||
                                 job.getLocation().toLowerCase().contains(query) ||
                                 job.getEmployerId().toLowerCase().contains(query)) {
@@ -71,6 +75,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> impl
                         }
                     }
                 }
+
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = filteredList;
                 return filterResults;
@@ -78,7 +83,8 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> impl
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                mFilteredJobList = (List<Job>) results.values;
+                mFilteredJobList.clear();
+                mFilteredJobList.addAll((List<Job>) results.values);
                 notifyDataSetChanged();
             }
         };
@@ -93,6 +99,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> impl
         public TextView urgencyTextView;
         public TextView salaryTextView;
         public TextView locationTextView;
+        public TextView descriptionTextView;
         public TextView employerIdTextView;
 
         public ViewHolder(@NonNull View itemView) {
@@ -104,6 +111,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> impl
             urgencyTextView = itemView.findViewById(R.id.urgency_text_view);
             salaryTextView = itemView.findViewById(R.id.salary_text_view);
             locationTextView = itemView.findViewById(R.id.location_text_view);
+            descriptionTextView = itemView.findViewById(R.id.description_text_view);
             employerIdTextView = itemView.findViewById(R.id.employer_id_text_view);
         }
     }
