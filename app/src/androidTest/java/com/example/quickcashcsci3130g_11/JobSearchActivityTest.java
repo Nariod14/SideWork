@@ -53,16 +53,16 @@ public class JobSearchActivityTest {
         // Initialize Firebase authentication
         mAuth = FirebaseAuth.getInstance();
         // Create test job objects
-        Job job1 = new Job("1", "Software Engineer", "Full-time", "2023-10-27", "1 year", "Urgent", "$100,000", "Toronto", "johndoe");
-        Job job2 = new Job("2", "Data Analyst", "Part-time", "2023-10-28", "6 months", "Normal", "$50,000", "Vancouver", "janedoe");
-        // Sign in with test account
+//        Job job1 = new Job("1", "Software Engineer", "Full-time", "2023-10-27", "1", "year", "Urgent", "per year", "$100,000", "Toronto", "description", "johndoe");
+//        Job job2 = new Job("2", "Data Analyst", "Part-time", "2023-10-28", "6", "months", "Normal", "per year", "$50,000", "Vancouver", "description", "janedoe");
+//        // Sign in with test account
         mAuth.signInWithEmailAndPassword("existing_email@example.com", "password")
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        // Add test job objects to Firebase database
-                        mDatabase.child("jobs").child(job1.getJobId()).setValue(job1);
-                        mDatabase.child("jobs").child(job2.getJobId()).setValue(job2);
+//                        // Add test job objects to Firebase database
+//                        mDatabase.child("jobs").child(job1.getJobId()).setValue(job1);
+//                        mDatabase.child("jobs").child(job2.getJobId()).setValue(job2);
                         Log.d(TAG, "signInWithEmail:success");
                     } else {
                         Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -82,8 +82,8 @@ public class JobSearchActivityTest {
     @Test
     public void testSearchByTitle() {
         onView(withId(R.id.search_view)).perform(click());
-        onView(isAssignableFrom(EditText.class)).perform(typeText("Software Engineer"), pressImeActionButton());
-        onView(withId(R.id.recycler_view)).check(matches(hasDescendant(withText("Software Engineer"))));
+        onView(isAssignableFrom(EditText.class)).perform(typeText("Mow the lawn"), pressImeActionButton());
+        onView(withId(R.id.recycler_view)).check(matches(hasDescendant(withText("Mow the lawn"))));
     }
 
     @Test
