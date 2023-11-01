@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.dsl.decorator.SupportedPropertyType.Collection.List.type
+
 //buildscript {
   //  dependencies {
     //    classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.20-RC")

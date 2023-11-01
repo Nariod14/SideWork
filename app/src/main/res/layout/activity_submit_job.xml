@@ -6,165 +6,285 @@
     android:layout_height="match_parent"
     tools:context=".SubmitJobActivity">
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="561dp"
+        android:layout_height="70dp"
+        android:background="#051877"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </LinearLayout>
+
     <TextView
-        android:id="@+id/titleTextView"
-        android:layout_width="wrap_content"
+        android:id="@+id/submitJobTextView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Title"
-        app:layout_constraintBottom_toTopOf="@+id/titleEditText"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Submit a Job"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/emailTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Email"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submitJobTextView" />
+
+    <TextView
+        android:id="@+id/instructionJobFormTextView"
+        android:layout_width="400dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Fill the following Job Form to submit a job."
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailTextView"
+        app:layout_constraintVertical_bias="0.0"/>
+
+    <TextView
+        android:id="@+id/titleTextView"
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_width="72dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="Title:"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.037"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/instructionJobFormTextView" />
+
     <EditText
         android:id="@+id/titleEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="295dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
         android:ems="10"
         android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/dateTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
-
+        app:layout_constraintHorizontal_bias="0.625"
+        app:layout_constraintStart_toEndOf="@+id/titleTextView"
+        app:layout_constraintTop_toBottomOf="@+id/instructionJobFormTextView"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/jobTypeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Job Type"
-        app:layout_constraintBottom_toTopOf="@+id/jobTypeEditText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateEditText" />
-
-    <EditText
-        android:id="@+id/jobTypeEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/durationTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/jobTypeTextView" />
-
-
+        android:id="@+id/setDateTextView"
+        android:layout_width="139dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toStartOf="@+id/datePickerButton"
+        app:layout_constraintHorizontal_bias="0.564"
+        app:layout_constraintStart_toEndOf="@+id/dateTextView"
+        app:layout_constraintTop_toBottomOf="@+id/titleEditText" />
 
     <TextView
         android:id="@+id/dateTextView"
+        android:layout_width="78dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="44dp"
+        android:text="Date:"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
+
+    <Button
+        android:id="@+id/datePickerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Date"
-        app:layout_constraintBottom_toTopOf="@+id/dateEditText"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/lightBlue"
+        android:text="Pick a Date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.899"
+        app:layout_constraintStart_toEndOf="@id/setDateTextView"
         app:layout_constraintTop_toBottomOf="@+id/titleEditText" />
 
-    <EditText
-        android:id="@+id/dateEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="date"
-        app:layout_constraintBottom_toTopOf="@+id/durationTextView"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:id="@+id/jobTypeTextView"
+        android:layout_width="84dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="24dp"
+        android:text="Job Type:"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dateTextView" />
 
     <TextView
         android:id="@+id/durationTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Expected Duration"
-        app:layout_constraintBottom_toTopOf="@+id/durationEditText"
+        android:layout_width="77dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="36dp"
+        android:text="Expected Duration:"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.089"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/jobTypeTextView" />
+
+    <Spinner
+        android:id="@+id/jobTypeSpinner"
+        android:layout_width="147dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.462"
+        app:layout_constraintStart_toEndOf="@+id/jobTypeTextView"
+        app:layout_constraintTop_toBottomOf="@+id/datePickerButton" />
 
     <EditText
         android:id="@+id/durationEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="141dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@+id/urgencyTextView"
+        app:layout_constraintStart_toEndOf="@+id/durationTextView"
+        app:layout_constraintTop_toBottomOf="@+id/jobTypeSpinner" />
+
+    <Spinner
+        android:id="@+id/durationTypeSpinner"
+        android:layout_width="130dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/durationTextView" />
+        app:layout_constraintHorizontal_bias="0.841"
+        app:layout_constraintStart_toEndOf="@+id/jobTypeSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/jobTypeSpinner" />
 
     <TextView
         android:id="@+id/urgencyTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Urgency"
-        app:layout_constraintBottom_toTopOf="@+id/urgencyEditText"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="74dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="36dp"
+        android:text="Urgency:"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/durationEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/durationTextView" />
 
-    <EditText
-        android:id="@+id/urgencyEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/salaryTextView"
+    <Spinner
+        android:id="@+id/urgencyTypeSpinner"
+        android:layout_width="248dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/urgencyTextView" />
+        app:layout_constraintHorizontal_bias="0.389"
+        app:layout_constraintStart_toEndOf="@+id/urgencyTextView"
+        app:layout_constraintTop_toBottomOf="@+id/durationTypeSpinner" />
+
 
     <TextView
         android:id="@+id/salaryTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Salary"
-        app:layout_constraintBottom_toTopOf="@+id/salaryEditText"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="69dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="48dp"
+        android:text="Salary:"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/urgencyEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/urgencyTextView" />
 
     <EditText
         android:id="@+id/salaryEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="140dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:ems="10"
         android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@+id/locationTextView"
+        app:layout_constraintStart_toEndOf="@+id/salaryTextView"
+        app:layout_constraintTop_toBottomOf="@+id/urgencyTypeSpinner" />
+
+    <Spinner
+        android:id="@+id/salaryTypeSpinner"
+        android:layout_width="129dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/salaryTextView" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/salaryEditText"
+        app:layout_constraintTop_toBottomOf="@+id/urgencyTypeSpinner" />
 
     <TextView
         android:id="@+id/locationTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Location"
-        app:layout_constraintBottom_toTopOf="@+id/locationEditText"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="76dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="28dp"
+        android:text="Location:"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/salaryEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/salaryTextView" />
 
     <EditText
         android:id="@+id/locationEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="269dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="36dp"
         android:ems="10"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/submitButton"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/locationTextView"
+        app:layout_constraintTop_toBottomOf="@+id/salaryTypeSpinner" />
+
+    <TextView
+        android:id="@+id/descriptionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:text="Description:"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/locationTextView" />
+
+    <EditText
+        android:id="@+id/descriptionEditText"
+        android:layout_width="362dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionTextView" />
 
     <Button
         android:id="@+id/submitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/orange"
         android:text="Submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/locationEditText"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintTop_toBottomOf="@+id/descriptionEditText"
+        app:layout_constraintVertical_bias="1.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

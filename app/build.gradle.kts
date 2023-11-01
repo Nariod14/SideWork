@@ -67,6 +67,9 @@ dependencies {
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation ("com.google.firebase:firebase-analytics")
     implementation("com.algolia:algoliasearch:4.0.0-beta.10")
+    implementation("androidx.test.espresso:espresso-contrib:3.5.1"){
+        exclude( group = "com.google.protobuf", module = "protobuf-lite")
+    }
 
 
     // Add the dependencies for any other desired Firebase products

@@ -6,24 +6,31 @@ public class Job {
     private String jobType;
     private String date;
     private String duration;
+    private String durationType;
     private String urgency;
+    private String urgencyType;
     private String salary;
+    private String salaryType;
     private String location;
+    private String description;
     private String employerId;
 
     public Job() {
 
     }
 
-    public Job(String jobId, String title, String jobType, String date, String duration, String urgency, String salary, String location, String employerId) {
+    public Job(String jobId, String title, String jobType, String date, String duration, String durationType, String urgencyType, String salary, String salaryType, String location, String description, String employerId) {
         this.jobId = jobId;
         this.title = title;
         this.jobType = jobType;
         this.date = date;
         this.duration = duration;
-        this.urgency = urgency;
+        this.durationType = durationType;
+        this.urgencyType = urgencyType;
         this.salary = salary;
+        this.salaryType = salaryType;
         this.location = location;
+        this.description = description;
         this.employerId = employerId;
     }
     public String getJobId() {
@@ -46,16 +53,28 @@ public class Job {
         return duration;
     }
 
-    public String getUrgency() {
-        return urgency;
+    public String getDurationType() {
+        return durationType;
+    }
+
+    public String getUrgencyType() {
+        return urgencyType;
     }
 
     public String getSalary() {
         return salary;
     }
 
+    public String getSalaryType() {
+        return salaryType;
+    }
+
     public String getLocation() {
         return location;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public String getEmployerId() {
