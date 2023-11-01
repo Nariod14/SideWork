@@ -67,7 +67,7 @@ public class JobSearchActivity extends AppCompatActivity implements SearchView.O
         mJobList.clear();
 
         // Query the Firebase database for jobs that match the search criteria
-        Query jobQuery = mDatabase.orderByChild("title").startAt(query).endAt(query + "\uf8ff");
+        Query jobQuery = mDatabase.orderByChild("searchableData").startAt(query).endAt(query + "\uf8ff");
         jobQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

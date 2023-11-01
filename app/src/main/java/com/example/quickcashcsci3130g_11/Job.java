@@ -15,6 +15,8 @@ public class Job {
     private String description;
     private String employerId;
 
+    private String searchableData;
+
     public Job() {
 
     }
@@ -32,6 +34,9 @@ public class Job {
         this.location = location;
         this.description = description;
         this.employerId = employerId;
+        this.searchableData = title + " " + jobType + " " + date + " " + duration + " " + durationType + " " + urgency + " " + salary + " " + salaryType + " " + location;
+
+
     }
     public String getJobId() {
         return jobId;
@@ -79,5 +84,9 @@ public class Job {
 
     public String getEmployerId() {
         return employerId;
+    }
+
+    public String getSearchableData() {
+        return searchableData;
     }
 }
