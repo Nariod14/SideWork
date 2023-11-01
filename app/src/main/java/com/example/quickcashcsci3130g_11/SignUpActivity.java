@@ -26,6 +26,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText inputPassword;
     ProgressBar progressBar;
     FirebaseAuth auth;
+    private LocationAccess locationAccess;
 
     FirebaseDatabase database = null;
     private DatabaseConnector mDatabaseConnector;
@@ -34,6 +35,9 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        locationAccess = new LocationAccess(this);
+        locationAccess.requestLocationPermission();
 
         // Initialize Firebase
         FirebaseApp.initializeApp(this);
