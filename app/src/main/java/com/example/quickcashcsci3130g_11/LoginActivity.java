@@ -18,23 +18,17 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-/**
- * This class represents the login activity where users can log in to their accounts using email
- * and password. It also provides a way to navigate to the registration (sign-up) activity.
- */
 public class LoginActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     private TextInputEditText emailEditText;
     private TextInputEditText passwordEditText;
+    private Button loginButton;
+    private TextView signUpText;
+
+    private LocationAccess locationAccess;
 
 
 
-    /**
-     * Called when the activity is first created. Initializes views, sets up click listeners, and
-     * handles user login.
-     *
-     * @param savedInstanceState The saved instance state, if any.
-     */
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +36,12 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
        mAuth = FirebaseAuth.getInstance();
 
-        LocationAccess locationAccess;
+
         locationAccess = new LocationAccess(this);
         locationAccess.requestLocationPermission();
 
         emailEditText = findViewById(R.id.emailLogin);
         passwordEditText = findViewById(R.id.passwordLogin);
-
-        Button loginButton;
-        TextView signUpText;
         loginButton = findViewById(R.id.login_button);
         signUpText = findViewById(R.id.signup);
 
@@ -72,10 +63,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Handles the user login process, validating the email and password fields.
-     * If login is successful, it navigates to the main activity.
-     */
     private void loginUser() {
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
@@ -97,9 +84,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Navigates to the main activity (Employer Activity) when the user successfully logs in.
-     */
     private void goToMainActivity() {
         Toast.makeText(getApplicationContext(),"login successful",Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(LoginActivity.this, EmployerActivity.class);
@@ -107,9 +91,6 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-    /**
-     * Displays an error message when the login attempt fails.
-     */
     private void showError() {
         Toast.makeText(LoginActivity.this, "Invalid email/password. Please try again.", Toast.LENGTH_SHORT).show();
     }
