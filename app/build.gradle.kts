@@ -92,6 +92,7 @@ dependencies {
     implementation ("com.google.auth:google-auth-library-oauth2-http:1.19.0")
     implementation("com.google.android.gms:play-services-location:21.0.1")
     testImplementation("junit:junit:4.12")
+    implementation ("com.paypal.sdk:paypal-android-sdk:2.14.2");
 
 /*
     testImplementation("androidx.test:runner:1.5.2")
