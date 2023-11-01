@@ -57,7 +57,6 @@ android {
 
 }
 
-
 dependencies {
 
     // Import the Firebase BoM
