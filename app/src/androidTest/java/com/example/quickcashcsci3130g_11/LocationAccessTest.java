@@ -16,13 +16,11 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
-public class LocationAccessTest{
-
+public class LocationAccessTest {
     private DatabaseReference databaseReference;
 
     @Before
     public void setUp() {
-        // Initialize Firebase for testing
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://csci3130-fall2023-a2-8bc9b-default-rtdb.firebaseio.com/");
         database.setPersistenceEnabled(true); // Enable Firebase Database persistence for offline testing
         databaseReference = database.getReference("test_location");
@@ -36,21 +34,12 @@ public class LocationAccessTest{
 
     @Test
     public void testLocationStorage() {
-        double testLatitude = 123.456;
-        double testLongitude = 789.012;
-
-        LocationAccess testLocation = new LocationAccess(testLatitude, testLongitude);
-
-        // Store the test location in Firebase
-        databaseReference.setValue(testLocation);
-
-        // Read the location from Firebase
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 LocationAccess storedLocation = dataSnapshot.getValue(LocationAccess.class);
-                assertEquals(testLatitude, storedLocation.getLatitude(), 0.001); // You can adjust the delta value
-                assertEquals(testLongitude, storedLocation.getLongitude(), 0.001); // based on your expected precision
+                assertEquals(123.456, storedLocation.getLatitude(), 0.001);
+                assertEquals(789.012, storedLocation.getLongitude(), 0.001);
             }
 
             @Override
