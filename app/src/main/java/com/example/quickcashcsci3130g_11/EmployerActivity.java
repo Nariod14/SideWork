@@ -22,10 +22,14 @@ public class EmployerActivity extends AppCompatActivity {
     private FirebaseUser user;
 
     private FirebaseAuth mAuth;
+    private LocationAccess locationAccess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        locationAccess = new LocationAccess(this);
+        locationAccess.requestLocationPermission();
         setContentView(R.layout.activity_employer);
         Button AddJobPosting = (Button) findViewById(R.id.employerAddJob);
         Button ViewJobPostings = (Button) findViewById(R.id.employerViewJobs);
