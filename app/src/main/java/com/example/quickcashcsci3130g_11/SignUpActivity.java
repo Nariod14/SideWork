@@ -19,7 +19,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
+/**
+ * This class represents the sign-up activity where users can create new accounts with their
+ * email and password. It also provides validation for email and password formats.
+ */
 public class SignUpActivity extends AppCompatActivity {
 
     EditText inputEmail;
@@ -31,6 +34,12 @@ public class SignUpActivity extends AppCompatActivity {
     FirebaseDatabase database = null;
     private DatabaseConnector mDatabaseConnector;
 
+    /**
+     * Initializes the sign-up activity, sets up click listeners, and handles the user
+     * registration process.
+     *
+     * @param savedInstanceState The saved instance state, if any.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,10 +126,19 @@ public class SignUpActivity extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
     }
 
+    /**
+     * Initializes the Firebase database connection.
+     */
     protected void initializeDatabase() {
         database = FirebaseDatabase.getInstance("https://csci3130-fall2023-a2-8bc9b-default-rtdb.firebaseio.com/");
     }
 
+    /**
+     * Validates an email address using a regular expression.
+     *
+     * @param target The email address to be validated.
+     * @return True if the email address is valid, false otherwise.
+     */
     public boolean isValidEmail(CharSequence target) {
         String regExpn = "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
                 + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
@@ -136,6 +154,13 @@ public class SignUpActivity extends AppCompatActivity {
             return false;
     }
 
+    /**
+     * Validates a password to ensure it contains at least 6 characters and only consists of
+     * letters (A-Za-z) and digits (0-9).
+     *
+     * @param password The password to be validated.
+     * @return True if the password is valid, false otherwise.
+     */
     public boolean isValidPassword(String password) {
         return password.length() >= 6 && password.matches("[A-Za-z0-9]+");
     }
