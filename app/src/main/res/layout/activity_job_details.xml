@@ -1,112 +1,93 @@
 <!-- activity_job_details.xml -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/background_light"
+    tools:context=".JobDetailsActivity">
 
-    <LinearLayout
-        android:id="@+id/bannerLinearLayout"
+    <TextView
+        android:id="@+id/titleTextView"
         android:layout_width="match_parent"
-        android:layout_height="95dp"
-        android:background="#051877"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:text="Job Title"
+        android:paddingBottom="8dp"/>
 
-        <ImageButton
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="25dp"
-            android:src="@drawable/ic_arrow_back" />
+    <TextView
+        android:id="@+id/jobTypeTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="Job Type"
+        android:paddingBottom="8dp"/>
 
-        <TextView
-            android:id="@+id/titleTextView"
-            android:layout_width="281dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:paddingBottom="8dp"
-            android:text="Job Title"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="Date"
+        android:paddingBottom="8dp"/>
 
-    <LinearLayout
-        android:layout_width="357dp"
-        android:layout_height="509dp"
-        android:layout_below="@+id/bannerLinearLayout"
-        android:layout_marginTop="4dp"
-        android:layout_marginStart="20dp"
-        android:background="@android:color/background_light"
-        android:orientation="vertical"
-        android:padding="16dp"
-        tools:context=".JobDetailsActivity">
+    <TextView
+        android:id="@+id/durationTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="Duration"
+        android:paddingBottom="8dp"/>
 
-        <TextView
-            android:id="@+id/jobTypeTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:text="Job Type"
-            android:textSize="18sp" />
+    <TextView
+        android:id="@+id/urgencyTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="Urgency"
+        android:paddingBottom="8dp"/>
 
-        <TextView
-            android:id="@+id/dateTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:text="Date"
-            android:textSize="18sp" />
+    <TextView
+        android:id="@+id/salaryTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="Salary"
+        android:paddingBottom="8dp"/>
 
-        <TextView
-            android:id="@+id/durationTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:text="Duration"
-            android:textSize="18sp" />
+    <TextView
+        android:id="@+id/locationTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="Location"
+        android:paddingBottom="8dp"/>
 
-        <TextView
-            android:id="@+id/urgencyTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:text="Urgency"
-            android:textSize="18sp" />
+    <TextView
+        android:id="@+id/descriptionTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="Job Description"
+        android:paddingBottom="8dp"/>
 
-        <TextView
-            android:id="@+id/salaryTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:text="Salary"
-            android:textSize="18sp" />
+    <Button
+        android:id="@+id/applyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Apply for Job"
+        android:paddingTop="16dp"/>
 
-        <TextView
-            android:id="@+id/locationTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:text="Location"
-            android:textSize="18sp" />
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_back"/>
 
-        <TextView
-            android:id="@+id/descriptionTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:text="Job Description"
-            android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/applyButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/orange"
-            android:paddingTop="16dp"
-            android:text="Apply for Job" />
-    </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
