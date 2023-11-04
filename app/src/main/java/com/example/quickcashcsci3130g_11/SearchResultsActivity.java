@@ -72,6 +72,19 @@ public class SearchResultsActivity extends AppCompatActivity {
             startActivity(intent1);
         }));
 
+        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                // Handle item click here
+                Job selectedJob = mJobList.get(position);
+
+                // Start the JobDetailsActivity and pass the selected job object
+                Intent intent = new Intent(SearchResultsActivity.this, JobDetailsActivity.class);
+                intent.putExtra("job", selectedJob);
+                startActivity(intent);
+            }
+        }));
+
         // Add a listener to the back button
         Button backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> finish());

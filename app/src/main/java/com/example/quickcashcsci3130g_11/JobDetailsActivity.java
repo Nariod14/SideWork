@@ -1,6 +1,7 @@
 package com.example.quickcashcsci3130g_11;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -13,30 +14,21 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-/**
- * This activity displays the details of a job and allows users to apply for the job.
- */
 public class JobDetailsActivity extends AppCompatActivity {
-
+    private TextView titleTextView;
+    private TextView jobTypeTextView;
+    private TextView dateTextView;
+    private TextView durationTextView;
+    private TextView urgencyTextView;
+    private TextView salaryTextView;
+    private TextView locationTextView;
+    private TextView descriptionTextView;
+    private Button applyButton;
 
     private Job job; // The job object for which details are displayed
 
-    /**
-     * Called when the activity is first created. Initializes UI elements, displays job details, and sets click listeners for buttons.
-     *
-     * @param savedInstanceState If the activity is being re-initialized after previously being shut down, this Bundle contains the data it most recently supplied.
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Button applyButton;
-        TextView descriptionTextView;
-        TextView locationTextView;
-        TextView salaryTextView;
-        TextView urgencyTextView;
-        TextView durationTextView;
-        TextView dateTextView;
-        TextView jobTypeTextView;
-        TextView titleTextView;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_details);
 
@@ -52,39 +44,32 @@ public class JobDetailsActivity extends AppCompatActivity {
         applyButton = findViewById(R.id.applyButton);
 
         // Get the job object from the intent
-
-        job = getIntent().getSerializableExtra("job", Job.class);
-
+        job = (Job) getIntent().getSerializableExtra("job");
 
         // Display job details
-        if (job != null) {
-            titleTextView.setText(job.getTitle());
-
-            jobTypeTextView.setText(job.getJobType());
-            dateTextView.setText(job.getDate());
-            String retrievedDuration = job.getDuration() + " " + job.getDurationType();
-            durationTextView.setText(retrievedDuration);
-            urgencyTextView.setText(job.getUrgencyType());
-            String retrievedSalary = job.getSalary() + " " + job.getSalaryType();
-            salaryTextView.setText(retrievedSalary);
-            locationTextView.setText(job.getLocation());
-            descriptionTextView.setText(job.getDescription());
-        }
+        titleTextView.setText(job.getTitle());
+        jobTypeTextView.setText(job.getJobType());
+        dateTextView.setText(job.getDate());
+        durationTextView.setText(job.getDuration() + " " + job.getDurationType());
+        urgencyTextView.setText(job.getUrgencyType());
+        salaryTextView.setText(job.getSalary() + " " + job.getSalaryType());
+        locationTextView.setText(job.getLocation());
+        descriptionTextView.setText(job.getDescription());
 
         // Set an OnClickListener for the "Apply" button
         applyButton.setOnClickListener(v -> applyForJob());
 
         // Add a click listener to the back button
         ImageButton backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(v ->
-            // Navigate back to the search results screen
-            finish()
-        );
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate back to the search results screen
+                finish();
+            }
+        });
     }
 
-    /**
-     * Handles the "Apply" button click event. It allows the user to apply for the displayed job.
-     */
     private void applyForJob() {
         String userUid;
         // Get the user's Firebase UID (replace with actual UID retrieval method)
