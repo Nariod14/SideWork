@@ -33,12 +33,9 @@ public class Job {
         this.location = location;
         this.description = description;
         this.employerId = employerId;
-        this.searchableData = title + " " + jobType + " " + date + " " + duration + " " + durationType + " "  + " " + salary + " " + salaryType + " " + location;
+        this.searchableData = title.toLowerCase() + " " + jobType.toLowerCase() + " " + date.toLowerCase() + " " + duration.toLowerCase() + " " + durationType.toLowerCase() + " " + urgencyType.toLowerCase() + " " + salary.toLowerCase() + " " + salaryType.toLowerCase() + " " + location.toLowerCase();
 
 
-    }
-    public String getJobId() {
-        return jobId;
     }
 
     public String getTitle() {

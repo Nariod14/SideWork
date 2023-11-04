@@ -2,8 +2,11 @@ package com.example.quickcashcsci3130g_11;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -43,6 +46,15 @@ public class JobSearchActivity extends AppCompatActivity implements SearchView.O
         // Initialize the Firebase database reference
         mDatabase = FirebaseDatabase.getInstance().getReference("jobs");
 
+        Button advancedSearchButton = findViewById(R.id.advancedSearchButton);
+        advancedSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(JobSearchActivity.this, AdvancedSearchActivity.class);
+                startActivity(intent);
+            }
+        });
+
         // Add a listener to the SearchView widget
         SearchView searchView = findViewById(R.id.search_view);
         searchView.setOnQueryTextListener(this);
@@ -61,6 +73,8 @@ public class JobSearchActivity extends AppCompatActivity implements SearchView.O
         searchJobs(newText);
         return true;
     }
+
+
 
     private void searchJobs(String query) {
         // Clear the current list of jobs
