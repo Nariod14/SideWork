@@ -13,16 +13,31 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Adapter class for populating a RecyclerView with job listings and providing filtering functionality.
+ */
 public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> implements Filterable {
 
     private List<Job> mJobList;
     private List<Job> mFilteredJobList;
 
+    /**
+     * Constructs a new JobAdapter with the provided job list.
+     *
+     * @param jobList The list of job listings to be displayed.
+     */
     public JobAdapter(List<Job> jobList) {
         mJobList = jobList;
         mFilteredJobList = jobList;
     }
 
+    /**
+     * Creates and returns a new ViewHolder instance for each item in the RecyclerView.
+     *
+     * @param parent   The parent view group.
+     * @param viewType The type of view.
+     * @return A new ViewHolder for an item view.
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -30,6 +45,12 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> impl
         return new ViewHolder(view);
     }
 
+    /**
+     * Binds data to the views of a ViewHolder for a specific position in the RecyclerView.
+     *
+     * @param holder   The ViewHolder to bind data to.
+     * @param position The position of the item in the RecyclerView.
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Job job = mFilteredJobList.get(position);
@@ -44,11 +65,21 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> impl
         holder.employerIdTextView.setText(job.getEmployerId());
     }
 
+    /**
+     * Returns the total number of items in the RecyclerView.
+     *
+     * @return The number of items in the RecyclerView.
+     */
     @Override
     public int getItemCount() {
         return mFilteredJobList.size();
     }
 
+    /**
+     * Returns a filter that can be used to filter the job listings based on a search query.
+     *
+     * @return A filter for job listings.
+     */
     @Override
     public Filter getFilter() {
         return new Filter() {
@@ -90,6 +121,9 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> impl
         };
     }
 
+    /**
+     * ViewHolder class for holding the views of each job item in the RecyclerView.
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView titleTextView;
@@ -102,6 +136,11 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> impl
         public TextView descriptionTextView;
         public TextView employerIdTextView;
 
+        /**
+         * Creates a new ViewHolder and initializes its views.
+         *
+         * @param itemView The item view for the ViewHolder.
+         */
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.title_text_view);
