@@ -1,6 +1,10 @@
 package com.example.quickcashcsci3130g_11;
 
-public class Job {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Job implements Serializable {
     private String jobId;
     private String title;
     private String jobType;
@@ -16,10 +20,12 @@ public class Job {
 
     private String searchableData;
 
+    private List<String> applicants;
+
     /**
      * Default constructor for the Job class.
      */
-    public Job() {
+    public Job()  {
 
     }
 
@@ -52,6 +58,7 @@ public class Job {
         this.location = location;
         this.description = description;
         this.employerId = employerId;
+        this.applicants = new ArrayList<>();
         this.searchableData = title.toLowerCase() + " " + jobType.toLowerCase() + " " + date.toLowerCase() + " " + duration.toLowerCase() + " " + durationType.toLowerCase() + " " + urgencyType.toLowerCase() + " " + salary.toLowerCase() + " " + salaryType.toLowerCase() + " " + location.toLowerCase();
 
 
@@ -163,5 +170,25 @@ public class Job {
      */
     public String getSearchableData() {
         return searchableData;
+    }
+
+    public void addApplicant(String applicantUid) {
+        if (applicants == null) {
+            applicants = new ArrayList<>();
+        }
+        applicants.add(applicantUid);
+    }
+
+    // Getter and setter for 'applicants' field
+    public List<String> getApplicants() {
+        return applicants;
+    }
+
+    public void setApplicants(List<String> applicants) {
+        this.applicants = applicants;
+    }
+
+    public String getJobId() {
+        return jobId;
     }
 }
