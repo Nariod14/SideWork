@@ -12,16 +12,27 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * This class represents the reset password activity where users can request a password reset
+ * for their registered email address. It sends an email with instructions to reset the password.
+ */
 public class ResetPasswordActivity extends AppCompatActivity {
 
-    private EditText inputEmail;
-    private FirebaseAuth auth;
-    private ProgressBar progressBar;
 
+    /**
+     * Called when the activity is first created. Initializes views, sets up click listeners, and
+     * handles the password reset process.
+     *
+     * @param savedInstanceState The saved instance state, if any.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
+
+        EditText inputEmail;
+        FirebaseAuth auth;
+        ProgressBar progressBar;
 
         inputEmail = findViewById(R.id.emailLogin);
         Button btnReset = findViewById(R.id.btn_reset_password);
