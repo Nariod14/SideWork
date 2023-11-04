@@ -1,14 +1,14 @@
 package com.example.quickcashcsci3130g_11;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,11 +18,12 @@ public class EmployerActivity extends AppCompatActivity {
 
     private TextView mEmailTextView;
     private Button mSwitchRoleButton;
-
+    private Button mGoToPayment;
     private FirebaseUser user;
 
     private FirebaseAuth mAuth;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,11 +37,13 @@ public class EmployerActivity extends AppCompatActivity {
 
         mSwitchRoleButton = findViewById(R.id.switch2EmployeeButton);
         mEmailTextView = findViewById(R.id.emailTextView);
+        mGoToPayment = findViewById(R.id.paymentButton);
         String userID = new String();
 
         this.showProfileInfo();
-        this.showEmployerMessage();;
+        this.showEmployerMessage();
         this.switch2Employee();
+        this.goToPayments();
 
         logout.setOnClickListener(new View.OnClickListener() {
         @Override
@@ -116,6 +119,16 @@ public class EmployerActivity extends AppCompatActivity {
                 Intent intent = new Intent(EmployerActivity.this, EmployeeActivity.class);
                 startActivity(intent);
 
+            }
+        });
+    }
+
+    protected void goToPayments() {
+        mGoToPayment.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View view){
+                Intent intent = new Intent(EmployerActivity.this, PaymentsActivity.class);
+                startActivity(intent);
             }
         });
     }

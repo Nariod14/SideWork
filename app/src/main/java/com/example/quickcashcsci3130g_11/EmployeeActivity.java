@@ -1,14 +1,13 @@
 package com.example.quickcashcsci3130g_11;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,6 +20,7 @@ public class EmployeeActivity extends AppCompatActivity{
     private Button switch2EmployerButton;
     private FirebaseUser user;
     private FirebaseAuth mAuth;
+    private Button mGoToPayment2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +35,12 @@ public class EmployeeActivity extends AppCompatActivity{
 
         switch2EmployerButton = findViewById(R.id.switch2EmployerButton);
         mEmailTextView = findViewById(R.id.emailTextView);
+        mGoToPayment2 = findViewById(R.id.paymentButton2);
 
         String email = this.showProfileInfo();
         this.showEmployeeMessage(email);
         this.switch2Employer();
+        this.goToPayments();
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +117,15 @@ public class EmployeeActivity extends AppCompatActivity{
             }
         });
 
+    }
+    protected void goToPayments() {
+        mGoToPayment2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View view){
+                Intent intent = new Intent(EmployeeActivity.this, PaymentsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

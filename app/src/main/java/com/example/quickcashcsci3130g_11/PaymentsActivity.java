@@ -25,7 +25,7 @@ import java.math.BigDecimal;
 
 public class PaymentsActivity extends AppCompatActivity {
 
-    private static final String PAYPAL_CLIENT_ID = "AS3otVJX51z1u7m6Pm9cLhqcigRQ2imRzeAeBISv81dITLoHcge1_jTTtqlvFL9xK9frbh8LaLljgGNt";
+    private static final String PAYPAL_CLIENT_ID = "ATZtaMEgQFDP3ooX9ZfplTVZwNLi8KrXkjwCy90hv1C5FHX-Cz5SguVWlUhhN12PMp8-3dWOGujzXZVp";
     private static final int PAYPAL_REQUEST_CODE = 123;
 
     private EditText amountEditText;
@@ -42,7 +42,6 @@ public class PaymentsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_payment);
 
         amountEditText = findViewById(R.id.amountEditText);
-        jobsSpinner = findViewById(R.id.jobsSpinner);
         makePaymentButton = findViewById(R.id.makePaymentButton);
 
         makePaymentButton.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +55,7 @@ public class PaymentsActivity extends AppCompatActivity {
     private void processPayment() {
         String amount = amountEditText.getText().toString();
 
-        PayPalPayment payPalPayment = new PayPalPayment(new BigDecimal(String.valueOf(amount)), "USD",
+        PayPalPayment payPalPayment = new PayPalPayment(new BigDecimal(String.valueOf(amount)), "CAD",
                 "Payment for Job", PayPalPayment.PAYMENT_INTENT_SALE);
 
         Intent intent = new Intent(this, PaymentActivity.class);
@@ -75,8 +74,6 @@ public class PaymentsActivity extends AppCompatActivity {
                 if (confirmation != null) {
                     try {
                         String paymentDetails = confirmation.toJSONObject().toString(4);
-                        // Here you could send the paymentDetails string to your server for further processing
-                        // Or just show it in your UI.
                         showDetails(paymentDetails);
                     } catch (JSONException e) {
                         e.printStackTrace();
