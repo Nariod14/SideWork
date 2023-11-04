@@ -63,9 +63,9 @@ public class SubmitJobActivityTest {
         Espresso.onView(ViewMatchers.withId(R.id.salaryEditText))
                 .perform(ViewActions.scrollTo())
                 .perform(ViewActions.typeText("100"), ViewActions.closeSoftKeyboard());
-        Espresso.onView(ViewMatchers.withId(R.id.locationEditText))
+        Espresso.onView(ViewMatchers.withId(R.id.getLocationButton))
                 .perform(ViewActions.scrollTo())
-                .perform(ViewActions.typeText("Sample Location"), ViewActions.closeSoftKeyboard());
+                .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(R.id.descriptionEditText))
                 .perform(ViewActions.scrollTo())
                 .perform(ViewActions.typeText("Sample Description"), ViewActions.closeSoftKeyboard());
