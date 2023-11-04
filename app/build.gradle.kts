@@ -66,6 +66,10 @@ dependencies {
     // TODO: Add the dependencies for Firebase products you want to use
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation ("com.google.firebase:firebase-analytics")
+    implementation("com.algolia:algoliasearch:4.0.0-beta.10")
+    implementation("androidx.test.espresso:espresso-contrib:3.5.1"){
+        exclude( group = "com.google.protobuf", module = "protobuf-lite")
+    }
 
 
     // Add the dependencies for any other desired Firebase products
@@ -110,5 +114,7 @@ dependencies {
 */
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation ("androidx.test.espresso:espresso-intents:3.5.1")
+    androidTestImplementation ("org.mockito:mockito-core:3.12.4")
+    implementation ("io.mockk:mockk:1.12.0")
 }
 
