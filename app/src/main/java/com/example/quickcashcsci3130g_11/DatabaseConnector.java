@@ -27,8 +27,7 @@ public class DatabaseConnector {
         mDatabase.child("users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String data = snapshot.getValue(String.class);
-                // Do something with the data
+                snapshot.getValue(String.class);
             }
 
             @Override
