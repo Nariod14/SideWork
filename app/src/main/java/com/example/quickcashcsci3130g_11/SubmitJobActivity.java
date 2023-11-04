@@ -1,8 +1,16 @@
 package com.example.quickcashcsci3130g_11;
 
+import static com.fasterxml.jackson.databind.cfg.CoercionInputShape.String;
+
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -16,9 +24,15 @@ import android.widget.Toast;
 import android.widget.DatePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -38,8 +52,12 @@ public class SubmitJobActivity extends AppCompatActivity {
     private Button pickDateButton;
     private Button submitButton;
     private TextView setDateTextView;
-
+    private TextView mEmailTextView;
     private DatabaseReference databaseReference;
+    private FirebaseUser user;
+
+    private FirebaseAuth mAuth;
+
 
     private void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -51,6 +69,9 @@ public class SubmitJobActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit_job);
 
+        this.showProfileInfo();
+
+        mEmailTextView = findViewById(R.id.emailTextView);
         titleEditText = findViewById(R.id.titleEditText);
         setDateTextView = findViewById(R.id.setDateTextView);
         durationEditText = findViewById(R.id.durationEditText);
@@ -95,9 +116,9 @@ public class SubmitJobActivity extends AppCompatActivity {
             }
         });
 
-        EditText[] editTextFields = {
-                titleEditText, durationEditText, salaryEditText, locationEditText, descriptionEditText
-        };
+                    
+
+        EditText[] editTextFields = { titleEditText, durationEditText, salaryEditText, locationEditText, descriptionEditText};
 
         for (EditText editText : editTextFields) {
             editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -176,11 +197,24 @@ public class SubmitJobActivity extends AppCompatActivity {
 
                     Snackbar.make(v, "Job submitted successfully", Snackbar.LENGTH_SHORT).show();
 
+                    Intent intent = new Intent(SubmitJobActivity.this, JobPostingsActivity.class);
+                    startActivity(intent);
+
                     finish();
                 }
             }
         });
     }
+
+    protected void showProfileInfo() {
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        if (user != null) {
+            String email = user.getEmail();
+            mEmailTextView.setText(email);
+        }
+    }
+
 
     private void showDatePickerDialog() {
         final Calendar calendar = Calendar.getInstance();

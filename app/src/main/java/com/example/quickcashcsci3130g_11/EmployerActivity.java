@@ -19,6 +19,7 @@ public class EmployerActivity extends AppCompatActivity {
     private TextView mEmailTextView;
     private Button mSwitchRoleButton;
     private Button mAddJobButton;
+    private Button mJobPostings;
 
     private FirebaseUser user;
 
@@ -37,6 +38,7 @@ public class EmployerActivity extends AppCompatActivity {
         mSwitchRoleButton = findViewById(R.id.switch2EmployeeButton);
         mEmailTextView = findViewById(R.id.emailTextView);
         mAddJobButton = findViewById(R.id.employerAddJob);
+        mJobPostings = findViewById(R.id.employerViewJobs);
 
         String userID = new String();
 
@@ -44,6 +46,7 @@ public class EmployerActivity extends AppCompatActivity {
         this.showEmployerMessage();;
         this.switch2Employee();
         this.go2SubmitJob();
+        this.go2JobPostings();
 
         logout.setOnClickListener(new View.OnClickListener() {
         @Override
@@ -55,12 +58,6 @@ public class EmployerActivity extends AppCompatActivity {
         }
     });
 
-
-        ViewJobPostings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
 
         ViewPreferredEmployees.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +119,18 @@ public class EmployerActivity extends AppCompatActivity {
             @Override
             public void onClick (View view){
                 Intent intent = new Intent(EmployerActivity.this, SubmitJobActivity.class);
+                startActivity(intent);
+
+            }
+        });
+    }
+
+    protected void go2JobPostings() {
+        mJobPostings.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick (View view){
+                Intent intent = new Intent(EmployerActivity.this, JobPostingsActivity.class);
                 startActivity(intent);
 
             }

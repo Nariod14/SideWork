@@ -7,7 +7,6 @@ public class Job {
     private String date;
     private String duration;
     private String durationType;
-    private String urgency;
     private String urgencyType;
     private String salary;
     private String salaryType;
@@ -34,7 +33,7 @@ public class Job {
         this.location = location;
         this.description = description;
         this.employerId = employerId;
-        this.searchableData = title + " " + jobType + " " + date + " " + duration + " " + durationType + " " + urgency + " " + salary + " " + salaryType + " " + location;
+        this.searchableData = title + " " + jobType + " " + date + " " + duration + " " + durationType + " "  + " " + salary + " " + salaryType + " " + location;
 
 
     }
