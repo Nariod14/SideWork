@@ -40,8 +40,20 @@ public class SubmitJobUIAutomatorTest {
             FirebaseAuth auth = FirebaseAuth.getInstance();
             auth.signInWithEmailAndPassword(user, password);
 
+            grantPermissions();
         }
 
+        private void grantPermissions() {
+            // Grant location permission programmatically
+            UiObject allowButton = device.findObject(new UiSelector().text("While using the app"));
+            if (allowButton.exists()) {
+                try {
+                    allowButton.click();
+                } catch (UiObjectNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
         @Test
         public void testSubmitJob() throws UiObjectNotFoundException {
@@ -72,9 +84,9 @@ public class SubmitJobUIAutomatorTest {
             assertTrue(salaryEditText.exists());
             salaryEditText.setText("13");
 
-            UiObject locationEditText = device.findObject(new UiSelector().textContains("Enter Location"));
-            assertTrue(locationEditText.exists());
-            locationEditText.setText("Sample Location");
+            UiObject locationButton = device.findObject(new UiSelector().textContains("Get Location"));
+            assertTrue(locationButton.exists());
+            locationButton.click();
 
             UiObject descriptionEditText = device.findObject(new UiSelector().textContains("Enter Description"));
             assertTrue(descriptionEditText.exists());

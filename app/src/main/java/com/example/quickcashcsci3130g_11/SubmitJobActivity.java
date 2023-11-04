@@ -30,6 +30,7 @@ import androidx.core.content.ContextCompat;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -50,6 +51,7 @@ public class SubmitJobActivity extends AppCompatActivity {
     private Spinner urgencyTypeSpinner;
     private Spinner salaryTypeSpinner;
     private Button pickDateButton;
+    private Button locationButton;
     private Button submitButton;
     private TextView setDateTextView;
     private TextView mEmailTextView;
@@ -57,6 +59,7 @@ public class SubmitJobActivity extends AppCompatActivity {
     private FirebaseUser user;
 
     private FirebaseAuth mAuth;
+    private FusedLocationProviderClient fusedLocationClient;
 
 
     private void hideKeyboard(View view) {
@@ -69,7 +72,8 @@ public class SubmitJobActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit_job);
 
-        this.showProfileInfo();
+        this.setProfileInfo();
+        this.retrieveLocation();
 
         mEmailTextView = findViewById(R.id.emailTextView);
         titleEditText = findViewById(R.id.titleEditText);
@@ -83,7 +87,10 @@ public class SubmitJobActivity extends AppCompatActivity {
         urgencyTypeSpinner = findViewById(R.id.urgencyTypeSpinner);
         salaryTypeSpinner = findViewById(R.id.salaryTypeSpinner);
         pickDateButton = findViewById(R.id.datePickerButton);
+        locationButton = findViewById(R.id.getLocationButton);
         submitButton = findViewById(R.id.submitButton);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
 
         databaseReference = FirebaseDatabase.getInstance().getReference("jobs");
 
@@ -116,7 +123,13 @@ public class SubmitJobActivity extends AppCompatActivity {
             }
         });
 
-                    
+        locationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                retrieveLocation();
+            }
+        });
+
 
         EditText[] editTextFields = { titleEditText, durationEditText, salaryEditText, locationEditText, descriptionEditText};
 
@@ -195,7 +208,7 @@ public class SubmitJobActivity extends AppCompatActivity {
 
                     databaseReference.child(jobId).setValue(job);
 
-                    Snackbar.make(v, "Job submitted successfully", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(v, "Job submitted successfully", BaseTransientBottomBar.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(SubmitJobActivity.this, JobPostingsActivity.class);
                     startActivity(intent);
@@ -206,12 +219,11 @@ public class SubmitJobActivity extends AppCompatActivity {
         });
     }
 
-    protected void showProfileInfo() {
+    protected void setProfileInfo() {
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         if (user != null) {
-            String email = user.getEmail();
-            mEmailTextView.setText(email);
+            user.getEmail();
         }
     }
 
@@ -231,4 +243,33 @@ public class SubmitJobActivity extends AppCompatActivity {
 
         datePickerDialog.show();
     }
+
+    private void retrieveLocation() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            try {
+                fusedLocationClient.getLastLocation()
+                        .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location location) {
+                                if (location != null) {
+                                    double latitude = location.getLatitude();
+                                    double longitude = location.getLongitude();
+
+                                    // Update the locationEditText field with latitude and longitude
+                                    locationEditText.setText("Latitude: " + latitude + ", Longitude: " + longitude);
+                                } else {
+                                    Toast.makeText(SubmitJobActivity.this, "Location not available", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(SubmitJobActivity.this, "Location retrieval failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+    }
+
+
 }
