@@ -25,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginButton;
     private TextView signUpText;
 
+    private LocationAccess locationAccess;
 
 
 
@@ -34,6 +35,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
        mAuth = FirebaseAuth.getInstance();
+
+
+        locationAccess = new LocationAccess(this);
+        locationAccess.requestLocationPermission();
 
         emailEditText = findViewById(R.id.emailLogin);
         passwordEditText = findViewById(R.id.passwordLogin);
