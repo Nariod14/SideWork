@@ -4,43 +4,32 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
-/**
- * The `AdvancedSearchActivity` allows users to perform advanced job searches by specifying search criteria
- * such as job title, job type, date, duration, urgency, salary, and location.
- */
 public class AdvancedSearchActivity extends AppCompatActivity {
 
+    private EditText mTitleEditText;
+    private EditText mJobTypeEditText;
+    private EditText mDateEditText;
+    private EditText mDurationEditText;
+    private EditText mUrgencyEditText;
+    private EditText mSalaryEditText;
+    private EditText mLocationEditText;
+    private Button mSearchButton;
+    private Button mLocationButton;
+    private FusedLocationProviderClient mFusedLocationClient;
 
-    /**
-     * Called when the activity is first created. This method initializes the UI elements, sets up
-     * click listeners for search and location buttons, and handles user interactions for advanced
-     * job searches.
-     *
-     * @param savedInstanceState If the activity is being re-initialized after previously being shut down,
-     *                           this Bundle contains the data it most recently supplied in
-     *                           onSaveInstanceState(Bundle). Otherwise, it is null.
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        FusedLocationProviderClient mFusedLocationClient;
-        EditText mLocationEditText;
-        EditText mSalaryEditText;
-        EditText mUrgencyEditText;
-        EditText mDurationEditText;
-        EditText mDateEditText;
-        EditText mJobTypeEditText;
-        EditText mTitleEditText;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advanced_search);
 
@@ -52,8 +41,8 @@ public class AdvancedSearchActivity extends AppCompatActivity {
         mUrgencyEditText = findViewById(R.id.urgencyEditText);
         mSalaryEditText = findViewById(R.id.salaryEditText);
         mLocationEditText = findViewById(R.id.locationEditText);
-        Button mSearchButton = findViewById(R.id.searchButton);
-        Button mLocationButton = findViewById(R.id.locationButton);
+        mSearchButton = findViewById(R.id.searchButton);
+        mLocationButton = findViewById(R.id.locationButton);
 
         // Initialize the Firebase database reference
 
@@ -84,20 +73,22 @@ public class AdvancedSearchActivity extends AppCompatActivity {
 
         // Initialize UI elements and set click listener for the back button
         ImageButton backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> {
-            // Navigate back to the JobSearchActivity
-            Intent intent = new Intent(AdvancedSearchActivity.this, JobSearchActivity.class);
-            startActivity(intent);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate back to the JobSearchActivity
+                Intent intent = new Intent(AdvancedSearchActivity.this, JobSearchActivity.class);
+                startActivity(intent);
+            }
         });
 
         // Add an OnClickListener to the location button
         mLocationButton.setOnClickListener(v -> {
             // Get the user's location
-            if (ContextCompat.checkSelfPermission(AdvancedSearchActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(AdvancedSearchActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 mFusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
                     if (location != null) {
-                        String retrievedLocation = location.getLatitude() + ", " + location.getLongitude();
-                        mLocationEditText.setText(retrievedLocation);
+                        mLocationEditText.setText(location.getLatitude() + ", " + location.getLongitude());
                     }
                 });
             } else {
