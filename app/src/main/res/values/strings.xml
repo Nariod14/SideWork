@@ -5,4 +5,11 @@
     <string name="EMPLOYER_MESSAGE"> %s, you are in the employer profile</string>
     <string name="EMAIL_EMPTY">Fill in registered email</string>
     <string name="search_hint">Search for a job!</string>
+    <string name="back">Back</string>
+
+    <string-array name="duration_types">
+        <item>Hours</item>
+        <item>Days</item>
+        <item>Weeks</item>
+    </string-array>
 </resources>
