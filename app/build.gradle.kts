@@ -94,9 +94,12 @@ dependencies {
     testImplementation("junit:junit:4.12")
     implementation ("com.paypal.sdk:paypal-android-sdk:2.14.2");
 
-/*
-    testImplementation("androidx.test:runner:1.5.2")
-*/
+
+
+
+    /*
+        testImplementation("androidx.test:runner:1.5.2")
+    */
 /*
     testImplementation("androidx.arch.core:core-testing:2.2.0")
 */
@@ -111,5 +114,10 @@ dependencies {
 */
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation ("androidx.test.espresso:espresso-intents:3.5.1")
+    testImplementation ("junit:junit:4.13.2")
+    testImplementation ("org.mockito:mockito-core:3.x")
+
+    androidTestImplementation ("androidx.test.ext:junit:1.1.3")
+    androidTestImplementation ("androidx.test.espresso:espresso-core:3.4.0")
 }
 
