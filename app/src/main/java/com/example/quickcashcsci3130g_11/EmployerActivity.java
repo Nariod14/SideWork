@@ -18,6 +18,8 @@ public class EmployerActivity extends AppCompatActivity {
 
     private TextView mEmailTextView;
     private Button mSwitchRoleButton;
+    private Button mAddJobButton;
+    private Button mJobPostings;
 
     private FirebaseUser user;
 
@@ -31,7 +33,6 @@ public class EmployerActivity extends AppCompatActivity {
         locationAccess = new LocationAccess(this);
         locationAccess.requestLocationPermission();
         setContentView(R.layout.activity_employer);
-        Button AddJobPosting = (Button) findViewById(R.id.employerAddJob);
         Button ViewJobPostings = (Button) findViewById(R.id.employerViewJobs);
         Button ViewPreferredEmployees = (Button) findViewById(R.id.employerPreferredEmployees);
         Button AcceptedApplications = (Button) findViewById(R.id.employerAcceptedApplications);
@@ -40,11 +41,16 @@ public class EmployerActivity extends AppCompatActivity {
 
         mSwitchRoleButton = findViewById(R.id.switch2EmployeeButton);
         mEmailTextView = findViewById(R.id.emailTextView);
+        mAddJobButton = findViewById(R.id.employerAddJob);
+        mJobPostings = findViewById(R.id.employerViewJobs);
+
         String userID = new String();
 
         this.showProfileInfo();
         this.showEmployerMessage();;
         this.switch2Employee();
+        this.go2SubmitJob();
+        this.go2JobPostings();
 
         logout.setOnClickListener(new View.OnClickListener() {
         @Override
@@ -56,19 +62,6 @@ public class EmployerActivity extends AppCompatActivity {
         }
     });
 
-        AddJobPosting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Do what you want here
-            }
-        });
-
-        ViewJobPostings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Do what you want here
-            }
-        });
 
         ViewPreferredEmployees.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,4 +116,29 @@ public class EmployerActivity extends AppCompatActivity {
             }
         });
     }
+
+    protected void go2SubmitJob() {
+        mAddJobButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick (View view){
+                Intent intent = new Intent(EmployerActivity.this, SubmitJobActivity.class);
+                startActivity(intent);
+
+            }
+        });
+    }
+
+    protected void go2JobPostings() {
+        mJobPostings.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick (View view){
+                Intent intent = new Intent(EmployerActivity.this, JobPostingsActivity.class);
+                startActivity(intent);
+
+            }
+        });
+    }
+
 }
