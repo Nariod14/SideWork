@@ -4,8 +4,10 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -67,6 +69,17 @@ public class AdvancedSearchActivity extends AppCompatActivity {
             intent.putExtra("salary", salary);
             intent.putExtra("location", location);
             startActivity(intent);
+        });
+
+        // Initialize UI elements and set click listener for the back button
+        ImageButton backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate back to the JobSearchActivity
+                Intent intent = new Intent(AdvancedSearchActivity.this, JobSearchActivity.class);
+                startActivity(intent);
+            }
         });
 
         // Add an OnClickListener to the location button
