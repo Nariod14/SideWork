@@ -126,15 +126,15 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> impl
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView titleTextView;
-        public TextView jobTypeTextView;
-        public TextView dateTextView;
-        public TextView durationTextView;
-        public TextView urgencyTextView;
-        public TextView salaryTextView;
-        public TextView locationTextView;
-        public TextView descriptionTextView;
-        public TextView employerIdTextView;
+        private TextView titleTextView;
+        private TextView jobTypeTextView;
+        private TextView dateTextView;
+        private TextView durationTextView;
+        private TextView urgencyTextView;
+        private TextView salaryTextView;
+        private TextView locationTextView;
+        private TextView descriptionTextView;
+        private TextView employerIdTextView;
 
         /**
          * Creates a new ViewHolder and initializes its views.
