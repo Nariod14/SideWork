@@ -1,6 +1,8 @@
 package com.example.quickcashcsci3130g_11;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,6 +43,7 @@ public class JobPostingsActivity extends AppCompatActivity {
         initializeViews();
         setupRecyclerView();
         fetchAndDisplayUserJobs();
+        initializeBackButton();
     }
 
     /**
@@ -112,5 +115,17 @@ public class JobPostingsActivity extends AppCompatActivity {
      */
     private void displayDatabaseError(String message) {
         Toast.makeText(this, "Database Error: " + message, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Initializes the back button in the activity and sets a click listener to navigate back
+     * to the Employer Activity when the button is clicked.
+     */
+    private void initializeBackButton() {
+        ImageButton backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> {
+            Intent intent = new Intent(JobPostingsActivity.this, EmployerActivity.class);
+            startActivity(intent);
+        });
     }
 }
