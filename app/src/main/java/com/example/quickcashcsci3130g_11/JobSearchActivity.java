@@ -5,7 +5,6 @@ import static android.content.ContentValues.TAG;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
 
@@ -26,13 +25,14 @@ import java.util.List;
 
 public class JobSearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
-    private RecyclerView mRecyclerView;
+
     private JobAdapter mAdapter;
     private List<Job> mJobList;
     private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        RecyclerView mRecyclerView;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_search);
 
@@ -47,12 +47,9 @@ public class JobSearchActivity extends AppCompatActivity implements SearchView.O
         mDatabase = FirebaseDatabase.getInstance().getReference("jobs");
 
         Button advancedSearchButton = findViewById(R.id.advancedSearchButton);
-        advancedSearchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(JobSearchActivity.this, AdvancedSearchActivity.class);
-                startActivity(intent);
-            }
+        advancedSearchButton.setOnClickListener(v -> {
+            Intent intent = new Intent(JobSearchActivity.this, AdvancedSearchActivity.class);
+            startActivity(intent);
         });
 
         // Add a listener to the SearchView widget

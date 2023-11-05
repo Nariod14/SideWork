@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -12,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,10 +21,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SearchResultsActivity extends AppCompatActivity {
 
-    private RecyclerView mRecyclerView;
     private JobAdapter mAdapter;
     private List<Job> mJobList;
 
@@ -34,7 +34,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_results);
 
         // Initialize the UI elements
-        mRecyclerView = findViewById(R.id.recyclerView);
+        RecyclerView mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mJobList = new ArrayList<>();
         mAdapter = new JobAdapter(mJobList);
@@ -51,29 +51,21 @@ public class SearchResultsActivity extends AppCompatActivity {
         String location = intent.getStringExtra("location");
 
         // Perform the search based on the user's input
-        searchJobs(title, jobType, date, duration, urgency, salary, location);
+        searchJobs(Objects.requireNonNull(title), jobType, date, duration, urgency, salary, location);
 
-        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                // Handle item click here
-                Job selectedJob = mJobList.get(position);
+        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, mRecyclerView, (view, position) -> {
+            // Handle item click here
+            Job selectedJob = mJobList.get(position);
 
-                // Start the JobDetailsActivity and pass the selected job object
-                Intent intent = new Intent(SearchResultsActivity.this, JobDetailsActivity.class);
-                intent.putExtra("job", selectedJob);
-                startActivity(intent);
-            }
+            // Start the JobDetailsActivity and pass the selected job object
+            Intent intent1 = new Intent(SearchResultsActivity.this, JobDetailsActivity.class);
+            intent1.putExtra("job", selectedJob);
+            startActivity(intent1);
         }));
 
         // Add a listener to the back button
         Button backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        backButton.setOnClickListener(v -> finish());
     }
 
     private void searchJobs(String title, String jobType, String date, String duration, String urgency, String salary, String location) {
@@ -86,25 +78,48 @@ public class SearchResultsActivity extends AppCompatActivity {
                 .startAt(title.toLowerCase())
                 .endAt(title.toLowerCase() + "\uf8ff");
         jobQuery.addValueEventListener(new ValueEventListener() {
-            @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot jobSnapshot : dataSnapshot.getChildren()) {
                     Job job = jobSnapshot.getValue(Job.class);
-                    if ((title.isEmpty() || job.getTitle().toLowerCase().contains(title.toLowerCase()))
-                            && (jobType.isEmpty() || job.getJobType().toLowerCase().contains(jobType.toLowerCase()))
-                            && (date.isEmpty() || job.getDate().toLowerCase().contains(date.toLowerCase()))
-                            && (duration.isEmpty() || job.getDuration().toLowerCase().contains(duration.toLowerCase()))
-                            && (urgency.isEmpty() || job.getUrgencyType().toLowerCase().contains(urgency.toLowerCase()))
-                            && (salary.isEmpty() || job.getSalary().toLowerCase().contains(salary.toLowerCase()))
-                            && (location.isEmpty() || job.getLocation().toLowerCase().contains(location.toLowerCase()))) {
+                    if (isTitleMatch(job) && isJobTypeMatch(job) && isDateMatch(job) && isDurationMatch(job)
+                            && isUrgencyMatch(job) && isSalaryMatch(job) && isLocationMatch(job)) {
                         mJobList.add(job);
                     }
                 }
                 mAdapter.notifyDataSetChanged();
                 if (mJobList.isEmpty()) {
-                    Snackbar.make(findViewById(android.R.id.content), "No jobs found", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(android.R.id.content), "No jobs found", BaseTransientBottomBar.LENGTH_SHORT).show();
                 }
             }
+
+            private boolean isTitleMatch(Job job) {
+                return title.isEmpty() || job.getTitle().toLowerCase().contains(title.toLowerCase());
+            }
+
+            private boolean isJobTypeMatch(Job job) {
+                return jobType.isEmpty() || job.getJobType().toLowerCase().contains(jobType.toLowerCase());
+            }
+
+            private boolean isDateMatch(Job job) {
+                return date.isEmpty() || job.getDate().toLowerCase().contains(date.toLowerCase());
+            }
+
+            private boolean isDurationMatch(Job job) {
+                return duration.isEmpty() || job.getDuration().toLowerCase().contains(duration.toLowerCase());
+            }
+
+            private boolean isUrgencyMatch(Job job) {
+                return urgency.isEmpty() || job.getUrgencyType().toLowerCase().contains(urgency.toLowerCase());
+            }
+
+            private boolean isSalaryMatch(Job job) {
+                return salary.isEmpty() || job.getSalary().toLowerCase().contains(salary.toLowerCase());
+            }
+
+            private boolean isLocationMatch(Job job) {
+                return location.isEmpty() || job.getLocation().toLowerCase().contains(location.toLowerCase());
+            }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
