@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -43,6 +44,8 @@ public class JobSearchActivity extends AppCompatActivity implements SearchView.O
         RecyclerView mRecyclerView;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_search);
+
+        initializeBackButton();
 
         // Initialize the RecyclerView and its adapter
         mRecyclerView = findViewById(R.id.recycler_view);
@@ -116,6 +119,18 @@ public class JobSearchActivity extends AppCompatActivity implements SearchView.O
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e(TAG, "onCancelled", databaseError.toException());
             }
+        });
+    }
+
+    /**
+     * Initializes the back button in the activity and sets a click listener to navigate back
+     * to the Employee Activity when the button is clicked.
+     */
+    private void initializeBackButton() {
+        ImageButton backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> {
+            Intent intent = new Intent(JobSearchActivity.this, EmployeeActivity.class);
+            startActivity(intent);
         });
     }
 }

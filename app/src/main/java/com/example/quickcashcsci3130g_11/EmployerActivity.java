@@ -42,6 +42,7 @@ public class EmployerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setContentView(R.layout.activity_employer);
         super.onCreate(savedInstanceState);
 
         LocationAccess locationAccess;
