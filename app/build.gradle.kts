@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.quickcashcsci3130g11"
-        minSdk = 26
+        minSdk = 33
         maxSdk = 34
         targetSdk = 34
         versionCode = 1
