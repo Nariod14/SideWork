@@ -15,9 +15,22 @@ import androidx.core.content.ContextCompat;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
+/**
+ * The `AdvancedSearchActivity` allows users to perform advanced job searches by specifying search criteria
+ * such as job title, job type, date, duration, urgency, salary, and location.
+ */
 public class AdvancedSearchActivity extends AppCompatActivity {
 
 
+    /**
+     * Called when the activity is first created. This method initializes the UI elements, sets up
+     * click listeners for search and location buttons, and handles user interactions for advanced
+     * job searches.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down,
+     *                           this Bundle contains the data it most recently supplied in
+     *                           onSaveInstanceState(Bundle). Otherwise, it is null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FusedLocationProviderClient mFusedLocationClient;
