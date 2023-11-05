@@ -6,13 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,6 +33,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 public class SubmitJobActivity extends AppCompatActivity {
 
@@ -70,12 +68,7 @@ public class SubmitJobActivity extends AppCompatActivity {
         retrieveLocation();
         setSpinners();
 
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onJobSubmitButtonClicked(v);
-            }
-        });
+        submitButton.setOnClickListener(this::onJobSubmitButtonClicked);
 
         pickDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,7 +161,8 @@ public class SubmitJobActivity extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                setDateTextView.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                String dateText = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth ;
+                setDateTextView.setText(dateText);
             }
         }, year, month, day);
 
@@ -182,13 +176,14 @@ public class SubmitJobActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             try {
                 fusedLocationClient.getLastLocation()
-                        .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        .addOnSuccessListener(this, new OnSuccessListener<>() {
                             @Override
                             public void onSuccess(Location location) {
                                 if (location != null) {
                                     double latitude = location.getLatitude();
                                     double longitude = location.getLongitude();
-                                    locationEditText.setText("Latitude: " + latitude + ", Longitude: " + longitude);
+                                    String locationText = "Latitude: " + latitude + ", Longitude: " + longitude;
+                                    locationEditText.setText(locationText);
                                 } else {
                                     Toast.makeText(SubmitJobActivity.this, "Location not available", Toast.LENGTH_SHORT).show();
                                 }
@@ -281,12 +276,13 @@ public class SubmitJobActivity extends AppCompatActivity {
             Toast.makeText(SubmitJobActivity.this, "All fields are required", Toast.LENGTH_SHORT).show();
         } else {
             FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-            String employerId = firebaseAuth.getCurrentUser().getUid();
+            String employerId = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
 
             String jobId = databaseReference.push().getKey();
 
             Job job = new Job(jobId, title, jobType, date, duration, durationType, urgencyType, salary, salaryType, location, description, employerId);
 
+            assert jobId != null;
             databaseReference.child(jobId).setValue(job);
 
             Snackbar.make(v, "Job submitted successfully", BaseTransientBottomBar.LENGTH_SHORT).show();

@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * Adapter class for populating a RecyclerView with job listings and providing filtering functionality.
+ * @noinspection ALL
  */
 public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> implements Filterable {
 
@@ -57,9 +58,9 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> impl
         holder.titleTextView.setText(job.getTitle());
         holder.jobTypeTextView.setText(job.getJobType());
         holder.dateTextView.setText(job.getDate());
-        holder.durationTextView.setText(job.getDuration() + job.getDurationType());
+        holder.durationTextView.setText(job.getDuration() + " " + job.getDurationType());
         holder.urgencyTextView.setText(job.getUrgencyType());
-        holder.salaryTextView.setText(job.getSalary() + job.getSalaryType());
+        holder.salaryTextView.setText("$" + job.getSalary() + " " + job.getSalaryType());
         holder.locationTextView.setText(job.getLocation());
         holder.descriptionTextView.setText(job.getDescription());
         holder.employerIdTextView.setText(job.getEmployerId());
