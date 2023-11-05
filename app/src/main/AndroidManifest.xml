@@ -84,6 +84,7 @@
             android:name=".EmployeeActivity"
             android:exported="true">
         </activity>
+        <activity android:name=".PaymentsActivity"
         <activity
             android:name=".SubmitJobActivity"
             android:exported="true">
