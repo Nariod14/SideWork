@@ -1,14 +1,14 @@
 package com.example.quickcashcsci3130g_11;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -23,6 +23,7 @@ public class EmployerActivity extends AppCompatActivity {
 
     private TextView mEmailTextView;
     private Button mSwitchRoleButton;
+    private Button mGoToPayment;
     private Button mAddJobButton;
     private Button mJobPostings;
     private Button mViewPreferredEmployees;
@@ -31,12 +32,14 @@ public class EmployerActivity extends AppCompatActivity {
     private FirebaseUser user;
     private FirebaseAuth mAuth;
 
+    @SuppressLint("MissingInflatedId")
     /**
      * Called when the activity is first created. Initializes views, sets up click listeners,
      * and shows user profile information.
      *
      * @param savedInstanceState The saved instance state, if any.
      */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_employer);
@@ -51,6 +54,8 @@ public class EmployerActivity extends AppCompatActivity {
 
         mSwitchRoleButton = findViewById(R.id.switch2EmployeeButton);
         mEmailTextView = findViewById(R.id.emailTextView);
+        mGoToPayment = findViewById(R.id.paymentButton);
+        String userID = new String();
         mAddJobButton = findViewById(R.id.employerAddJob);
         mJobPostings = findViewById(R.id.employerViewJobs);
         mViewPreferredEmployees =  findViewById(R.id.employerPreferredEmployees);
@@ -61,6 +66,7 @@ public class EmployerActivity extends AppCompatActivity {
         this.showProfileInfo();
         this.showEmployerMessage();
         this.switch2Employee();
+        this.goToPayments();
         this.go2SubmitJob();
         this.go2JobPostings();
         this.viewPreferredEmployees();
@@ -119,6 +125,16 @@ public class EmployerActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+    * Switch to payments page when the "go to Payments" button is clicked.
+    */
+    protected void goToPayments() {
+        mGoToPayment.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View view){
+                Intent intent = new Intent(EmployerActivity.this, PaymentsActivity.class);
+                startActivity(intent);
 
     /**
      * Navigate to the job submission activity when the "Add Job" button is clicked.
