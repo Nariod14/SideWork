@@ -8,7 +8,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
+/**
+ * This activity displays the user's profile information, including their email address.
+ */
 public class ProfileActivity extends AppCompatActivity {
 
 
@@ -20,7 +22,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
-
+    /**
+     * Retrieves the user's email and displays it in the email TextView.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
