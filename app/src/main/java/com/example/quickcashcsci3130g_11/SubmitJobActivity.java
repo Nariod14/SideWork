@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,6 +68,7 @@ public class SubmitJobActivity extends AppCompatActivity {
         setProfileInfo();
         retrieveLocation();
         setSpinners();
+        initializeBackButton();
 
         submitButton.setOnClickListener(this::onJobSubmitButtonClicked);
 
@@ -302,5 +304,17 @@ public class SubmitJobActivity extends AppCompatActivity {
     private void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    /**
+     * Initializes the back button in the activity and sets a click listener to navigate back
+     * to the Employer Activity when the button is clicked.
+     */
+    private void initializeBackButton() {
+        ImageButton backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> {
+            Intent intent = new Intent(SubmitJobActivity.this, EmployerActivity.class);
+            startActivity(intent);
+        });
     }
 }

@@ -8,8 +8,8 @@
 
     <LinearLayout
         android:id="@+id/bannerLinearLayout"
-        android:layout_width="413dp"
-        android:layout_height="72dp"
+        android:layout_width="415dp"
+        android:layout_height="95dp"
         android:background="#051877"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -17,18 +17,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/ic_arrow_back" />
+
         <TextView
             android:id="@+id/submitJobTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="30dp"
             android:text="Create a Job"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/backButton"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -47,9 +55,11 @@
     </LinearLayout>
 
     <ScrollView
-        android:layout_width="408dp"
-        android:layout_height="567dp"
+        android:layout_width="415dp"
+        android:layout_height="525dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bannerLinearLayout">
 
@@ -338,6 +348,7 @@
                     android:inputType="text"
                     app:layout_constraintStart_toEndOf="@+id/locationTextView"
                     app:layout_constraintTop_toBottomOf="@+id/salaryTypeSpinner" />
+
                 <Button
                     android:id="@+id/getLocationButton"
                     android:layout_width="wrap_content"
