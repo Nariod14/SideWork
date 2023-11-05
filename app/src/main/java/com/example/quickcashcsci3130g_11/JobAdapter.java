@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * Adapter class for populating a RecyclerView with job listings and providing filtering functionality.
+ * @noinspection ALL
  */
 public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> implements Filterable {
 
@@ -57,9 +58,9 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> impl
         holder.titleTextView.setText(job.getTitle());
         holder.jobTypeTextView.setText(job.getJobType());
         holder.dateTextView.setText(job.getDate());
-        holder.durationTextView.setText(job.getDuration() + job.getDurationType());
+        holder.durationTextView.setText(job.getDuration() + " " + job.getDurationType());
         holder.urgencyTextView.setText(job.getUrgencyType());
-        holder.salaryTextView.setText(job.getSalary() + job.getSalaryType());
+        holder.salaryTextView.setText("$" + job.getSalary() + " " + job.getSalaryType());
         holder.locationTextView.setText(job.getLocation());
         holder.descriptionTextView.setText(job.getDescription());
         holder.employerIdTextView.setText(job.getEmployerId());
@@ -126,15 +127,15 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> impl
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView titleTextView;
-        public TextView jobTypeTextView;
-        public TextView dateTextView;
-        public TextView durationTextView;
-        public TextView urgencyTextView;
-        public TextView salaryTextView;
-        public TextView locationTextView;
-        public TextView descriptionTextView;
-        public TextView employerIdTextView;
+        private TextView titleTextView;
+        private TextView jobTypeTextView;
+        private TextView dateTextView;
+        private TextView durationTextView;
+        private TextView urgencyTextView;
+        private TextView salaryTextView;
+        private TextView locationTextView;
+        private TextView descriptionTextView;
+        private TextView employerIdTextView;
 
         /**
          * Creates a new ViewHolder and initializes its views.
