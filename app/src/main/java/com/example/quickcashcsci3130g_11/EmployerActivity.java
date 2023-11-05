@@ -23,6 +23,8 @@ public class EmployerActivity extends AppCompatActivity {
 
     private TextView mEmailTextView;
     private Button mSwitchRoleButton;
+
+    private Button mGoToPayment;
     private Button mAddJobButton;
     private Button mJobPostings;
     private Button mViewPreferredEmployees;
@@ -53,6 +55,7 @@ public class EmployerActivity extends AppCompatActivity {
         mEmailTextView = findViewById(R.id.emailTextView);
         mAddJobButton = findViewById(R.id.employerAddJob);
         mJobPostings = findViewById(R.id.employerViewJobs);
+        mGoToPayment = findViewById(R.id.paymentButton);
         mViewPreferredEmployees =  findViewById(R.id.employerPreferredEmployees);
         mAcceptedApplications =  findViewById(R.id.employerAcceptedApplications);
         reportButton  = findViewById(R.id.employerReport);
@@ -66,6 +69,7 @@ public class EmployerActivity extends AppCompatActivity {
         this.viewPreferredEmployees();
         this.viewAcceptedApplication();
         this.employerReport();
+        this.goToPayments();
 
         logout.setOnClickListener(new View.OnClickListener() {
         @Override
@@ -129,6 +133,20 @@ public class EmployerActivity extends AppCompatActivity {
             @Override
             public void onClick (View view){
                 Intent intent = new Intent(EmployerActivity.this, SubmitJobActivity.class);
+                startActivity(intent);
+
+            }
+        });
+    }
+
+    /**
+     * Switch to payments page when the "go to Payments" button is clicked.
+     */
+    protected void goToPayments() {
+        mGoToPayment.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View view){
+                Intent intent = new Intent(EmployerActivity.this, PaymentsActivity.class);
                 startActivity(intent);
 
             }
