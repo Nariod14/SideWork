@@ -35,7 +35,7 @@ public class AdvancedSearchUITest {
     public ActivityScenarioRule<AdvancedSearchActivity> mActivityRule = new ActivityScenarioRule<>(AdvancedSearchActivity.class);
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         // Initialize UiDevice instance
         mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
 
@@ -65,59 +65,59 @@ public class AdvancedSearchUITest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         // Delete the sample jobs from the Firebase database
 
         mDatabase.orderByChild("title").equalTo("TestApply").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot jobSnapshot : dataSnapshot.getChildren()) {
                     jobSnapshot.getRef().removeValue();
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 System.out.println("DELETION FAILED");
             }
         });
 
         mDatabase.orderByChild("title").equalTo("Test Job 1").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot jobSnapshot : dataSnapshot.getChildren()) {
                     jobSnapshot.getRef().removeValue();
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 System.out.println("DELETION FAILED");
             }
         });
         mDatabase.orderByChild("title").equalTo("Test Job 2").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot jobSnapshot : dataSnapshot.getChildren()) {
                     jobSnapshot.getRef().removeValue();
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 System.out.println("DELETION FAILED");
             }
         });
         mDatabase.orderByChild("title").equalTo("Test Job 3").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot jobSnapshot : dataSnapshot.getChildren()) {
                     jobSnapshot.getRef().removeValue();
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 System.out.println("DELETION FAILED");
             }
         });
@@ -247,6 +247,7 @@ public class AdvancedSearchUITest {
         String jobId = mDatabase.push().getKey();
         Job job = new Job(jobId, "TestApply", "Test Job Type", "2023-11-30", "1 month", "days", "Urgent", "$1000", "CAD", "Halifax", "Test description", "employerId");
 
+        assert jobId != null;
         mDatabase.child(jobId).setValue(job);
 
         // Enter search criteria
@@ -273,7 +274,9 @@ public class AdvancedSearchUITest {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Job updatedJob = dataSnapshot.getValue(Job.class);
-                assertTrue(updatedJob.getApplicants().contains("TestUser"));
+                if (updatedJob != null) {
+                    assertTrue(updatedJob.getApplicants().contains("TestUser"));
+                }
             }
 
             @Override

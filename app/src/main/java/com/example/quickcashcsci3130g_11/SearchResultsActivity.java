@@ -23,20 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Activity class to display search results based on user input criteria.
- */
 public class SearchResultsActivity extends AppCompatActivity {
 
     private JobAdapter mAdapter;
     private List<Job> mJobList;
 
-    /**
-     * Called when the activity is created. Initializes the user interface and retrieves search criteria
-     * from the intent. Performs a job search based on the user's input criteria.
-     *
-     * @param savedInstanceState A Bundle object containing the activity's previously saved state, if any.
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,36 +63,11 @@ public class SearchResultsActivity extends AppCompatActivity {
             startActivity(intent1);
         }));
 
-        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                // Handle item click here
-                Job selectedJob = mJobList.get(position);
-
-                // Start the JobDetailsActivity and pass the selected job object
-                Intent intent = new Intent(SearchResultsActivity.this, JobDetailsActivity.class);
-                intent.putExtra("job", selectedJob);
-                startActivity(intent);
-            }
-        }));
-
         // Add a listener to the back button
         Button backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> finish());
     }
 
-
-    /**
-     * Perform a search for jobs based on user input criteria and populate the RecyclerView with results.
-     *
-     * @param title     The job title keyword for the search.
-     * @param jobType   The job type for the search.
-     * @param date      The job posting date for the search.
-     * @param duration  The job duration for the search.
-     * @param urgency   The job urgency type for the search.
-     * @param salary    The job salary for the search.
-     * @param location  The job location for the search.
-     */
     private void searchJobs(String title, String jobType, String date, String duration, String urgency, String salary, String location) {
         // Clear the current list of jobs
         mJobList.clear();
@@ -126,16 +92,9 @@ public class SearchResultsActivity extends AppCompatActivity {
                 }
             }
 
-            /**
-             * Check if the title of a job matches the search criteria.
-             *
-             * @param job The job to check.
-             * @return True if the job title matches, false otherwise.
-             */
             private boolean isTitleMatch(Job job) {
                 return title.isEmpty() || job.getTitle().toLowerCase().contains(title.toLowerCase());
             }
-
 
             private boolean isJobTypeMatch(Job job) {
                 return jobType.isEmpty() || job.getJobType().toLowerCase().contains(jobType.toLowerCase());
@@ -170,25 +129,13 @@ public class SearchResultsActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Initialize the contents of the activity's standard options menu. Inflates the menu
-     * and adds items to the action bar if it is present.
-     *
-     * @param menu The options menu in which items are placed.
-     * @return True to display the menu, false to hide it.
-     */
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search_results, menu);
         return true;
     }
 
-    /**
-     * Handle action bar item clicks. This method is called when an item in the options menu is selected.
-     *
-     * @param item The selected menu item.
-     * @return True if the item is handled successfully, false otherwise.
-     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_back) {
