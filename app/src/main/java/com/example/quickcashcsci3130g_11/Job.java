@@ -184,9 +184,11 @@ public class Job implements Serializable {
         return applicants;
     }
 
-    public void setApplicants(List<String> applicants) {
-        this.applicants = applicants;
-    }
+// --Commented out by Inspection START (2023-11-05, 9:55 a.m.):
+//    public void setApplicants(List<String> applicants) {
+//        this.applicants = applicants;
+//    }
+// --Commented out by Inspection STOP (2023-11-05, 9:55 a.m.)
 
     public String getJobId() {
         return jobId;
