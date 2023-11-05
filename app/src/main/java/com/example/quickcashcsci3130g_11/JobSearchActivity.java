@@ -23,6 +23,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This activity allows users to search for job listings and provides the ability to perform advanced searches.
+ */
 public class JobSearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
 
@@ -30,6 +33,11 @@ public class JobSearchActivity extends AppCompatActivity implements SearchView.O
     private List<Job> mJobList;
     private DatabaseReference mDatabase;
 
+    /**
+     * Called when the activity is first created. Initializes UI elements, RecyclerView, and sets up listeners.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down, this Bundle contains the data it most recently supplied.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         RecyclerView mRecyclerView;
@@ -57,6 +65,12 @@ public class JobSearchActivity extends AppCompatActivity implements SearchView.O
         searchView.setOnQueryTextListener(this);
     }
 
+    /**
+     * Callback for when the user submits a query in the SearchView.
+     *
+     * @param query The query entered by the user.
+     * @return true if the query is handled, false otherwise.
+     */
     @Override
     public boolean onQueryTextSubmit(String query) {
         // Perform the search when the user submits the query
@@ -64,6 +78,12 @@ public class JobSearchActivity extends AppCompatActivity implements SearchView.O
         return true;
     }
 
+    /**
+     * Callback for when the user changes the query text in the SearchView.
+     *
+     * @param newText The updated query text.
+     * @return true if the query is handled, false otherwise.
+     */
     @Override
     public boolean onQueryTextChange(String newText) {
         // Perform the search as the user types
@@ -71,8 +91,11 @@ public class JobSearchActivity extends AppCompatActivity implements SearchView.O
         return true;
     }
 
-
-
+    /**
+     * Searches for jobs that match the given query and updates the job list accordingly.
+     *
+     * @param query The search query provided by the user.
+     */
     private void searchJobs(String query) {
         // Clear the current list of jobs
         mJobList.clear();
