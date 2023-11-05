@@ -21,6 +21,8 @@ public class EmployeeActivity extends AppCompatActivity{
     private TextView mEmailTextView;
     private TextView EmployeeTextView;
     private Button switch2EmployerButton;
+
+    private Button availableJobButton;
     private FirebaseUser user;
     private FirebaseAuth mAuth;
 
@@ -35,24 +37,26 @@ public class EmployeeActivity extends AppCompatActivity{
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setContentView(R.layout.activity_employee);
         super.onCreate(savedInstanceState);
 
         locationAccess = new LocationAccess(this);
         locationAccess.requestLocationPermission();
         setContentView(R.layout.activity_employee);
-        Button AvailableJobs = (Button) findViewById(R.id.employerPreferredEmployees);
-        Button AppliedJobs = (Button) findViewById(R.id.employerAddJob);
-        Button AcceptedJobs = (Button) findViewById(R.id.employerViewJobs);
-        Button Report = (Button) findViewById(R.id.employerReport);
+        Button AppliedJobs = (Button) findViewById(R.id.appliedJob);
+        Button AcceptedJobs = (Button) findViewById(R.id.acceptedJobsButton);
+        Button Report = (Button) findViewById(R.id.employeeReportButton);
 
         Button logout=(Button)findViewById(R.id.logout);
 
         switch2EmployerButton = findViewById(R.id.switch2EmployerButton);
+        availableJobButton = findViewById(R.id.availableJobsButton);
         mEmailTextView = findViewById(R.id.emailTextView);
         mGoToPayment2 = findViewById(R.id.paymentButton2);
 
         String email = this.showProfileInfo();
         this.showEmployeeMessage(email);
+        this.go2JobPostings();
         this.switch2Employer();
         this.goToPayments();
 
@@ -63,14 +67,6 @@ public class EmployeeActivity extends AppCompatActivity{
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
                 finish();
-            }
-        });
-
-
-        AvailableJobs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Do what you want here
             }
         });
 
@@ -143,7 +139,19 @@ public class EmployeeActivity extends AppCompatActivity{
 
             }
         });
+    }
 
+    /**
+     * Go to Job Postings
+     */
+    protected void go2JobPostings() {
+        availableJobButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EmployeeActivity.this, JobSearchActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     protected void goToPayments() {
         mGoToPayment2.setOnClickListener(new View.OnClickListener(){
