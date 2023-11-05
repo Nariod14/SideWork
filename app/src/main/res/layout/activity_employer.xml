@@ -23,7 +23,6 @@
         android:id="@+id/switch2EmployeeButton"
         android:layout_width="370dp"
         android:layout_height="50dp"
-
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/orange"
         android:text="Switch Role to Employee"
@@ -90,9 +89,9 @@
         android:id="@+id/employerAddJob"
         android:layout_width="170dp"
         android:layout_height="150dp"
-        android:layout_marginTop="24dp"
-        android:text="Add Job Posting"
+        android:layout_marginTop="40dp"
         android:backgroundTint="@color/lightBlue"
+        android:text="Add Job Posting"
         android:textSize="18sp"
         app:cornerRadius="30dp"
         app:layout_constraintEnd_toStartOf="@+id/employerViewJobs"
@@ -118,9 +117,9 @@
         android:id="@+id/employerViewJobs"
         android:layout_width="170dp"
         android:layout_height="150dp"
-        android:layout_marginTop="24dp"
-        android:text="View Job Postings"
+        android:layout_marginTop="40dp"
         android:backgroundTint="@color/lightBlue"
+        android:text="View Job Postings"
         android:textSize="18sp"
         app:cornerRadius="30dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -154,6 +153,7 @@
         android:text="Go to Payments"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
