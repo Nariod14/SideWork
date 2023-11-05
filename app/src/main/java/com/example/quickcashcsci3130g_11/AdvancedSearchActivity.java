@@ -6,28 +6,28 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 public class AdvancedSearchActivity extends AppCompatActivity {
 
-    private EditText mTitleEditText;
-    private EditText mJobTypeEditText;
-    private EditText mDateEditText;
-    private EditText mDurationEditText;
-    private EditText mUrgencyEditText;
-    private EditText mSalaryEditText;
-    private EditText mLocationEditText;
-    private Button mSearchButton;
-    private Button mLocationButton;
-    private FusedLocationProviderClient mFusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FusedLocationProviderClient mFusedLocationClient;
+        EditText mLocationEditText;
+        EditText mSalaryEditText;
+        EditText mUrgencyEditText;
+        EditText mDurationEditText;
+        EditText mDateEditText;
+        EditText mJobTypeEditText;
+        EditText mTitleEditText;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advanced_search);
 
@@ -39,8 +39,8 @@ public class AdvancedSearchActivity extends AppCompatActivity {
         mUrgencyEditText = findViewById(R.id.urgencyEditText);
         mSalaryEditText = findViewById(R.id.salaryEditText);
         mLocationEditText = findViewById(R.id.locationEditText);
-        mSearchButton = findViewById(R.id.searchButton);
-        mLocationButton = findViewById(R.id.locationButton);
+        Button mSearchButton = findViewById(R.id.searchButton);
+        Button mLocationButton = findViewById(R.id.locationButton);
 
         // Initialize the Firebase database reference
 
@@ -69,13 +69,22 @@ public class AdvancedSearchActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        // Initialize UI elements and set click listener for the back button
+        ImageButton backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> {
+            // Navigate back to the JobSearchActivity
+            Intent intent = new Intent(AdvancedSearchActivity.this, JobSearchActivity.class);
+            startActivity(intent);
+        });
+
         // Add an OnClickListener to the location button
         mLocationButton.setOnClickListener(v -> {
             // Get the user's location
-            if (ActivityCompat.checkSelfPermission(AdvancedSearchActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(AdvancedSearchActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 mFusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
                     if (location != null) {
-                        mLocationEditText.setText(location.getLatitude() + ", " + location.getLongitude());
+                        String retrievedLocation = location.getLatitude() + ", " + location.getLongitude();
+                        mLocationEditText.setText(retrievedLocation);
                     }
                 });
             } else {
