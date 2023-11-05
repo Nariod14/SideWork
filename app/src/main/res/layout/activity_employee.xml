@@ -61,7 +61,7 @@
         app:layout_constraintTop_toBottomOf="@+id/emailTextView" />
 
     <Button
-        android:id="@+id/employerReport"
+        android:id="@+id/employeeReportButton"
         android:layout_width="170dp"
         android:layout_height="150dp"
         android:layout_marginTop="50dp"
@@ -71,11 +71,11 @@
         android:backgroundTint="@color/lightBlue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/employerViewJobs"
-        app:layout_constraintTop_toBottomOf="@+id/employerAddJob" />
+        app:layout_constraintStart_toEndOf="@+id/acceptedJobsButton"
+        app:layout_constraintTop_toBottomOf="@+id/appliedJob" />
 
     <Button
-        android:id="@+id/employerAddJob"
+        android:id="@+id/appliedJob"
         android:layout_width="170dp"
         android:layout_height="150dp"
         android:layout_marginTop="32dp"
@@ -85,11 +85,11 @@
         android:backgroundTint="@color/lightBlue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/employerPreferredEmployees"
+        app:layout_constraintStart_toEndOf="@+id/availableJobsButton"
         app:layout_constraintTop_toBottomOf="@+id/switch2EmployerButton" />
 
     <Button
-        android:id="@+id/employerPreferredEmployees"
+        android:id="@+id/availableJobsButton"
         android:layout_width="170dp"
         android:layout_height="150dp"
         android:layout_marginTop="32dp"
@@ -97,13 +97,13 @@
         android:textSize="18sp"
         app:cornerRadius="30dp"
         android:backgroundTint="@color/lightBlue"
-        app:layout_constraintEnd_toStartOf="@+id/employerAddJob"
+        app:layout_constraintEnd_toStartOf="@+id/appliedJob"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switch2EmployerButton" />
 
     <Button
-        android:id="@+id/employerViewJobs"
+        android:id="@+id/acceptedJobsButton"
         android:layout_width="170dp"
         android:layout_height="150dp"
         android:layout_marginTop="50dp"
@@ -111,10 +111,10 @@
         app:cornerRadius="30dp"
         android:textSize="18sp"
         android:backgroundTint="@color/lightBlue"
-        app:layout_constraintEnd_toStartOf="@+id/employerReport"
+        app:layout_constraintEnd_toStartOf="@+id/employeeReportButton"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/employerPreferredEmployees" />
+        app:layout_constraintTop_toBottomOf="@+id/availableJobsButton" />
 
     <Button
         android:id="@+id/logout"
