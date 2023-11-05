@@ -13,11 +13,19 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * This activity displays the details of a job and allows users to apply for the job.
+ */
 public class JobDetailsActivity extends AppCompatActivity {
 
 
     private Job job; // The job object for which details are displayed
 
+    /**
+     * Called when the activity is first created. Initializes UI elements, displays job details, and sets click listeners for buttons.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down, this Bundle contains the data it most recently supplied.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Button applyButton;
@@ -74,6 +82,9 @@ public class JobDetailsActivity extends AppCompatActivity {
         );
     }
 
+    /**
+     * Handles the "Apply" button click event. It allows the user to apply for the displayed job.
+     */
     private void applyForJob() {
         String userUid;
         // Get the user's Firebase UID (replace with actual UID retrieval method)
