@@ -2,10 +2,6 @@ package com.example.quickcashcsci3130g_11;
 
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import android.widget.DatePicker;
 
 
