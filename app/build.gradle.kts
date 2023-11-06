@@ -71,6 +71,8 @@ dependencies {
         exclude( group = "com.google.protobuf", module = "protobuf-lite")
     }
 
+    implementation ("com.google.android.gms:play-services-maps:18.0.0")
+    implementation ("com.google.android.gms:play-services-location:18.0.0")
 
     // Add the dependencies for any other desired Firebase products
     // https://firebase.google.com/docs/android/setup#available-libraries
