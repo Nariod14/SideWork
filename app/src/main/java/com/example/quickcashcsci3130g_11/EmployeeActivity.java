@@ -1,48 +1,49 @@
 package com.example.quickcashcsci3130g_11;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
+import com.google.android.gms.maps.MapView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-/**
- * Activity class for employees. Allows employees to view available jobs, jobs they have applied to, and jobs they have accepted.
- */
-public class EmployeeActivity extends AppCompatActivity{
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
+public class EmployeeActivity extends AppCompatActivity implements OnMapReadyCallback{
+
+    private GoogleMap mMap;
+    private MapView mapView;
     private TextView mEmailTextView;
     private TextView EmployeeTextView;
     private Button switch2EmployerButton;
-
-    private Button availableJobButton;
     private FirebaseUser user;
     private FirebaseAuth mAuth;
-
-    private Button mGoToPayment2;
-
     private LocationAccess locationAccess;
 
-    /**
-     * Called when the activity is first created. Initializes UI elements, sets click listeners for buttons, and displays user information and messages.
-     *
-     * @param savedInstanceState If the activity is being re-initialized after previously being shut down, this Bundle contains the data it most recently supplied.
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_employee);
         super.onCreate(savedInstanceState);
 
         locationAccess = new LocationAccess(this);
         locationAccess.requestLocationPermission();
         setContentView(R.layout.activity_employee);
+        mapView = findViewById(R.id.mapView);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
+        Button AvailableJobs = (Button) findViewById(R.id.availableJobsButton);
         Button AppliedJobs = (Button) findViewById(R.id.appliedJob);
         Button AcceptedJobs = (Button) findViewById(R.id.acceptedJobsButton);
         Button Report = (Button) findViewById(R.id.employeeReportButton);
@@ -50,15 +51,11 @@ public class EmployeeActivity extends AppCompatActivity{
         Button logout=(Button)findViewById(R.id.logout);
 
         switch2EmployerButton = findViewById(R.id.switch2EmployerButton);
-        availableJobButton = findViewById(R.id.availableJobsButton);
         mEmailTextView = findViewById(R.id.emailTextView);
-        mGoToPayment2 = findViewById(R.id.paymentButton2);
 
         String email = this.showProfileInfo();
         this.showEmployeeMessage(email);
-        this.go2JobPostings();
         this.switch2Employer();
-        this.goToPayments();
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +64,14 @@ public class EmployeeActivity extends AppCompatActivity{
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+
+        AvailableJobs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Do what you want here
             }
         });
 
@@ -90,17 +95,28 @@ public class EmployeeActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 // Do what you want here
-
             }
         });
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
 
-    /**
-     * Show the user's profile information.
-     *
-     * @return The user's email address.
-     */
+        // You can add job markers here, for example:
+        // Replace these with actual job locations
+        LatLng jobLocation1 = new LatLng(40.7128, -74.0060);
+        LatLng jobLocation2 = new LatLng(34.0522, -118.2437);
+
+        // Add markers for job locations
+        mMap.addMarker(new MarkerOptions().position(jobLocation1).title("Job Title 1"));
+        mMap.addMarker(new MarkerOptions().position(jobLocation2).title("Job Title 2"));
+
+        // Move camera to the first marker
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(jobLocation1));
+    }
+
+
     protected String showProfileInfo() {
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
@@ -113,11 +129,6 @@ public class EmployeeActivity extends AppCompatActivity{
         return null;
     }
 
-    /**
-     * Show a message to the employee.
-     *
-     * @param email The employee's email address.
-     */
     protected void showEmployeeMessage(String email) {
         ConstraintLayout constraintLayout = findViewById(R.id.eLayout);
         String employeeMessage = getString(R.string.EMPLOYEE_MESSAGE, email);
@@ -125,10 +136,6 @@ public class EmployeeActivity extends AppCompatActivity{
         Snackbar employeeSnack = Snackbar.make(constraintLayout, employeeMessage, Snackbar.LENGTH_SHORT);
         employeeSnack.show();
     }
-
-    /**
-     * Switch to the employer view.
-     */
     protected void switch2Employer() {
         switch2EmployerButton.setOnClickListener(new View.OnClickListener(){
 
@@ -139,28 +146,7 @@ public class EmployeeActivity extends AppCompatActivity{
 
             }
         });
-    }
 
-    /**
-     * Go to Job Postings
-     */
-    protected void go2JobPostings() {
-        availableJobButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(EmployeeActivity.this, JobSearchActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-    protected void goToPayments() {
-        mGoToPayment2.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick (View view){
-                Intent intent = new Intent(EmployeeActivity.this, PaymentsActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
 
