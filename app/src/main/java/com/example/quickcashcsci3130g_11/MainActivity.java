@@ -3,7 +3,21 @@ package com.example.quickcashcsci3130g_11;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
+import java.util.Collection;
+
 public class MainActivity extends AppCompatActivity {
+
+    public static boolean isLoggedIn() {
+    }
+
+    public static Object getIncome() {
+    }
+
+    public static Collection<Object> getEarningsHistory() {
+    }
+
+    public static Object getJobHistory() {
+    }
 
     /**
      * This is the main activity of the Android application.

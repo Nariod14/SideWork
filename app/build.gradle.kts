@@ -129,6 +129,8 @@ dependencies {
 
     androidTestImplementation ("org.mockito:mockito-core:3.12.4")
     implementation ("io.mockk:mockk:1.12.0")
+    androidTestImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    androidTestImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
 
 }
 
