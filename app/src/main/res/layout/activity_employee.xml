@@ -11,11 +11,11 @@
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/emailTextView"
+        android:layout_below="@+id/displayNameTextView"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintTop_toBottomOf="@id/emailTextView"/>
+        app:layout_constraintTop_toBottomOf="@id/displayNameTextView"/>
         <!-- app:layout_constraintBottom_toTopOf="@id/employerPreferredEmployees" -->
 
 
@@ -44,13 +44,55 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
+    <Button
+        android:id="@+id/myProfileButton"
+        android:layout_width="170dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/lightBlue"
+        android:text="My Profile"
+        android:textSize="18sp"
+        app:cornerRadius="30dp"
+        app:layout_constraintEnd_toStartOf="@+id/employerRatingsButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/employerRatingsButton" />
+
+    <Button
+        android:id="@+id/rateEmployerButton"
+        android:layout_width="170dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/lightBlue"
+        android:text="Rate as Employer"
+        android:textSize="18sp"
+        app:cornerRadius="30dp"
+        app:layout_constraintEnd_toStartOf="@+id/employerRatingsButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/acceptedJobsButton" />
+
+    <Button
+        android:id="@+id/employerRatingsButton"
+        android:layout_width="170dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="32dp"
+        android:text="Employer Ratings"
+        android:textSize="18sp"
+        app:cornerRadius="30dp"
+        android:backgroundTint="@color/lightBlue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/rateEmployerButton"
+        app:layout_constraintTop_toBottomOf="@+id/acceptedJobsButton" />
+
     <TextView
-        android:id="@+id/emailTextView"
+        android:id="@+id/displayNameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
-        android:text="Email"
+        android:text="DisplayName"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -62,7 +104,7 @@
         android:id="@+id/employeeTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/emailTextView"
+        android:layout_below="@id/displayNameTextView"
         android:layout_marginStart="16dp"
         android:text="Employee Profile"
         android:textColor="@color/white"
@@ -70,7 +112,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/displayNameTextView" />
 
     <Button
         android:id="@+id/employeeReportButton"

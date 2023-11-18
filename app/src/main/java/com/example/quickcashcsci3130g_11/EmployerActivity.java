@@ -1,14 +1,13 @@
 package com.example.quickcashcsci3130g_11;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -21,7 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
  */
 public class EmployerActivity extends AppCompatActivity {
 
-    private TextView mEmailTextView;
+    private TextView mDisplayName;
     private Button mSwitchRoleButton;
 
     private Button mGoToPayment;
@@ -30,8 +29,10 @@ public class EmployerActivity extends AppCompatActivity {
     private Button mViewPreferredEmployees;
     private Button mAcceptedApplications;
     private Button reportButton;
-    private FirebaseUser user;
+    private FirebaseUser mUser;
     private FirebaseAuth mAuth;
+
+    private AppPreferences appPreferences;
 
     /**
      * Called when the activity is first created. Initializes views, sets up click listeners,
@@ -44,6 +45,10 @@ public class EmployerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_employer);
         super.onCreate(savedInstanceState);
 
+        appPreferences = new AppPreferences(this);
+        appPreferences.setUserRole("employer");
+
+
         LocationAccess locationAccess;
 
         locationAccess = new LocationAccess(this);
@@ -52,13 +57,28 @@ public class EmployerActivity extends AppCompatActivity {
         Button logout=(Button)findViewById(R.id.logout);
 
         mSwitchRoleButton = findViewById(R.id.switch2EmployeeButton);
-        mEmailTextView = findViewById(R.id.emailTextView);
+        mDisplayName = findViewById(R.id.displayNameTextView);
         mAddJobButton = findViewById(R.id.employerAddJob);
         mJobPostings = findViewById(R.id.employerViewJobs);
         mGoToPayment = findViewById(R.id.paymentButton);
         mViewPreferredEmployees =  findViewById(R.id.employerPreferredEmployees);
         mAcceptedApplications =  findViewById(R.id.employerAcceptedApplications);
         reportButton  = findViewById(R.id.employerReport);
+
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        mAuth = FirebaseAuth.getInstance();
+
+        Button myProfileButton = findViewById(R.id.myProfileButton);
+        myProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Show a popup dialog to choose between employee and employer profile
+                Intent intent = new Intent(EmployerActivity.this, EmployerProfileActivity.class);
+                intent.putExtra(mUser.getUid(), FirebaseAuth.getInstance().getCurrentUser().getUid());
+                startActivity(intent);
+            }
+        });
+
 
 
         this.showProfileInfo();
@@ -89,10 +109,10 @@ public class EmployerActivity extends AppCompatActivity {
      */
     protected void showProfileInfo() {
         mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
-        if (user != null) {
-            String email = user.getEmail();
-            mEmailTextView.setText(email);
+        mUser = mAuth.getCurrentUser();
+        if (mUser != null) {
+            String email = mUser.getEmail();
+            mDisplayName.setText(email);
         }
     }
 
@@ -102,8 +122,8 @@ public class EmployerActivity extends AppCompatActivity {
     protected void showEmployerMessage() {
         ConstraintLayout constraintLayout = findViewById(R.id.rLayout);
 
-        String userEmail = user != null ? user.getEmail() : "Unknown";
-        String employerMessage = getString(R.string.EMPLOYER_MESSAGE, userEmail);
+        String userDisplayName = mUser != null ? mUser.getDisplayName() : "Unknown";
+        String employerMessage = getString(R.string.EMPLOYER_MESSAGE, userDisplayName);
 
         Snackbar employerSnack = Snackbar.make(constraintLayout, employerMessage, BaseTransientBottomBar.LENGTH_SHORT);
         employerSnack.show();
@@ -117,6 +137,7 @@ public class EmployerActivity extends AppCompatActivity {
 
             @Override
             public void onClick (View view){
+                appPreferences.setUserRole("employee");
                 Intent intent = new Intent(EmployerActivity.this, EmployeeActivity.class);
                 startActivity(intent);
 
