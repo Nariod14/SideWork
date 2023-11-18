@@ -8,13 +8,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,10 +36,15 @@ import java.util.regex.Pattern;
 public class SignUpActivity extends AppCompatActivity {
 
     EditText inputEmail;
+
+    EditText displayNameSignup;
     EditText inputPassword;
     ProgressBar progressBar;
     FirebaseAuth auth;
     private LocationAccess locationAccess;
+
+    private DatabaseReference mDatabase;
+
 
     FirebaseDatabase database = null;
     private DatabaseConnector mDatabaseConnector;
@@ -54,10 +69,13 @@ public class SignUpActivity extends AppCompatActivity {
         // Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
         mDatabaseConnector = new DatabaseConnector();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
 
         Button btnSignIn = findViewById(R.id.sign_in_button);
         Button btnSignUp = findViewById(R.id.sign_up_button);
         inputEmail = findViewById(R.id.emailSignup);
+        displayNameSignup = findViewById(R.id.displayNameSignup);
         inputPassword = findViewById(R.id.passwordSignup);
         progressBar = findViewById(R.id.progressBar);
         Button btnResetPassword = findViewById(R.id.btn_reset_password);
@@ -78,6 +96,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             String email = inputEmail.getText().toString().trim();
             String password = inputPassword.getText().toString().trim();
+            String displayName = displayNameSignup.getText().toString().trim();
 
             if (TextUtils.isEmpty(email)) {
                 Snackbar.make(v, "Enter email address!", Snackbar.LENGTH_SHORT).show();
@@ -99,27 +118,72 @@ public class SignUpActivity extends AppCompatActivity {
                 return;
             }
 
+            if (TextUtils.isEmpty(displayName)) {
+                Snackbar.make(v, "Enter display name!", Snackbar.LENGTH_SHORT).show();
+                return;
+            }
+
             progressBar.setVisibility(View.VISIBLE);
 
-            //create user w firebase
-            auth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(SignUpActivity.this, task -> {
-                        if (!task.isSuccessful()) {
-                            if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                                Snackbar.make(v, R.string.ACCOUNT_EXISTS, Snackbar.LENGTH_LONG).show();
-                            } else {
-                                Snackbar.make(v, "Authentication failed." + task.getException(), Snackbar.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            startActivity(new Intent(SignUpActivity.this, EmployerActivity.class));
-                            finish();
-                        }
+            // Check if the display name is already in use
+            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+            Query query = usersRef.orderByChild("displayName").equalTo(displayName);
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        Snackbar.make(v, "Display name already in use!", Snackbar.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.GONE);
-                    });
+                    } else {
+                        // Create user with email and password
+                        auth.createUserWithEmailAndPassword(email, password)
+                                .addOnCompleteListener(SignUpActivity.this, task -> {
+                                    if (!task.isSuccessful()) {
+                                        if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                                            Snackbar.make(v, R.string.ACCOUNT_EXISTS, Snackbar.LENGTH_LONG).show();
+                                        } else {
+                                            Snackbar.make(v, "Authentication failed." + task.getException(), Snackbar.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        // Set the user's display name
+                                        FirebaseUser user = auth.getCurrentUser();
+                                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                .setDisplayName(displayName)
+                                                .build();
+                                        Task<Void> updateProfileTask = user.updateProfile(profileUpdates);
+                                        updateProfileTask.addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    // Create a new user object in the Firebase Realtime Database
+                                                    DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+                                                    String userId = user.getUid();
+                                                    User newUser = new User(email, displayName);
+                                                    usersRef.child(userId).setValue(newUser);
+
+                                                    startActivity(new Intent(SignUpActivity.this, EmployeeActivity.class));
+                                                    finish();
+                                                } else {
+                                                    Snackbar.make(v, "Error setting display name!", Snackbar.LENGTH_SHORT).show();
+                                                }
+                                                progressBar.setVisibility(View.GONE);
+                                            }
+                                        });
+                                    }
+                                });
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Snackbar.make(v, "Error checking display name!", Snackbar.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                }
+            });
+
 
         });
     }
-
     @Override
     protected void onResume() {
         super.onResume();
