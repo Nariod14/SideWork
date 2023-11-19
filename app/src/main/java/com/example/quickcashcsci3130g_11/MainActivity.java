@@ -4,19 +4,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import java.util.Collection;
+import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
 
     public static boolean isLoggedIn() {
+        return true;
     }
 
     public static Object getIncome() {
+        return true;
     }
 
     public static Collection<Object> getEarningsHistory() {
+        return Collections.singleton(true);
     }
 
     public static Object getJobHistory() {
+        return true;
     }
 
     /**
