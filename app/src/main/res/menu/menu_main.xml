@@ -1,0 +1,27 @@
+<!-- res/menu/main_menu.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_switch_role"
+            android:title="Switch Role"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/menu_location_settings"
+            android:title="Location Settings"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/menu_report"
+            android:title="Report"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/menu_logout"
+            android:title="Log Out"
+            app:showAsAction="never" />
+    </group>
+
+</menu>
