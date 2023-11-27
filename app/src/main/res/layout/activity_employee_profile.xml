@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EmployeeProfileActivity">
+
+    <TextView
+        android:id="@+id/displayNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Employee Name"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true" />
+
+    <ImageButton
+        android:id="@+id/backButtonEmployeeProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/ic_arrow_back" />
+
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/displayNameTextView"
+        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true"
+        android:numStars="5"
+        android:stepSize="0.5" />
+
+    <EditText
+        android:id="@+id/commentsEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ratingBar"
+        android:layout_marginTop="16dp"
+        android:hint="Enter your comments"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"/>
+
+    <Button
+        android:id="@+id/submitRatingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/commentsEditText"
+        android:layout_marginTop="16dp"
+        android:text="Submit Rating"
+        android:layout_centerHorizontal="true"/>
+
+    <!-- Add a RecyclerView for displaying ratings -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ratingsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/submitRatingButton"
+        android:layout_marginTop="16dp" />
+
+</RelativeLayout>

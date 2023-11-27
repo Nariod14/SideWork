@@ -20,6 +20,27 @@
         android:text="Role"
         android:textSize="18sp" />
 
+    <TextView
+        android:id="@+id/reputationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0.0"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/rateEmployeeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rate as Employee"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/rateEmployerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rate as Employer"
+        android:visibility="gone" />
+
     <Button
         android:id="@+id/switchRoleButton"
         android:layout_width="match_parent"
@@ -27,5 +48,6 @@
         android:layout_below="@id/roleTextView"
         android:layout_marginTop="16dp"
         android:text="Switch Role" />
+
 
 </RelativeLayout>
