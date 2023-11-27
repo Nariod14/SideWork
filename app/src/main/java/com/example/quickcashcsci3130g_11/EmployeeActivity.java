@@ -81,8 +81,14 @@ public class EmployeeActivity extends AppCompatActivity implements OnMapReadyCal
             @Override
             public void onClick(View v) {
                 // Show a popup dialog to choose between employee and employer profile
-                Intent intent = new Intent(EmployeeActivity.this, EmployerProfileActivity.class);
-                intent.putExtra(mUser.getUid(), FirebaseAuth.getInstance().getCurrentUser().getUid());
+                Intent intent = new Intent(EmployeeActivity.this, EmployeeProfileActivity.class);
+
+                // Pass the current user's UID and role to the profile activity
+                String currentUserID = mUser.getUid();
+                intent.putExtra("currentUserID", currentUserID);
+                intent.putExtra("inputUID", currentUserID);
+                intent.putExtra("userRole", "employee");
+
                 startActivity(intent);
             }
         });
@@ -187,6 +193,7 @@ public class EmployeeActivity extends AppCompatActivity implements OnMapReadyCal
             return displayName;
         }
         // if no profile of user, handle that scenario
+        //TODO: Handle this error.
         return null;
     }
 

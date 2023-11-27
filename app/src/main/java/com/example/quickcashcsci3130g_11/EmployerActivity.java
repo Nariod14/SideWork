@@ -26,6 +26,7 @@ public class EmployerActivity extends AppCompatActivity {
     private Button mGoToPayment;
     private Button mAddJobButton;
     private Button mJobPostings;
+
     private Button mViewPreferredEmployees;
     private Button mAcceptedApplications;
     private Button reportButton;
@@ -65,6 +66,7 @@ public class EmployerActivity extends AppCompatActivity {
         mAcceptedApplications =  findViewById(R.id.employerAcceptedApplications);
         reportButton  = findViewById(R.id.employerReport);
 
+
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         mAuth = FirebaseAuth.getInstance();
 
@@ -74,10 +76,17 @@ public class EmployerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Show a popup dialog to choose between employee and employer profile
                 Intent intent = new Intent(EmployerActivity.this, EmployerProfileActivity.class);
-                intent.putExtra(mUser.getUid(), FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                // Pass the current user's UID and role to the profile activity
+                String currentUserID = mUser.getUid();
+                intent.putExtra("currentUserID", currentUserID);
+                intent.putExtra("inputUID", currentUserID);
+                intent.putExtra("userRole", "employer");
+
                 startActivity(intent);
             }
         });
+
 
 
 
@@ -111,8 +120,8 @@ public class EmployerActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         if (mUser != null) {
-            String email = mUser.getEmail();
-            mDisplayName.setText(email);
+            String displayName = mUser.getDisplayName();
+            mDisplayName.setText(displayName);
         }
     }
 
