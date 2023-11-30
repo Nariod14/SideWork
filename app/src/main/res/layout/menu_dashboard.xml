@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:background="#ECECEC"
     android:fitsSystemWindows="true"
-    tools:openDrawer="end">
+    tools:openDrawer="end"
+    tools:context=".MainActivity">
 
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"

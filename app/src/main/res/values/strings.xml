@@ -9,6 +9,17 @@
     <string name="back">Back</string>
     <string name="open_drawer">Open menu</string>
     <string name="close_drawer">Close menu</string>
+    <string name="ROLE_EMPLOYER">employer</string>
+    <string name="ROLE_EMPLOYEE">employee</string>
+    <string name="TOOLBAR_EMPLOYER">Employer Profile</string>
+    <string name="TOOLBAR_EMPLOYEE">Employee Profile</string>
+    <string name="SUBMIT_JOB">Submit a Job</string>
+    <string name="POSTED_JOBS">Posted Jobs</string>
+    <string name="PREFERRED_EMPLOYEES">Preferred Employees</string>
+    <string name="ACCEPTED_JOBS">Accepted Jobs</string>
+    <string name="SEARCH_JOBS">Search for Jobs</string>
+    <string name="AVAILABLE_JOBS">Available Jobs</string>
+    <string name="PREFERRED_JOBS">Preferred Jobs</string>
 
     <string-array name="duration_types">
         <item>Hours</item>

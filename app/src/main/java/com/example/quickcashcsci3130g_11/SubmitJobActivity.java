@@ -313,7 +313,7 @@ public class SubmitJobActivity extends AppCompatActivity {
     private void initializeBackButton() {
         ImageButton backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(SubmitJobActivity.this, EmployerActivity.class);
+            Intent intent = new Intent(SubmitJobActivity.this, MainActivity.class);
             startActivity(intent);
         });
     }

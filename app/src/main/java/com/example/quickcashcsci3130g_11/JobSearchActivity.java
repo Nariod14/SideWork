@@ -129,7 +129,7 @@ public class JobSearchActivity extends AppCompatActivity implements SearchView.O
     private void initializeBackButton() {
         ImageButton backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(JobSearchActivity.this, EmployeeActivity.class);
+            Intent intent = new Intent(JobSearchActivity.this, MainActivity.class);
             startActivity(intent);
         });
     }
