@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.quickcashcsci3130g_11.databinding.ActivityJobDetailsBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -16,9 +17,9 @@ import com.google.firebase.database.FirebaseDatabase;
 /**
  * This activity displays the details of a job and allows users to apply for the job.
  */
-public class JobDetailsActivity extends AppCompatActivity {
+public class JobDetailsActivity extends BaseActivity {
 
-
+    ActivityJobDetailsBinding jobDetailsBinding;
     private Job job; // The job object for which details are displayed
 
     /**
@@ -38,10 +39,14 @@ public class JobDetailsActivity extends AppCompatActivity {
         TextView jobTypeTextView;
         TextView titleTextView;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_job_details);
+        jobDetailsBinding = ActivityJobDetailsBinding.inflate(getLayoutInflater());
+        setContentView(jobDetailsBinding.getRoot());
+
+        setSubheaderVisibility(false);
+        setHeaderVisibility(false);
 
         // Initialize UI elements
-        titleTextView = findViewById(R.id.titleTextView);
+        titleTextView = findViewById(R.id.jobTitleTextView);
         jobTypeTextView = findViewById(R.id.jobTypeTextView);
         dateTextView = findViewById(R.id.dateTextView);
         durationTextView = findViewById(R.id.durationTextView);
@@ -59,7 +64,6 @@ public class JobDetailsActivity extends AppCompatActivity {
         // Display job details
         if (job != null) {
             titleTextView.setText(job.getTitle());
-
             jobTypeTextView.setText(job.getJobType());
             dateTextView.setText(job.getDate());
             String retrievedDuration = job.getDuration() + " " + job.getDurationType();

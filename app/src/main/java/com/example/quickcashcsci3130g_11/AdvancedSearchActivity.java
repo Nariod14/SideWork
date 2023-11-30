@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.quickcashcsci3130g_11.databinding.ActivityAdvancedSearchBinding;
+import com.example.quickcashcsci3130g_11.databinding.ActivityJobSearchBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
@@ -19,8 +21,8 @@ import com.google.android.gms.location.LocationServices;
  * The `AdvancedSearchActivity` allows users to perform advanced job searches by specifying search criteria
  * such as job title, job type, date, duration, urgency, salary, and location.
  */
-public class AdvancedSearchActivity extends AppCompatActivity {
-
+public class AdvancedSearchActivity extends BaseActivity {
+    ActivityAdvancedSearchBinding advanceJobSearchBinding;
 
     /**
      * Called when the activity is first created. This method initializes the UI elements, sets up
@@ -42,7 +44,11 @@ public class AdvancedSearchActivity extends AppCompatActivity {
         EditText mJobTypeEditText;
         EditText mTitleEditText;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_advanced_search);
+        advanceJobSearchBinding = ActivityAdvancedSearchBinding.inflate(getLayoutInflater());
+        setContentView(advanceJobSearchBinding.getRoot());
+
+        String activityTitle = getString(R.string.ADVANCED_SEARCH);
+        setToolbarTitle(activityTitle);
 
         // Initialize the UI elements
         mTitleEditText = findViewById(R.id.titleEditText);

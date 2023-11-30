@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.quickcashcsci3130g_11.databinding.ActivitySearchResultsBinding;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
@@ -26,7 +27,9 @@ import java.util.Objects;
 /**
  * Activity class to display search results based on user input criteria.
  */
-public class SearchResultsActivity extends AppCompatActivity {
+public class SearchResultsActivity extends BaseActivity {
+
+    ActivitySearchResultsBinding searchResultsBinding;
 
     private JobAdapter mAdapter;
     private List<Job> mJobList;
@@ -40,7 +43,11 @@ public class SearchResultsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_results);
+        searchResultsBinding = ActivitySearchResultsBinding.inflate(getLayoutInflater());
+        setContentView(searchResultsBinding.getRoot());
+
+        String activityTitle = getString(R.string.SEARCH_RESULTS);
+        setToolbarTitle(activityTitle);
 
         // Initialize the UI elements
         RecyclerView mRecyclerView = findViewById(R.id.recyclerView);
@@ -71,10 +78,6 @@ public class SearchResultsActivity extends AppCompatActivity {
             intent1.putExtra("job", selectedJob);
             startActivity(intent1);
         }));
-
-        // Add a listener to the back button
-        Button backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> finish());
     }
 
 

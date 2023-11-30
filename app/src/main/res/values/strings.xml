@@ -20,6 +20,8 @@
     <string name="SEARCH_JOBS">Search for Jobs</string>
     <string name="AVAILABLE_JOBS">Available Jobs</string>
     <string name="PREFERRED_JOBS">Preferred Jobs</string>
+    <string name="ADVANCED_SEARCH">Advanced Search</string>
+    <string name="SEARCH_RESULTS">Advanced Search Results</string>
 
     <string-array name="duration_types">
         <item>Hours</item>
