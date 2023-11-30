@@ -53,11 +53,9 @@ android {
     }
 
 
-
-
-}
-
 dependencies {
+
+//    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
@@ -99,9 +97,7 @@ dependencies {
     implementation ("com.google.auth:google-auth-library-oauth2-http:1.19.0")
     implementation("com.google.android.gms:play-services-location:21.0.1")
     testImplementation("junit:junit:4.12")
-    implementation ("com.paypal.sdk:paypal-android-sdk:2.14.2");
-
-
+    implementation ("com.paypal.sdk:paypal-android-sdk:2.14.2")
 
 
     /*
@@ -133,5 +129,9 @@ dependencies {
     androidTestImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     androidTestImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
 
+}}
+dependencies {
+//    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation(files("../Library/MPAndroidChart-v3.0.1.jar"))
 }
 

@@ -47,7 +47,7 @@
         <EditText
             android:id="@+id/displayNameSignup"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="43dp"
             android:hint="Display Name"
             android:inputType="text"
             android:maxLines="1"
