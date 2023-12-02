@@ -1,5 +1,9 @@
 package com.example.quickcashcsci3130g_11;
 
+import static androidx.core.content.ContextCompat.startActivity;
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
+
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,7 +129,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> impl
     /**
      * ViewHolder class for holding the views of each job item in the RecyclerView.
      */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView titleTextView;
         private TextView jobTypeTextView;

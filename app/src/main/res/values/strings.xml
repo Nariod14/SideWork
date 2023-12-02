@@ -3,7 +3,7 @@
     <string name="ACCOUNT_EXISTS">Account with this email id already exists. Kindly click on login or try again with a different email id.</string>
     <string name="EMPLOYEE_MESSAGE"> %s, you are in the employee profile</string>
     <string name="EMPLOYER_MESSAGE"> %s, you are in the employer profile</string>
-    <string name="WELCOME_MESSAGE"> Welcome back, %s!</string>
+    <string name="WELCOME_MESSAGE"> Welcome, %s!</string>
     <string name="EMAIL_EMPTY">Fill in registered email</string>
     <string name="search_hint">Search for a job!</string>
     <string name="back">Back</string>
@@ -22,6 +22,7 @@
     <string name="PREFERRED_JOBS">Preferred Jobs</string>
     <string name="ADVANCED_SEARCH">Advanced Search</string>
     <string name="SEARCH_RESULTS">Advanced Search Results</string>
+    <string name="JOBS_IN_PROGRESS">Jobs in Progress</string>
 
     <string-array name="duration_types">
         <item>Hours</item>

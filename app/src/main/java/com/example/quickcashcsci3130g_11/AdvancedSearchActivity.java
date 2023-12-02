@@ -88,14 +88,6 @@ public class AdvancedSearchActivity extends BaseActivity {
             startActivity(intent);
         });
 
-        // Initialize UI elements and set click listener for the back button
-        ImageButton backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> {
-            // Navigate back to the JobSearchActivity
-            Intent intent = new Intent(AdvancedSearchActivity.this, JobSearchActivity.class);
-            startActivity(intent);
-        });
-
         // Add an OnClickListener to the location button
         mLocationButton.setOnClickListener(v -> {
             // Get the user's location

@@ -70,6 +70,16 @@ public class JobSearchActivity extends BaseActivity implements SearchView.OnQuer
         // Add a listener to the SearchView widget
         SearchView searchView = findViewById(R.id.search_view);
         searchView.setOnQueryTextListener(this);
+
+        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, mRecyclerView, (view, position) -> {
+            // Handle item click here
+            Job selectedJob = mJobList.get(position);
+
+            // Start the JobDetailsActivity and pass the selected job object
+            Intent intent1 = new Intent(JobSearchActivity.this, JobDetailsActivity.class);
+            intent1.putExtra("job", selectedJob);
+            startActivity(intent1);
+        }));
     }
 
     /**
