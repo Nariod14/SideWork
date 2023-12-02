@@ -1,5 +1,6 @@
 package com.example.quickcashcsci3130g_11;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -272,12 +273,11 @@ public class JobDetailsActivity extends BaseActivity implements ApplicantInterfa
                     if (dataSnapshot.hasChild("acceptedApplicantUid")) {
                         String acceptedApplicantUid = (String) dataSnapshot.child("acceptedApplicantUid").getValue();
 
-                        // If there's an accepted applicant UID, update the UI
                         if (acceptedApplicantUid != null && !acceptedApplicantUid.isEmpty()) {
                             displayAcceptedApplicant(true);
 
-                            // Assuming you have a method to retrieve and display applicant details
                             displayAcceptedApplicantDetails(acceptedApplicantUid);
+                            onPayButtonClick();
                         } else {
                             displayAcceptedApplicant(false);
                         }
@@ -318,6 +318,34 @@ public class JobDetailsActivity extends BaseActivity implements ApplicantInterfa
                 // Handle the error
             }
         });
+    }
+
+    void onPayButtonClick(){
+        Button payButton;
+        payButton = findViewById(R.id.payApplicantButton);
+        if (payButton != null){
+            payButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), PaymentsActivity.class);
+
+                    // Pass the current jobId, jobTitle, jobType, employer userID, employee userID
+                    String jobId = job.getJobId();
+                    String jobTitle = job.getTitle();
+                    String jobType = job.getJobType();
+                    String employerUserId = job.getEmployerId();
+                    String employeeUserId = job.getAcceptedApplicantUid();
+
+                    intent.putExtra("jobId", jobId);
+                    intent.putExtra("jobTitle", jobTitle);
+                    intent.putExtra("jobType", jobType);
+                    intent.putExtra("employerUserId", employerUserId);
+                    intent.putExtra("employeeUserId", employeeUserId);
+
+                    startActivity(intent);
+                }
+            });
+        }
     }
 }
 
