@@ -10,11 +10,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-
+/**
+ * Adapter class for the RecyclerView displaying a list of job applicants.
+ */
 public class ApplicantAdapter extends RecyclerView.Adapter<ApplicantAdapter.ViewHolder> {
     private final ApplicantInterface mApplicantInterface;
     private List<JobApplicant> mApplicantList;
 
+    /**
+     * Constructor for the ApplicantAdapter.
+     *
+     * @param applicantList      The list of job applicants to be displayed.
+     * @param applicantInterface The interface for handling applicant-related interactions.
+     */
     public ApplicantAdapter(List<JobApplicant> applicantList, ApplicantInterface applicantInterface) {
         mApplicantList = applicantList;
         this.mApplicantInterface = applicantInterface;
@@ -41,16 +49,31 @@ public class ApplicantAdapter extends RecyclerView.Adapter<ApplicantAdapter.View
         return mApplicantList.size();
     }
 
+    /**
+     * Sets the list of job applicants for the adapter and notifies the adapter of the data set change.
+     *
+     * @param applicantsList The updated list of job applicants.
+     */
+
     public void setApplicantsList(List<JobApplicant> applicantsList) {
         mApplicantList = applicantsList;
         notifyDataSetChanged();
     }
 
+    /**
+     * ViewHolder class representing each item in the RecyclerView.
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView emailTextView;
         public TextView displayNameTextView;
         public Button acceptButton;
 
+        /**
+         * Constructor for the ViewHolder.
+         *
+         * @param itemView             The view representing the item in the RecyclerView.
+         * @param mApplicantInterface The interface for handling applicant-related interactions.
+         */
         public ViewHolder(@NonNull View itemView, ApplicantInterface mApplicantInterface) {
             super(itemView);
 

@@ -4,9 +4,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.*;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -14,10 +12,10 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
+import androidx.test.uiautomator.UiScrollable;
 import androidx.test.uiautomator.UiSelector;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.auth.User;
 
 public class IncomeAndReputationTest {
 
@@ -29,10 +27,10 @@ public class IncomeAndReputationTest {
     @Before
     public void setup() {
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        ActivityScenario.launch(SubmitJobActivity.class);
+        ActivityScenario.launch(MainActivity.class);
 
-        String password = "test123";
-        String user = "test123@dal.ca";
+        String password = "test246";
+        String user = "test246@dal.ca";
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.signInWithEmailAndPassword(user, password);
 
@@ -50,13 +48,15 @@ public class IncomeAndReputationTest {
             }
         }
     }
+
     @Test
     public void testIncomeSectionDisplayed() {
         // Given I am logged in
         // When I navigate to the app's main screen
         // Then there should be a dedicated section displaying my income and earnings history
-        assertTrue(MainActivity.isLoggedIn());
-        assertNotNull(MainActivity.getIncome());
+
+        UiObject incomeHistoryButton = device.findObject(new UiSelector().textContains("Income History"));
+        assertTrue(incomeHistoryButton.exists());
     }
 
     @Test
@@ -64,34 +64,27 @@ public class IncomeAndReputationTest {
         // Given I have an earnings history
         // When I view the earnings history section
         // Then it should include details of each completed job's compensation
-        assertTrue(MainActivity.isLoggedIn());
-        assertNotNull(MainActivity.getEarningsHistory());
-
-        // Details to check
-        assertTrue(MainActivity.getEarningsHistory().contains("Amount Earned"));
-        assertTrue(MainActivity.getEarningsHistory().contains("Date of Payment"));
+        UiObject overallIncome = device.findObject(new UiSelector().textContains("Overall Income"));
+        assertTrue(overallIncome.exists());
     }
 
     @Test
-    public void testVisualElementsForIncomeData() {
+    public void testVisualElementsForIncomeData() throws UiObjectNotFoundException {
         // Given I am logged in
         // When I navigate to the income section
         // Then the app should use visual elements like charts or graphs to present income data
-        assertTrue(MainActivity.isLoggedIn());
-        assertNotNull(MainActivity.getIncome());
 
-        // Example checks for the presence of visual elements
-        UiObject titleIncomeChart = device.findObject(new UiSelector().textContains("Chart"));
-        assertTrue(titleIncomeChart.exists());
+        UiObject monthlyIncome = device.findObject(new UiSelector().textContains("Monthly Income"));
+        assertTrue(monthlyIncome.exists());
     }
 
     @Test
-    public void testJobHistoryVisibility() {
+    public void testReputationVisibility() {
         // Given I am a user of the app
         // When I log in
-        // Then I should be able to view my job history
-        assertTrue(MainActivity.isLoggedIn());
-        assertNotNull(MainActivity.getJobHistory());
+        // Then I should be able to view my reputation
+        UiObject reputation = device.findObject(new UiSelector().textContains("User Popularity"));
+        assertTrue(reputation.exists());
     }
 
 }

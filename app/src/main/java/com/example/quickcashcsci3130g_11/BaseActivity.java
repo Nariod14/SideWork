@@ -21,6 +21,9 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * Base activity class for common functionality and UI setup across different activities.
+ */
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawerLayout;
     protected NavigationView navigationView;
@@ -31,6 +34,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     protected FirebaseAuth mAuth;
     protected AppPreferences appPreferences;
 
+    /**
+     * Sets the context for the frame layout.
+     *
+     * @param view to be displayed in.
+     */
     @Override
     public void setContentView(View view){
         drawerLayout = (DrawerLayout) getLayoutInflater().inflate(R.layout.menu_dashboard, null);
@@ -80,26 +88,49 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    /**
+     * Sets the title for the toolbar and header text view.
+     *
+     * @param activityTitle The title to be set for the toolbar and header.
+     */
     protected void setToolbarTitle (String activityTitle) {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(activityTitle);
             headerTextView.setText(activityTitle);
         }
     }
+    /**
+     * Sets the visibility of the back button in the toolbar.
+     *
+     * @param visible True if the back button should be visible, false otherwise.
+     */
     protected void setBackButtonVisibility(boolean visible) {
         ImageButton backButton = findViewById(R.id.backButton);
         backButton.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
+    /**
+     * Sets the visibility of the subheader text view.
+     *
+     * @param visible True if the subheader text view should be visible, false otherwise.
+     */
     protected void setSubheaderVisibility(boolean visible) {
         subheaderTextView = findViewById(R.id.subHeaderTextView);
         subheaderTextView.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
+    /**
+     * Sets the visibility of the header text view.
+     *
+     * @param visible True if the header text view should be visible, false otherwise.
+     */
     protected void setHeaderVisibility(boolean visible) {
         headerTextView = findViewById(R.id.headerTextView);
         headerTextView.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
+    /**
+     * Sets the click listener for the back button to finish the current activity.
+     */
     protected void setAndClickBackButton() {
         ImageButton backButton = findViewById(R.id.backButton);
         if (backButton.getVisibility() == View.VISIBLE) {
@@ -107,6 +138,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    /**
+     * Retrieves the profile information of the current user.
+     *
+     * @return An array containing the display name and email of the user, or null if not available.
+     */
     protected String[] getProfileInfo() {
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
@@ -120,6 +156,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         return null;
     }
 
+    /**
+     * Navigates through the drawer menu.
+     *
+     * @param item to be selected on the menu.
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -156,6 +197,12 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+
+    /**
+     * Customizes the toolbar based on the user role.
+     *
+     * @param userRole of the user.
+     */
     protected void customizeToolbarBasedOnRole(String userRole) {
         if (getString(R.string.ROLE_EMPLOYER).equals(userRole)) {
             subheaderTextView.setText(getString(R.string.TOOLBAR_EMPLOYER));
