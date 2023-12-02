@@ -1,5 +1,10 @@
 package com.example.quickcashcsci3130g_11;
 
+import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +26,7 @@ public class Job implements Serializable {
     private String searchableData;
 
     private List<String> applicants;
+    private String acceptedApplicantUid;
 
     /**
      * Default constructor for the Job class.
@@ -59,6 +65,7 @@ public class Job implements Serializable {
         this.description = description;
         this.employerId = employerId;
         this.applicants = new ArrayList<>();
+        this.acceptedApplicantUid = "";
         this.searchableData = title.toLowerCase() + " " + jobType.toLowerCase() + " " + date.toLowerCase() + " " + duration.toLowerCase() + " " + durationType.toLowerCase() + " " + urgencyType.toLowerCase() + " " + salary.toLowerCase() + " " + salaryType.toLowerCase() + " " + location.toLowerCase();
 
 
@@ -172,6 +179,10 @@ public class Job implements Serializable {
         return searchableData;
     }
 
+    public String getJobId() {
+        return jobId;
+    }
+
     public void addApplicant(String applicantUid) {
         if (applicants == null) {
             applicants = new ArrayList<>();
@@ -184,13 +195,12 @@ public class Job implements Serializable {
         return applicants;
     }
 
-// --Commented out by Inspection START (2023-11-05, 9:55 a.m.):
-//    public void setApplicants(List<String> applicants) {
-//        this.applicants = applicants;
-//    }
-// --Commented out by Inspection STOP (2023-11-05, 9:55 a.m.)
-
-    public String getJobId() {
-        return jobId;
+    public String getAcceptedApplicantUid() {
+        return acceptedApplicantUid;
     }
+
+    public void setAcceptedApplicantUid(String applicantUid) {
+        acceptedApplicantUid = applicantUid;
+    }
+
 }

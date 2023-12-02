@@ -1,7 +1,10 @@
 package com.example.quickcashcsci3130g_11;
 
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -11,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.quickcashcsci3130g_11.databinding.ActivityJobPostingBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -23,10 +27,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JobPostingsActivity extends AppCompatActivity {
+public class JobPostingsActivity extends BaseActivity {
     private RecyclerView jobPosting;
     private JobAdapter jobAdapter;
     private List<Job> jobList;
+    ActivityJobPostingBinding jobPostingBinding;
 
 
     /**
@@ -38,12 +43,34 @@ public class JobPostingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_job_posting);
+        jobPostingBinding = ActivityJobPostingBinding.inflate(getLayoutInflater());
+        setContentView(jobPostingBinding.getRoot());
 
+        AppPreferences appPreferences = new AppPreferences(this);
+        String userRole = appPreferences.getUserRole();
+
+        String activityTitle = "";
+
+        if (getString(R.string.ROLE_EMPLOYER).equals(userRole)) {
+            activityTitle = getString(R.string.POSTED_JOBS);
+            fetchAndDisplayUserJobs();
+        } else if (getString(R.string.ROLE_EMPLOYEE).equals(userRole)) {
+            activityTitle = getString(R.string.AVAILABLE_JOBS);
+            fetchAndDisplayAllJobs();
+        }
+        setToolbarTitle(activityTitle);
         initializeViews();
         setupRecyclerView();
-        fetchAndDisplayUserJobs();
-        initializeBackButton();
+
+        jobPosting.addOnItemTouchListener(new RecyclerItemClickListener(this, jobPosting, (view, position) -> {
+            // Handle item click here
+            Job selectedJob = jobList.get(position);
+
+            // Start the JobDetailsActivity and pass the selected job object
+            Intent intent1 = new Intent(JobPostingsActivity.this, JobDetailsActivity.class);
+            intent1.putExtra("job", selectedJob);
+            startActivity(intent1);
+        }));
     }
 
     /**
@@ -108,6 +135,32 @@ public class JobPostingsActivity extends AppCompatActivity {
         }
     }
 
+    private void fetchAndDisplayAllJobs() {
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("jobs");
+
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                jobList.clear();
+
+                for (DataSnapshot jobSnapshot : dataSnapshot.getChildren()) {
+                    Job job = jobSnapshot.getValue(Job.class);
+                    if (job != null) {
+                        jobList.add(job);
+                    }
+                }
+
+                jobAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                displayDatabaseError(databaseError.getMessage());
+            }
+        });
+    }
+
+
     /**
      * Display a toast message with a database error message.
      *
@@ -115,17 +168,5 @@ public class JobPostingsActivity extends AppCompatActivity {
      */
     private void displayDatabaseError(String message) {
         Toast.makeText(this, "Database Error: " + message, Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Initializes the back button in the activity and sets a click listener to navigate back
-     * to the Employer Activity when the button is clicked.
-     */
-    private void initializeBackButton() {
-        ImageButton backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(JobPostingsActivity.this, EmployerActivity.class);
-            startActivity(intent);
-        });
     }
 }

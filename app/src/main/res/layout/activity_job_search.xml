@@ -2,83 +2,69 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_bg"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        android:id="@+id/bannerLinearLayout"
+        android:id="@+id/searchLinearLayout"
+        android:background="@drawable/recyclerview_bg"
         android:layout_width="match_parent"
-        android:layout_height="95dp"
-        android:background="#051877"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="25dp"
-            android:src="@drawable/ic_arrow_back" />
-
-        <TextView
-            android:id="@+id/advanceSearchTextView"
+        <SearchView
+            android:id="@+id/search_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="30dp"
-            android:text="Job Postings"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <SearchView
-        android:id="@+id/search_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:iconifiedByDefault="false"
-        android:layout_below="@+id/bannerLinearLayout"
-        android:queryHint="@string/search_hint" />
-
-    <LinearLayout
-        android:id="@+id/searchLayout"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_below="@+id/search_view"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/advancedSearchButton"
-            android:layout_width="170dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
+            android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
-            android:padding="15dp"
-            android:text="Advanced Search"
-            android:backgroundTint="@color/lightBlue"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_marginEnd="20dp"
+            android:iconifiedByDefault="false"
+            android:queryHint="@string/search_hint" />
 
-        <Button
-            android:layout_width="170dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
+        <LinearLayout
+            android:id="@+id/searchLayout"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_below="@+id/search_view"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/advancedSearchButton"
+                android:layout_width="170dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginStart="20dp"
+                android:padding="15dp"
+                android:text="Advanced Search"
+                android:backgroundTint="@color/lightBlue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:layout_width="170dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginStart="20dp"
+                android:padding="15dp"
+                android:text="Search on Map"
+                android:backgroundTint="@color/lightBlue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/searchLayout"
+            android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
-            android:padding="15dp"
-            android:text="Search on Map"
-            android:backgroundTint="@color/lightBlue"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_marginEnd="20dp"
+            android:padding="10dp"/>
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="417dp"
-        android:layout_below="@id/searchLayout"
-        android:layout_marginTop="20dp" />
 
 </RelativeLayout>

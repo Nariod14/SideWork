@@ -4,73 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_bg"
     tools:context=".SubmitJobActivity">
 
-    <LinearLayout
-        android:id="@+id/bannerLinearLayout"
-        android:layout_width="415dp"
-        android:layout_height="95dp"
-        android:background="#051877"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageButton
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_marginLeft="20dp"
-            android:src="@drawable/ic_arrow_back" />
-
-        <TextView
-            android:id="@+id/submitJobTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="30dp"
-            android:text="Create a Job"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/backButton"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/emailTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="Create a Job"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:visibility="gone" />
-
-
-    </LinearLayout>
-
     <ScrollView
-        android:layout_width="415dp"
-        android:layout_height="525dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="20dp"
+        android:background="@drawable/recyclerview_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bannerLinearLayout">
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
-            android:layout_width="413dp"
-            android:layout_height="0dp"
-            android:layout_below="@+id/bannerLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintVertical_weight="0"
-            tools:layout_editor_absoluteX="-2dp"
-            tools:layout_editor_absoluteY="50dp">
+            app:layout_constraintVertical_weight="1">
 
 
             <TextView
@@ -86,6 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="71dp"
                 android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintVertical_weight="0">
 
@@ -125,6 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="94dp"
                 android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintVertical_weight="0">
 
@@ -170,6 +122,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="81dp"
                 android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintVertical_weight="0">
 
@@ -203,6 +156,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="111dp"
                 android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintVertical_weight="0">
 
@@ -247,12 +201,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="119dp"
                 android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintVertical_weight="0">
 
                 <TextView
                     android:id="@+id/urgencyTextView"
-                    android:layout_width="57dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="26dp"
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="56dp"
@@ -278,6 +233,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="108dp"
                 android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
                 app:layout_constraintHorizontal_weight="1">
 
                 <TextView
@@ -321,6 +277,7 @@
                 android:layout_width="483dp"
                 android:layout_height="99dp"
                 android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
                 app:layout_constraintHorizontal_weight="1">
 
                 <TextView
@@ -360,7 +317,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="115dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintHorizontal_weight="1">
@@ -377,10 +334,12 @@
 
                 <EditText
                     android:id="@+id/descriptionEditText"
-                    android:layout_width="362dp"
-                    android:layout_height="62dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:contentDescription="Enter the Description for your Job"
                     android:ems="10"
                     android:hint="Enter Description"
@@ -398,13 +357,16 @@
                 android:layout_marginBottom="15dp"
                 android:backgroundTint="@color/orange"
                 android:text="Submit"
+                android:layout_weight="1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintVertical_bias="0.5" />
 
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"></LinearLayout>
         </LinearLayout>
     </ScrollView>
 
