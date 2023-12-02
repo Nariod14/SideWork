@@ -1,39 +1,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
-        android:id="@+id/bannerLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="95dp"
-        android:background="#051877"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="25dp"
-            android:src="@drawable/ic_arrow_back" />
-
-        <TextView
-            android:id="@+id/advanceSearchTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="30dp"
-            android:text="Advance Search"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+    android:layout_height="match_parent"
+    android:background="@drawable/background_bg">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="582dp"
-        android:layout_below="@+id/bannerLinearLayout">
+        android:layout_height="match_parent"
+        android:background="@drawable/recyclerview_bg">
 
         <LinearLayout
             android:layout_width="match_parent"

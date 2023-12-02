@@ -23,6 +23,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.quickcashcsci3130g_11.databinding.ActivitySubmitJobBinding;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,7 +38,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.Calendar;
 import java.util.Objects;
 
-public class SubmitJobActivity extends AppCompatActivity {
+public class SubmitJobActivity extends BaseActivity {
 
     private EditText titleEditText;
     private EditText durationEditText;
@@ -55,6 +57,8 @@ public class SubmitJobActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private FusedLocationProviderClient fusedLocationClient;
 
+    ActivitySubmitJobBinding submitJobBinding;
+
     /**
      * This method is called when the activity is first created. It initializes various views,
      * sets up event listeners for buttons, and prepares the spinners and user profile information.
@@ -62,13 +66,15 @@ public class SubmitJobActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_submit_job);
+        submitJobBinding = ActivitySubmitJobBinding.inflate(getLayoutInflater());
+        setContentView(submitJobBinding.getRoot());
+
+        String activityTitle = getString(R.string.SUBMIT_JOB);
+        setToolbarTitle(activityTitle);
 
         initializeViews();
-        setProfileInfo();
         retrieveLocation();
         setSpinners();
-        initializeBackButton();
 
         submitButton.setOnClickListener(this::onJobSubmitButtonClicked);
 
@@ -137,18 +143,6 @@ public class SubmitJobActivity extends AppCompatActivity {
         salaryTypeSpinner.setAdapter(salaryTypeAdapter);
     }
 
-    /**
-     * Set the user's profile information on the UI.
-     */
-    private void setProfileInfo() {
-        FirebaseUser user;
-        FirebaseAuth mAuth;
-        mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
-        if (user != null) {
-            mEmailTextView.setText(user.getEmail());
-        }
-    }
 
     /**
      * Show a date picker dialog when the "Pick Date" button is clicked.
@@ -304,17 +298,5 @@ public class SubmitJobActivity extends AppCompatActivity {
     private void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-
-    /**
-     * Initializes the back button in the activity and sets a click listener to navigate back
-     * to the Employer Activity when the button is clicked.
-     */
-    private void initializeBackButton() {
-        ImageButton backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(SubmitJobActivity.this, EmployerActivity.class);
-            startActivity(intent);
-        });
     }
 }

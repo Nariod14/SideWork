@@ -69,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 loginUser();
             }
+
         });
     }
 
@@ -102,7 +103,9 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void goToMainActivity() {
         Toast.makeText(getApplicationContext(),"login successful",Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(LoginActivity.this, EmployerActivity.class);
+        AppPreferences appPreferences = new AppPreferences(this);
+        appPreferences.setUserRole(getString(R.string.ROLE_EMPLOYER));
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
     }

@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.quickcashcsci3130g_11.databinding.ActivityJobSearchBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,12 +28,13 @@ import java.util.List;
 /**
  * This activity allows users to search for job listings and provides the ability to perform advanced searches.
  */
-public class JobSearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class JobSearchActivity extends BaseActivity implements SearchView.OnQueryTextListener {
 
 
     private JobAdapter mAdapter;
     private List<Job> mJobList;
     private DatabaseReference mDatabase;
+    ActivityJobSearchBinding jobSearchBinding;
 
     /**
      * Called when the activity is first created. Initializes UI elements, RecyclerView, and sets up listeners.
@@ -43,9 +45,11 @@ public class JobSearchActivity extends AppCompatActivity implements SearchView.O
     protected void onCreate(Bundle savedInstanceState) {
         RecyclerView mRecyclerView;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_job_search);
+        jobSearchBinding = ActivityJobSearchBinding.inflate(getLayoutInflater());
+        setContentView(jobSearchBinding.getRoot());
 
-        initializeBackButton();
+        String activityTitle = getString(R.string.SEARCH_RESULTS);
+        setToolbarTitle(activityTitle);
 
         // Initialize the RecyclerView and its adapter
         mRecyclerView = findViewById(R.id.recycler_view);
@@ -66,6 +70,16 @@ public class JobSearchActivity extends AppCompatActivity implements SearchView.O
         // Add a listener to the SearchView widget
         SearchView searchView = findViewById(R.id.search_view);
         searchView.setOnQueryTextListener(this);
+
+        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, mRecyclerView, (view, position) -> {
+            // Handle item click here
+            Job selectedJob = mJobList.get(position);
+
+            // Start the JobDetailsActivity and pass the selected job object
+            Intent intent1 = new Intent(JobSearchActivity.this, JobDetailsActivity.class);
+            intent1.putExtra("job", selectedJob);
+            startActivity(intent1);
+        }));
     }
 
     /**
@@ -119,18 +133,6 @@ public class JobSearchActivity extends AppCompatActivity implements SearchView.O
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e(TAG, "onCancelled", databaseError.toException());
             }
-        });
-    }
-
-    /**
-     * Initializes the back button in the activity and sets a click listener to navigate back
-     * to the Employee Activity when the button is clicked.
-     */
-    private void initializeBackButton() {
-        ImageButton backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(JobSearchActivity.this, EmployeeActivity.class);
-            startActivity(intent);
         });
     }
 }

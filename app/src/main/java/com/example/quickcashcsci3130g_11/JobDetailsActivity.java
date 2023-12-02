@@ -1,25 +1,41 @@
 package com.example.quickcashcsci3130g_11;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.quickcashcsci3130g_11.databinding.ActivityJobDetailsBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This activity displays the details of a job and allows users to apply for the job.
  */
-public class JobDetailsActivity extends AppCompatActivity {
-
-
-    private Job job; // The job object for which details are displayed
+public class JobDetailsActivity extends BaseActivity implements ApplicantInterface{
+    Button applyButton;
+    Button preferredButton;
+    ActivityJobDetailsBinding jobDetailsBinding;
+    private Job job;
+    private ApplicantAdapter adapter;
+    private List<JobApplicant> applicantsList;
 
     /**
      * Called when the activity is first created. Initializes UI elements, displays job details, and sets click listeners for buttons.
@@ -28,7 +44,6 @@ public class JobDetailsActivity extends AppCompatActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Button applyButton;
         TextView descriptionTextView;
         TextView locationTextView;
         TextView salaryTextView;
@@ -38,10 +53,15 @@ public class JobDetailsActivity extends AppCompatActivity {
         TextView jobTypeTextView;
         TextView titleTextView;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_job_details);
+        jobDetailsBinding = ActivityJobDetailsBinding.inflate(getLayoutInflater());
+        setContentView(jobDetailsBinding.getRoot());
+
+        setSubheaderVisibility(false);
+        setHeaderVisibility(false);
+        displayAcceptedApplicant(false);
 
         // Initialize UI elements
-        titleTextView = findViewById(R.id.titleTextView);
+        titleTextView = findViewById(R.id.jobTitleTextView);
         jobTypeTextView = findViewById(R.id.jobTypeTextView);
         dateTextView = findViewById(R.id.dateTextView);
         durationTextView = findViewById(R.id.durationTextView);
@@ -54,12 +74,12 @@ public class JobDetailsActivity extends AppCompatActivity {
         // Get the job object from the intent
 
         job = getIntent().getSerializableExtra("job", Job.class);
+        checkForAcceptedApplicant(job);
 
 
         // Display job details
         if (job != null) {
             titleTextView.setText(job.getTitle());
-
             jobTypeTextView.setText(job.getJobType());
             dateTextView.setText(job.getDate());
             String retrievedDuration = job.getDuration() + " " + job.getDurationType();
@@ -70,16 +90,31 @@ public class JobDetailsActivity extends AppCompatActivity {
             locationTextView.setText(job.getLocation());
             descriptionTextView.setText(job.getDescription());
         }
+        String userRole = appPreferences.getUserRole();
+        customizeJobDetails(userRole);
 
-        // Set an OnClickListener for the "Apply" button
-        applyButton.setOnClickListener(v -> applyForJob());
 
-        // Add a click listener to the back button
-        ImageButton backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(v ->
-            // Navigate back to the search results screen
-            finish()
-        );
+    }
+
+    public void customizeJobDetails(String userRole) {
+        LinearLayout applicantsLayout = findViewById(R.id.applicantsLayout);
+        preferredButton = findViewById(R.id.preferredJobButton);
+        applyButton = findViewById(R.id.applyButton);
+
+        if (getString(R.string.ROLE_EMPLOYER).equals(userRole)) {
+            applicantsLayout.setVisibility(View.VISIBLE);
+            preferredButton.setVisibility(View.GONE);
+            applyButton.setVisibility(View.GONE);
+
+            retrieveApplicants();
+
+        } else if (getString(R.string.ROLE_EMPLOYEE).equals(userRole)) {
+            applicantsLayout.setVisibility(View.GONE);
+            preferredButton.setVisibility(View.VISIBLE);
+            applyButton.setVisibility(View.VISIBLE);
+
+            applyButton.setOnClickListener(v -> applyForJob());
+        }
     }
 
     /**
@@ -121,4 +156,196 @@ public class JobDetailsActivity extends AppCompatActivity {
         });
     }
 
+
+    private void retrieveApplicants() {
+        DatabaseReference jobRef = FirebaseDatabase.getInstance().getReference("jobs").child(job.getJobId()).child("applicants");
+
+        jobRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<String> applicantUids = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String applicantUid = snapshot.getValue(String.class);
+                    applicantUids.add(applicantUid);
+                }
+
+                applicantsList = new ArrayList<>();
+
+                for (String applicantUid : applicantUids) {
+                    retrieveApplicantDetails(applicantUid, applicantsList);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle the error
+            }
+        });
+    }
+
+    private void retrieveApplicantDetails(String userUid, List<JobApplicant> applicantsList ) {
+        Log.d("userid",userUid);
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+        Query query = usersRef.child(userUid);
+        Log.d("query", String.valueOf(query));
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
+//                    for (DataSnapshot applicantSnapshot : dataSnapshot.getChildren()) {
+                    JobApplicant jobApplicant;
+                    Log.e("applicantSnapshot", String.valueOf(dataSnapshot));
+
+                    jobApplicant = dataSnapshot.getValue(JobApplicant.class);
+                    Log.e("jobApplicant", String.valueOf(jobApplicant));
+
+                    String displayName;
+                    String userEmail;
+                    String uid;
+
+                    if (jobApplicant != null) {
+                        displayName = jobApplicant.getDisplayName();
+                        userEmail = jobApplicant.getEmail();
+                        uid = dataSnapshot.getKey();
+
+                        Log.e("userEmail", userEmail);
+                        Log.e("displayName", displayName);
+                        Log.e("uid", uid);
+
+                        JobApplicant applicant = new JobApplicant(uid, userEmail, displayName);
+                        applicantsList.add(applicant);
+
+                    }
+                    ApplicantAdapter adapter = new ApplicantAdapter(applicantsList, JobDetailsActivity.this);
+                    setupApplicantsRecyclerView(adapter);
+                    Log.d("applicantsListSize", String.valueOf(applicantsList.size()));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle the error,
+            }
+        });
+    }
+
+
+    private void setupApplicantsRecyclerView(ApplicantAdapter adapter) {
+        RecyclerView applicantRecyclerView = findViewById(R.id.applicantsRecyclerView);
+
+        // Create a LinearLayoutManager for vertical scrolling
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        applicantRecyclerView.setLayoutManager(layoutManager);
+
+        applicantRecyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onAcceptApplicantClick(int position) {
+        JobApplicant selectedApplicant = applicantsList.get(position);
+        String uid = selectedApplicant.getUid();
+        DatabaseReference jobRef = FirebaseDatabase.getInstance().getReference("jobs").child(job.getJobId());
+
+        job.setAcceptedApplicantUid(uid);
+
+        jobRef.child("acceptedApplicantUid").setValue(job.getAcceptedApplicantUid());
+
+        Toast.makeText(this, "Accepted applicant " + selectedApplicant.getDisplayName(), Toast.LENGTH_SHORT).show();
+    }
+
+    public void displayAcceptedApplicant(boolean visible){
+        LinearLayout acceptedApplicantLayout = findViewById(R.id.acceptedApplicantLayout);
+        acceptedApplicantLayout.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    private void checkForAcceptedApplicant(Job job) {
+        // Assuming you have a DatabaseReference for the job
+        DatabaseReference jobRef = FirebaseDatabase.getInstance().getReference("jobs").child(this.job.getJobId());
+
+        jobRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // Check if there's an accepted applicant UID in the job data
+                    if (dataSnapshot.hasChild("acceptedApplicantUid")) {
+                        String acceptedApplicantUid = (String) dataSnapshot.child("acceptedApplicantUid").getValue();
+
+                        if (acceptedApplicantUid != null && !acceptedApplicantUid.isEmpty()) {
+                            displayAcceptedApplicant(true);
+
+                            displayAcceptedApplicantDetails(acceptedApplicantUid);
+                            onPayButtonClick();
+                        } else {
+                            displayAcceptedApplicant(false);
+                        }
+                    } else {
+                        displayAcceptedApplicant(false);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle the error
+            }
+        });
+    }
+    private void displayAcceptedApplicantDetails(String applicantUid) {
+        // Assuming you have a DatabaseReference for user details
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(applicantUid);
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String displayName = dataSnapshot.child("displayName").getValue(String.class);
+                    String email = dataSnapshot.child("email").getValue(String.class);
+
+                    // Update your TextViews with the retrieved display name and email
+                    TextView displayNameTextView = findViewById(R.id.acceptedApplicantNameTextView);
+                    TextView emailTextView = findViewById(R.id.acceptedApplicantEmailTextView);
+
+                    displayNameTextView.setText(displayName);
+                    emailTextView.setText(email);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle the error
+            }
+        });
+    }
+
+    void onPayButtonClick(){
+        Button payButton;
+        payButton = findViewById(R.id.payApplicantButton);
+        if (payButton != null){
+            payButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), PaymentsActivity.class);
+
+                    // Pass the current jobId, jobTitle, jobType, employer userID, employee userID
+                    String jobId = job.getJobId();
+                    String jobTitle = job.getTitle();
+                    String jobType = job.getJobType();
+                    String employerUserId = job.getEmployerId();
+                    String employeeUserId = job.getAcceptedApplicantUid();
+
+                    intent.putExtra("jobId", jobId);
+                    intent.putExtra("jobTitle", jobTitle);
+                    intent.putExtra("jobType", jobType);
+                    intent.putExtra("employerUserId", employerUserId);
+                    intent.putExtra("employeeUserId", employeeUserId);
+
+                    startActivity(intent);
+                }
+            });
+        }
+    }
 }
+
