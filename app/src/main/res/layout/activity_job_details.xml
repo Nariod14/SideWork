@@ -121,6 +121,16 @@
                 android:backgroundTint="@color/orange"
                 android:padding="16dp"
                 android:text="Apply for Job" />
+
+            <Button
+                android:id="@+id/rateEmployerButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/darkBlue"
+                android:padding="16dp"
+                android:text="Rate Employer"
+                android:visibility="gone"/>
         </LinearLayout>
 
         <androidx.core.widget.NestedScrollView

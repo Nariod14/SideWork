@@ -22,8 +22,19 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * TestActivity is a sample activity used for testing purposes. It includes functionality to
+ * simulate saving payment details to the Firebase Realtime Database.
+ */
 public class TestActivity extends BaseActivity {
     ActivityTestBinding activityTestBinding;
+
+    /**
+     * Initializes the TestActivity and sets up the layout, including the test button for
+     * simulating payment details saving.
+     *
+     * @param savedInstanceState A Bundle containing the activity's previously saved state, if any.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +57,17 @@ public class TestActivity extends BaseActivity {
         });
     }
 
+    /**
+     * Saves payment details to the Firebase Realtime Database.
+     *
+     * @param jobId       The unique identifier of the associated job.
+     * @param jobTitle    The title of the associated job.
+     * @param jobType     The type of the associated job.
+     * @param employerId  The unique identifier of the employer associated with the job.
+     * @param employeeId  The unique identifier of the employee associated with the job.
+     * @param today       The date when the payment was made.
+     * @param amount      The amount paid for the job.
+     */
     private void savePaymentDetails(String jobId, String jobTitle, String jobType, String employerId, String employeeId, String today, double amount) {
         DatabaseReference paymentsRef = FirebaseDatabase.getInstance().getReference().child("payments");
 

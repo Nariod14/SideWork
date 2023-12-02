@@ -34,7 +34,6 @@ public class JobDetailsActivity extends BaseActivity implements ApplicantInterfa
     Button preferredButton;
     ActivityJobDetailsBinding jobDetailsBinding;
     private Job job;
-    private ApplicantAdapter adapter;
     private List<JobApplicant> applicantsList;
 
     /**
@@ -91,15 +90,23 @@ public class JobDetailsActivity extends BaseActivity implements ApplicantInterfa
             descriptionTextView.setText(job.getDescription());
         }
         String userRole = appPreferences.getUserRole();
-        customizeJobDetails(userRole);
+        customizeJobDetails(userRole, user.getUid());
 
 
     }
 
-    public void customizeJobDetails(String userRole) {
+    /**
+     * Customizes the display of job details based on the user's role.
+     *
+     * @param userRole The role of the user (employee or employer).
+     * @param userUid  The UID of the user.
+     */
+    public void customizeJobDetails(String userRole, String userUid) {
         LinearLayout applicantsLayout = findViewById(R.id.applicantsLayout);
+        LinearLayout acceptedApplicantsLayout = findViewById(R.id.acceptedApplicantLayout);
         preferredButton = findViewById(R.id.preferredJobButton);
         applyButton = findViewById(R.id.applyButton);
+        Button rateEmployerButton = findViewById(R.id.rateEmployerButton);
 
         if (getString(R.string.ROLE_EMPLOYER).equals(userRole)) {
             applicantsLayout.setVisibility(View.VISIBLE);
@@ -109,11 +116,27 @@ public class JobDetailsActivity extends BaseActivity implements ApplicantInterfa
             retrieveApplicants();
 
         } else if (getString(R.string.ROLE_EMPLOYEE).equals(userRole)) {
-            applicantsLayout.setVisibility(View.GONE);
-            preferredButton.setVisibility(View.VISIBLE);
-            applyButton.setVisibility(View.VISIBLE);
+            if (job.getAcceptedApplicantUid() != null && job.getAcceptedApplicantUid().equals(userUid)) {
+                // User is the accepted applicant, hide applyButton and preferredButton, and show rateEmployerButton
+                applyButton.setVisibility(View.GONE);
+                preferredButton.setVisibility(View.GONE);
+                applicantsLayout.setVisibility(View.GONE);
+                acceptedApplicantsLayout.setVisibility(View.VISIBLE);
 
-            applyButton.setOnClickListener(v -> applyForJob());
+                rateEmployerButton.setVisibility(View.VISIBLE);
+
+            } else {
+                // User is not the accepted applicant, show applyButton and preferredButton, hide rateEmployerButton
+                applyButton.setVisibility(View.VISIBLE);
+                preferredButton.setVisibility(View.VISIBLE);
+                acceptedApplicantsLayout.setVisibility(View.GONE);
+                applicantsLayout.setVisibility(View.GONE);
+
+                rateEmployerButton.setVisibility(View.GONE);
+
+                // Set click listener for applyButton
+                applyButton.setOnClickListener(v -> applyForJob());
+            }
         }
     }
 
@@ -156,7 +179,9 @@ public class JobDetailsActivity extends BaseActivity implements ApplicantInterfa
         });
     }
 
-
+    /**
+     * Retrieves the list of applicants for the displayed job from the Firebase database.
+     */
     private void retrieveApplicants() {
         DatabaseReference jobRef = FirebaseDatabase.getInstance().getReference("jobs").child(job.getJobId()).child("applicants");
 
@@ -184,6 +209,12 @@ public class JobDetailsActivity extends BaseActivity implements ApplicantInterfa
         });
     }
 
+    /**
+     * Retrieves details of a specific job applicant using their UID and populates the `applicantsList`.
+     *
+     * @param userUid         The UID of the job applicant.
+     * @param applicantsList  The list to store the retrieved job applicants.
+     */
     private void retrieveApplicantDetails(String userUid, List<JobApplicant> applicantsList ) {
         Log.d("userid",userUid);
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
@@ -231,7 +262,11 @@ public class JobDetailsActivity extends BaseActivity implements ApplicantInterfa
         });
     }
 
-
+    /**
+     * Sets up the RecyclerView to display the list of job applicants.
+     *
+     * @param adapter The adapter for the RecyclerView.
+     */
     private void setupApplicantsRecyclerView(ApplicantAdapter adapter) {
         RecyclerView applicantRecyclerView = findViewById(R.id.applicantsRecyclerView);
 
@@ -243,6 +278,11 @@ public class JobDetailsActivity extends BaseActivity implements ApplicantInterfa
         adapter.notifyDataSetChanged();
     }
 
+    /**
+     * Callback method triggered when an applicant is accepted. Updates the Firebase database with the selected applicant.
+     *
+     * @param position The position of the selected applicant in the list.
+     */
     @Override
     public void onAcceptApplicantClick(int position) {
         JobApplicant selectedApplicant = applicantsList.get(position);
@@ -256,11 +296,21 @@ public class JobDetailsActivity extends BaseActivity implements ApplicantInterfa
         Toast.makeText(this, "Accepted applicant " + selectedApplicant.getDisplayName(), Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Displays or hides the layout for the accepted applicant based on the specified visibility.
+     *
+     * @param visible True to display the layout, false to hide it.
+     */
     public void displayAcceptedApplicant(boolean visible){
         LinearLayout acceptedApplicantLayout = findViewById(R.id.acceptedApplicantLayout);
         acceptedApplicantLayout.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
+    /**
+     * Checks if there is an accepted applicant for the job and displays their details if present.
+     *
+     * @param job The job for which to check the accepted applicant.
+     */
     private void checkForAcceptedApplicant(Job job) {
         // Assuming you have a DatabaseReference for the job
         DatabaseReference jobRef = FirebaseDatabase.getInstance().getReference("jobs").child(this.job.getJobId());
@@ -293,6 +343,12 @@ public class JobDetailsActivity extends BaseActivity implements ApplicantInterfa
             }
         });
     }
+
+    /**
+     * Displays details of the accepted applicant by querying the Firebase database.
+     *
+     * @param applicantUid The UID of the accepted applicant.
+     */
     private void displayAcceptedApplicantDetails(String applicantUid) {
         // Assuming you have a DatabaseReference for user details
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(applicantUid);
@@ -320,6 +376,9 @@ public class JobDetailsActivity extends BaseActivity implements ApplicantInterfa
         });
     }
 
+    /**
+     * Handles the button click event to initiate the payment process for the accepted applicant.
+     */
     void onPayButtonClick(){
         Button payButton;
         payButton = findViewById(R.id.payApplicantButton);

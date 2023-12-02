@@ -28,14 +28,29 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * Manages the retrieval and organization of income/payment data for users.
+ */
 public class IncomeManager {
 
+    /**
+     * ChartManager instance for displaying charts based on income/payment data.
+     */
     private static ChartManager chartManager;
 
+    /**
+     * Constructs an instance of IncomeManager and initializes the ChartManager.
+     */
     public IncomeManager() {
         chartManager = new ChartManager();
     }
 
+    /**
+     * Retrieves and organizes payments based on the user's role.
+     *
+     * @param context  The context of the calling activity.
+     * @param userRole The role of the user (e.g., employee or employer).
+     */
     public static void retrieveAndOrganizePayments(Context context, String userRole) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null && context.getString(R.string.ROLE_EMPLOYEE).equals(userRole)) {
@@ -43,6 +58,12 @@ public class IncomeManager {
         }
     }
 
+    /**
+     * Retrieves payments for an employee from the database.
+     *
+     * @param context     The context of the calling activity.
+     * @param employeeId  The ID of the employee for whom payments are retrieved.
+     */
     private static void retrievePaymentsForEmployee(Context context, String employeeId) {
         DatabaseReference paymentsRef = FirebaseDatabase.getInstance().getReference().child("payments");
 
@@ -68,7 +89,12 @@ public class IncomeManager {
             }
         });
     }
-
+    /**
+     * Calculates the total income from a list of payments and displays it in the UI.
+     *
+     * @param context  The context of the calling activity.
+     * @param payments List of payments for which total income is calculated.
+     */
     private static void calculateTotalIncome(Context context, List<Payment> payments) {
         double totalIncome = 0.0;
         for (Payment payment : payments) {
@@ -76,13 +102,24 @@ public class IncomeManager {
         }
         displayTotalIncome(context, totalIncome);
     }
-
+    /**
+     * Displays the total income in the UI.
+     *
+     * @param context     The context of the calling activity.
+     * @param totalIncome The total income to be displayed.
+     */
     private static void displayTotalIncome(Context context, double totalIncome) {
         TextView incomeTextView = ((AppCompatActivity) context).findViewById(R.id.incomeTextView);
         String displayedIncome = ("$" + String.format("%.2f", totalIncome));
         incomeTextView.setText(displayedIncome);
     }
 
+    /**
+     * Organizes income/payment data and displays charts in the UI.
+     *
+     * @param context  The context of the calling activity.
+     * @param payments List of payments for which data is organized.
+     */
     private static void organizeData(Context context, List<Payment> payments) {
         Map<String, Float> monthlyIncomes = new HashMap<>();
         Map<String, Integer> jobCounts = new HashMap<>();
@@ -104,11 +141,23 @@ public class IncomeManager {
         chartManager.displayBarGraph(context, jobCounts);
     }
 
+    /**
+     * Formats a date into the "MMMM yyyy" format.
+     *
+     * @param date The date to be formatted.
+     * @return A string representing the month and year.
+     */
     private static String getMonthYearFromDate(Date date) {
         SimpleDateFormat monthYearFormat = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
         return monthYearFormat.format(date);
     }
 
+    /**
+     * Parses a date string into a Date object.
+     *
+     * @param datePaid The date string to be parsed.
+     * @return The parsed Date object.
+     */
     private static Date parseDate(String datePaid) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

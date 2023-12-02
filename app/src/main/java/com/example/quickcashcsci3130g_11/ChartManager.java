@@ -17,7 +17,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Utility class for managing and displaying charts using MPAndroidChart library.
+ */
 public class ChartManager {
+    /**
+     * Displays a line chart based on monthly income data.
+     *
+     * @param context        The context of the calling activity.
+     * @param monthlyIncomes A map containing monthly income data.
+     */
     public void displayLineChart(Context context, Map<String, Float> monthlyIncomes) {
         LineChart chart = ((AppCompatActivity) context).findViewById(R.id.lineChart);
 
@@ -36,6 +45,12 @@ public class ChartManager {
         chart.invalidate();
     }
 
+    /**
+     * Displays a bar graph based on job counts data.
+     *
+     * @param context   The context of the calling activity.
+     * @param jobCounts A map containing job counts data.
+     */
     public void displayBarGraph(Context context, Map<String, Integer> jobCounts) {
         BarChart chart = ((AppCompatActivity) context).findViewById(R.id.barChart);
 
