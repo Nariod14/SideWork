@@ -23,6 +23,7 @@
     <string name="ADVANCED_SEARCH">Advanced Search</string>
     <string name="SEARCH_RESULTS">Advanced Search Results</string>
     <string name="JOBS_IN_PROGRESS">Jobs in Progress</string>
+    <string name="PAYMENT">Payment Transaction</string>
 
     <string-array name="duration_types">
         <item>Hours</item>

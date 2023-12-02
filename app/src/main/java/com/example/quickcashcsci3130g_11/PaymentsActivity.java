@@ -9,9 +9,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.quickcashcsci3130g_11.databinding.ActivityPaymentBinding;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
@@ -22,6 +28,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Activity that handles PayPal payments.
@@ -29,7 +38,15 @@ import java.math.BigDecimal;
  * This activity facilitates PayPal payments, allowing users to enter a payment amount and initiate the payment process
  * through PayPal's SDK. It handles the PayPal payment callbacks and displays the payment confirmation status.
  */
-public class PaymentsActivity extends AppCompatActivity {
+public class PaymentsActivity extends BaseActivity {
+    ActivityPaymentBinding paymentBinding;
+    TextView jobTitleTextView;
+    TextView jobTypeTextView;
+    TextView todaysDateTextView;
+    TextView employerNameTextView;
+    TextView employeeDisplayNameTextView;
+    TextView employeeEmailTextView;
+    private double amountPaid;
 
     private static final String PAYPAL_CLIENT_ID = "ATZtaMEgQFDP3ooX9ZfplTVZwNLi8KrXkjwCy90hv1C5FHX-Cz5SguVWlUhhN12PMp8-3dWOGujzXZVp";
     private static final int PAYPAL_REQUEST_CODE = 123;
@@ -50,7 +67,23 @@ public class PaymentsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_payment);
+        paymentBinding = ActivityPaymentBinding.inflate(getLayoutInflater());
+        setContentView(paymentBinding.getRoot());
+
+        String activityTitle = getString(R.string.PAYMENT);
+        setToolbarTitle(activityTitle);
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            String jobId = intent.getStringExtra("jobId");
+            String jobTitle = intent.getStringExtra("jobTitle");
+            String jobType = intent.getStringExtra("jobType");
+            String employerUserId = intent.getStringExtra("employerUserId");
+            String employeeUserId = intent.getStringExtra("employeeUserId");
+
+            populatePaymentDetails(jobTitle, jobType, employerUserId,employeeUserId);
+        }
+
 
         amountEditText = findViewById(R.id.amountEditText);
         makePaymentButton = findViewById(R.id.makePaymentButton);
@@ -58,7 +91,8 @@ public class PaymentsActivity extends AppCompatActivity {
         makePaymentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                processPayment();
+                amountPaid = Double.parseDouble(amountEditText.getText().toString());
+                processPayment(amountPaid);
             }
         });
     }
@@ -66,8 +100,9 @@ public class PaymentsActivity extends AppCompatActivity {
     /**
      * Initiates the payment process by collecting the payment details and starting the PayPal payment activity.
      */
-    public void processPayment() {
-        String amount = amountEditText.getText().toString();
+    public void processPayment(Double amountPaid) {
+//        String amount = amountEditText.getText().toString();
+        String amount = String.valueOf(amountPaid);
 
         PayPalPayment payPalPayment = new PayPalPayment(new BigDecimal(String.valueOf(amount)), "CAD",
                 "Payment for Job", PayPalPayment.PAYMENT_INTENT_SALE);
@@ -96,7 +131,7 @@ public class PaymentsActivity extends AppCompatActivity {
                 if (confirmation != null) {
                     try {
                         String paymentDetails = confirmation.toJSONObject().toString(4);
-                        showDetails(paymentDetails);
+                        showDetails(paymentDetails, amountPaid);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -114,7 +149,7 @@ public class PaymentsActivity extends AppCompatActivity {
      *
      * @param paymentDetails A JSON string containing the details of the payment response.
      */
-    private void showDetails(String paymentDetails) {
+    private void showDetails(String paymentDetails, double amountPaid) {
         TextView confirmationTextView = findViewById(R.id.confirmationTextView);
         try {
             JSONObject paymentDetailsJson = new JSONObject(paymentDetails);
@@ -123,6 +158,16 @@ public class PaymentsActivity extends AppCompatActivity {
                 // Show confirmation message on successful payment
                 confirmationTextView.setText("Payment confirmed");
                 confirmationTextView.setVisibility(View.VISIBLE);
+
+                String jobId = getIntent().getStringExtra("jobId");
+                String jobTitle = getIntent().getStringExtra("jobTitle");
+                String jobType = getIntent().getStringExtra("jobType");
+                String employerId = getIntent().getStringExtra("employerUserId");
+                String employeeId = getIntent().getStringExtra("employeeUserId");
+                String today = getCurrentDate();
+
+                // Save payment details
+                savePaymentDetails(jobId, jobTitle, jobType, employerId, employeeId, today, amountPaid);
             } else {
                 // Show failure message on unsuccessful payment
                 confirmationTextView.setText("Payment failed");
@@ -132,6 +177,107 @@ public class PaymentsActivity extends AppCompatActivity {
             e.printStackTrace();
             confirmationTextView.setText("Error in payment details");
             confirmationTextView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void populatePaymentDetails(String jobTitle, String jobType, String employerUserId, String employeeUserId) {
+        jobTitleTextView = findViewById(R.id.jobTitleTextView);
+        jobTypeTextView = findViewById(R.id.jobTypeTextView);
+        todaysDateTextView = findViewById(R.id.todaysDateTextView);
+        employerNameTextView = findViewById(R.id.employerNameTextView);
+        employeeDisplayNameTextView = findViewById(R.id.employeeDisplayNameTextView);
+        employeeEmailTextView = findViewById(R.id.employeeEmailTextView);
+
+        jobTitleTextView.setText(jobTitle);
+        jobTypeTextView.setText(jobType);
+        jobTitleTextView.setText(jobTitle);
+        jobTypeTextView.setText(jobType);
+        String today = getCurrentDate();
+        todaysDateTextView.setText(today);
+        retrieveEmployerDetails(employerUserId, employerNameTextView);
+        retrieveEmployeeDetails(employeeUserId, employeeDisplayNameTextView, employeeEmailTextView);
+    }
+
+    private void retrieveEmployerDetails(String userId, final TextView textView){
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String displayName = snapshot.child("displayName").getValue(String.class);
+                    if (textView != null) {
+                        textView.setText(displayName);
+                    }
+                } else {
+                    // Handle the case where the user document doesn't exist
+                    if (textView != null) {
+                        textView.setText("User not found");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle errors in fetching user details
+                if (textView != null) {
+                    textView.setText("Error retrieving user details: " + error.getMessage());
+                }
+            }
+        });
+    }
+    private void retrieveEmployeeDetails(String userId, final TextView textView, final TextView textView2){
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String displayName = snapshot.child("displayName").getValue(String.class);
+                    String email = snapshot.child("email").getValue(String.class);
+                    if (textView != null && textView2 != null ) {
+                        textView.setText(displayName);
+                        textView2.setText(email);
+                    }
+                } else {
+                    // Handle the case where the user document doesn't exist
+                    if (textView != null && textView2 != null ) {
+                        textView.setText("User not found");
+                        textView2.setText("User not found");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle errors in fetching user details
+                if (textView != null && textView2 != null ) {
+                    textView.setText("Error retrieving user details: " + error.getMessage());
+                    textView2.setText("Error retrieving user details: " + error.getMessage());
+                }
+            }
+        });
+    }
+    public static String getCurrentDate() {
+        Calendar calendar = Calendar.getInstance();
+        Date currentDate = calendar.getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(currentDate);
+    }
+
+    private void savePaymentDetails(String jobId, String jobTitle, String jobType, String employerId, String employeeId, String today, double amount) {
+        DatabaseReference paymentsRef = FirebaseDatabase.getInstance().getReference().child("payments");
+
+        String paymentId = paymentsRef.push().getKey();
+
+        if (paymentId != null) {
+            Payment paymentDetails = new Payment(jobId, jobTitle, jobType, employerId, employeeId, today, amount);
+
+            paymentsRef.child(paymentId).setValue(paymentDetails)
+                    .addOnSuccessListener(aVoid -> Toast.makeText(getApplicationContext(), "Payment details saved successfully", Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Failed to save payment details", Toast.LENGTH_SHORT).show());
+        } else {
+            Toast.makeText(getApplicationContext(), "Failed to generate a payment ID", Toast.LENGTH_SHORT).show();
         }
     }
 }
