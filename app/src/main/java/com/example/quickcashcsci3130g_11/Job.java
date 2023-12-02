@@ -19,7 +19,10 @@ public class Job implements Serializable {
     private String urgencyType;
     private String salary;
     private String salaryType;
+
+    private boolean isFavourite;
     private String location;
+    private String Key;
     private String description;
     private String employerId;
 
@@ -51,11 +54,13 @@ public class Job implements Serializable {
      * @param description   The job description.
      * @param employerId    The unique identifier of the job's employer.
      */
-    public Job(String jobId, String title, String jobType, String date, String duration, String durationType, String urgencyType, String salary, String salaryType, String location, String description, String employerId) {
+    public Job(String jobId,String Key,boolean isFavourite, String title, String jobType, String date, String duration, String durationType, String urgencyType, String salary, String salaryType, String location, String description, String employerId) {
         this.jobId = jobId;
         this.title = title;
         this.jobType = jobType;
+        this.Key = Key;
         this.date = date;
+        this.isFavourite = isFavourite;
         this.duration = duration;
         this.durationType = durationType;
         this.urgencyType = urgencyType;
@@ -105,6 +110,14 @@ public class Job implements Serializable {
      */
     public String getDuration() {
         return duration;
+    }
+
+    public String getKey() {
+        return Key;
+    }
+
+    public boolean getIsFavourite(){
+        return isFavourite;
     }
 
     /**
