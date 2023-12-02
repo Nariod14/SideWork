@@ -16,7 +16,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintTop_toBottomOf="@id/displayNameTextView"/>
-        <!-- app:layout_constraintBottom_toTopOf="@id/employerPreferredEmployees" -->
+    <!-- app:layout_constraintBottom_toTopOf="@id/employerPreferredEmployees" -->
 
 
     <LinearLayout
@@ -57,6 +57,8 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/employerRatingsButton" />
+
+
 
     <Button
         android:id="@+id/rateEmployerButton"
@@ -126,14 +128,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/acceptedJobsButton"
-        app:layout_constraintTop_toBottomOf="@+id/appliedJob" />
+        app:layout_constraintTop_toBottomOf="@+id/preferredJobs" />
 
     <Button
-        android:id="@+id/appliedJob"
+        android:id="@+id/preferredJobs"
         android:layout_width="170dp"
         android:layout_height="150dp"
         android:layout_marginTop="32dp"
-        android:text="Applied Jobs"
+        android:text="Preferred Jobs"
         android:textSize="18sp"
         app:cornerRadius="30dp"
         android:backgroundTint="@color/lightBlue"
@@ -151,7 +153,7 @@
         android:textSize="18sp"
         app:cornerRadius="30dp"
         android:backgroundTint="@color/lightBlue"
-        app:layout_constraintEnd_toStartOf="@+id/appliedJob"
+        app:layout_constraintEnd_toStartOf="@+id/preferredJobs"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switch2EmployerButton" />
