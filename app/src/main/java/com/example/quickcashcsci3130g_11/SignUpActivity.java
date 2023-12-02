@@ -161,7 +161,9 @@ public class SignUpActivity extends AppCompatActivity {
                                                     User newUser = new User(email, displayName);
                                                     usersRef.child(userId).setValue(newUser);
 
-                                                    startActivity(new Intent(SignUpActivity.this, EmployeeActivity.class));
+                                                    AppPreferences appPreferences = null;
+                                                    appPreferences.setUserRole(getString(R.string.ROLE_EMPLOYER));
+                                                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                                                     finish();
                                                 } else {
                                                     Snackbar.make(v, "Error setting display name!", Snackbar.LENGTH_SHORT).show();
