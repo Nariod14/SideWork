@@ -40,8 +40,11 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
             excludes += "META-INF/DEPENDENCIES"
             excludes += "META-INF/gradle/incremental.annotation.processors"
+            excludes += "META-INF/LICENSE.md"
+            excludes += "META-INF/LICENSE-notice.md"
         }
     }
+
 
     configurations {
         implementation {
@@ -134,10 +137,11 @@ dependencies {
 
 }}
 dependencies {
-//    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
-    implementation(files("../Library/MPAndroidChart-v3.0.1.jar"))
+////    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+//    implementation(files("../Library/MPAndroidChart-v3.0.1.jar"))
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation(files("../Library/MPAndroidChart-v3.0.1.jar"))
 }
 
