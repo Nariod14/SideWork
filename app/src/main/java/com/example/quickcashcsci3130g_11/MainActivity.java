@@ -6,11 +6,11 @@ import android.widget.LinearLayout;
 
 import com.example.quickcashcsci3130g_11.databinding.ActivityMainBinding;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 
 public class MainActivity extends BaseActivity {
-    private AppPreferences appPreferences;
     private LocationAccess locationAccess;
     ActivityMainBinding activityMainBinding;
     /**
@@ -21,11 +21,10 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityMainBinding = activityMainBinding.inflate(getLayoutInflater());
+        activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
 
         setContentView(activityMainBinding.getRoot());
         DashboardCustomizer dashboardCustomizer = new DashboardCustomizer();
-        IncomeManager incomeManager = new IncomeManager();
 
         appPreferences = new AppPreferences(this);
         String userRole = appPreferences.getUserRole();
@@ -38,7 +37,7 @@ public class MainActivity extends BaseActivity {
         showUserMessage(displayName, userRole);
 
         dashboardCustomizer.customizeDashboardBasedOnRole(this, userRole);
-        incomeManager.retrieveAndOrganizePayments(this, userRole);
+        IncomeManager.retrieveAndOrganizePayments(this, userRole);
     }
 
 
@@ -53,7 +52,7 @@ public class MainActivity extends BaseActivity {
         } else if (getString(R.string.ROLE_EMPLOYEE).equals(userRole)) {
             userMessage = getString(R.string.EMPLOYEE_MESSAGE, displayName);
         }
-        Snackbar userSnack = Snackbar.make(linearLayout, userMessage, Snackbar.LENGTH_SHORT);
+        Snackbar userSnack = Snackbar.make(linearLayout, userMessage, BaseTransientBottomBar.LENGTH_SHORT);
         userSnack.show();
     }
 }

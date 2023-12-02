@@ -38,7 +38,21 @@ public class DashboardCustomizer {
                 }
             });
             dashboardButton2.setText(context.getString(R.string.JOBS_IN_PROGRESS));
+            dashboardButton2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, JobsInProgressActivity.class);
+                    context.startActivity(intent);
+                }
+            });
             dashboardButton3.setText(context.getString(R.string.PREFERRED_EMPLOYEES));
+            dashboardButton3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, PreferredEmployees.class);
+                    context.startActivity(intent);
+                }
+            });
             incomeHistoryLayout.setVisibility(View.GONE);
         } else if (context.getString(R.string.ROLE_EMPLOYEE).equals(userRole)) {
             mainButton.setText(context.getString(R.string.SEARCH_JOBS));
@@ -58,7 +72,21 @@ public class DashboardCustomizer {
                 }
             });
             dashboardButton2.setText(context.getString(R.string.PREFERRED_JOBS));
+            dashboardButton2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, PreferredJobs.class);
+                    context.startActivity(intent);
+                }
+            });
             dashboardButton3.setText(context.getString(R.string.ACCEPTED_JOBS));
+            dashboardButton3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, AcceptedJobsActivity.class);
+                    context.startActivity(intent);
+                }
+            });
             incomeHistoryLayout.setVisibility(View.VISIBLE);
             incomeHistoryButton.setOnClickListener(new View.OnClickListener() {
                 @Override
