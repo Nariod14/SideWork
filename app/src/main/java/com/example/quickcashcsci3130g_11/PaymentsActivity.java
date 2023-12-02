@@ -262,7 +262,8 @@ public class PaymentsActivity extends BaseActivity {
         Calendar calendar = Calendar.getInstance();
         Date currentDate = calendar.getTime();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.format(currentDate);
+        String date = dateFormat.format(currentDate);
+        return date;
     }
 
     private void savePaymentDetails(String jobId, String jobTitle, String jobType, String employerId, String employeeId, String today, double amount) {

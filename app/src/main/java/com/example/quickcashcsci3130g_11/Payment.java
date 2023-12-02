@@ -6,7 +6,7 @@ public class Payment {
     private String jobType;
     private String employerId;
     private String employeeId;
-    private String date;
+    private String datePaid;
     private Double amountPaid;
 
     // Default constructor required for Firebase
@@ -19,7 +19,7 @@ public class Payment {
         this.jobType = jobType;
         this.employerId = employerId;
         this.employeeId = employeeId;
-        this.date = date;
+        this.datePaid = date;
         this.amountPaid = amountPaid;
     }
 
@@ -47,7 +47,7 @@ public class Payment {
     }
 
     public String getDatePaid() {
-        return date;
+        return datePaid;
     }
 
 }
