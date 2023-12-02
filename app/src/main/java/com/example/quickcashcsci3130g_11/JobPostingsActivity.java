@@ -1,5 +1,7 @@
 package com.example.quickcashcsci3130g_11;
 
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -59,6 +61,16 @@ public class JobPostingsActivity extends BaseActivity {
         setToolbarTitle(activityTitle);
         initializeViews();
         setupRecyclerView();
+
+        jobPosting.addOnItemTouchListener(new RecyclerItemClickListener(this, jobPosting, (view, position) -> {
+            // Handle item click here
+            Job selectedJob = jobList.get(position);
+
+            // Start the JobDetailsActivity and pass the selected job object
+            Intent intent1 = new Intent(JobPostingsActivity.this, JobDetailsActivity.class);
+            intent1.putExtra("job", selectedJob);
+            startActivity(intent1);
+        }));
     }
 
     /**

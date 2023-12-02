@@ -115,8 +115,8 @@ public class MainActivity extends BaseActivity {
                     startActivity(intent);
                 }
             });
-            dashboardButton2.setText(getString(R.string.PREFERRED_EMPLOYEES));
-            dashboardButton3.setText(getString(R.string.ACCEPTED_JOBS));
+            dashboardButton2.setText(getString(R.string.JOBS_IN_PROGRESS));
+            dashboardButton3.setText(getString(R.string.PREFERRED_EMPLOYEES));
             incomeHistoryLayout.setVisibility(View.GONE);
         } else if (getString(R.string.ROLE_EMPLOYEE).equals(userRole)) {
             mainButton.setText(getString(R.string.SEARCH_JOBS));
