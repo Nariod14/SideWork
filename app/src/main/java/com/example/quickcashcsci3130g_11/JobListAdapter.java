@@ -68,8 +68,8 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
         holder.jobNameTextView.setText(job.getTitle());
         holder.salaryTextView.setText("$" + job.getSalary() + " " + job.getSalaryType());
         holder.locationTextView.setText(job.getLocation());
-        boolean isFavorite = job.getIsFavourite();
-        if (isFavorite) {
+        boolean isFavourite = job.getIsFavourite();
+        if (isFavourite) {
             holder.isFavourite.setImageResource(R.drawable.ic_bookmark_active); // Set your favorite icon resource
         } else {
             holder.isFavourite.setImageResource(R.drawable.ic_bookmark_inactive); // Set your not favorite icon resource
@@ -78,7 +78,7 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
         holder.isFavourite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isFavorite){
+                if(isFavourite){
                     mDatabase.child("favourite").setValue(job.getKey()).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
@@ -157,7 +157,7 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
             jobNameTextView = itemView.findViewById(R.id.jobNameTextView);
             salaryTextView = itemView.findViewById(R.id.Salary_details);
             locationTextView = itemView.findViewById(R.id.jobLocation);
-            isFavourite = itemView.findViewById(R.id.isFavorite);
+            isFavourite = itemView.findViewById(R.id.isFavourite);
 
         }
     }

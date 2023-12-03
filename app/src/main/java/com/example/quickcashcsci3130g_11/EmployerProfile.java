@@ -8,13 +8,16 @@ public class EmployerProfile implements Serializable {
     private String EmployerName;
     private String EmployerEmail;
     private String EmployerLocation;
-
+    private String EmployerKey;
+    private boolean EmployerisFavourite;
     public EmployerProfile() {
     }
 
-    public EmployerProfile(String EmployerId, String EmployerName, String EmployerEmail, String EmployerLocation) {
+    public EmployerProfile(String EmployerId, String EmployerName, String EmployerEmail, String EmployerLocation,String EmployerKey, boolean EmployerisFavourite) {
         this.EmployerId = EmployerId;
         this.EmployerName = EmployerName;
+        this.EmployerKey = EmployerKey;
+        this.EmployerisFavourite = EmployerisFavourite;
         this.EmployerEmail = EmployerEmail;
         this.EmployerLocation = EmployerLocation;
     }
@@ -25,6 +28,13 @@ public class EmployerProfile implements Serializable {
 
     public String getEmployerId() {
         return EmployerId;
+    }
+
+    public Boolean getEmployerisFavourite(){
+        return EmployerisFavourite;
+    }
+    public String getEmployerKey(){
+        return EmployerKey;
     }
 
     public String getEmployerEmail() {
