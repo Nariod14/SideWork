@@ -31,9 +31,7 @@
         <activity
             android:name=".PreferredEmployees"
             android:exported="false" />
-        <activity
-            android:name=".PreferredEmployers"
-            android:exported="false" />
+
         <activity
             android:name=".PreferredJobs"
             android:exported="false" />
@@ -81,6 +79,15 @@
             android:exported="true" />
         <activity
             android:name=".EmployeeProfileActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AllAvailableJobActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AllEmployeeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AllEmployerActivity"
             android:exported="true" />
         <activity
             android:name=".EmployerProfileActivity"

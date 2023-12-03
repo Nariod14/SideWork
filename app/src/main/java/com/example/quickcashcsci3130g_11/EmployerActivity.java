@@ -35,6 +35,7 @@ public class EmployerActivity extends AppCompatActivity {
 
     private AppPreferences appPreferences;
 
+
     /**
      * Called when the activity is first created. Initializes views, sets up click listeners,
      * and shows user profile information.
@@ -57,6 +58,7 @@ public class EmployerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_employer);
         Button logout=(Button)findViewById(R.id.logout);
 
+        Button employeeButton = findViewById(R.id.allEmployerReyclerView);
         mSwitchRoleButton = findViewById(R.id.switch2EmployeeButton);
         mDisplayName = findViewById(R.id.displayNameTextView);
         mAddJobButton = findViewById(R.id.employerAddJob);
@@ -110,6 +112,15 @@ public class EmployerActivity extends AppCompatActivity {
         }
     });
 
+        employeeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AllEmployerActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
 
     }
 
@@ -137,6 +148,7 @@ public class EmployerActivity extends AppCompatActivity {
         Snackbar employerSnack = Snackbar.make(constraintLayout, employerMessage, BaseTransientBottomBar.LENGTH_SHORT);
         employerSnack.show();
     }
+
 
     /**
      * Switch to the employee role when the "Switch to Employee" button is clicked.
@@ -182,6 +194,9 @@ public class EmployerActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
 
     /**
      * Navigate to the job postings activity when the "View Job Postings" button is clicked.
