@@ -1,5 +1,12 @@
 package com.example.quickcashcsci3130g_11;
 
+import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import android.location.Location;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,25 +20,29 @@ public class Job implements Serializable {
     private String durationType;
     private String urgencyType;
     private String salary;
-    private String salaryType;
     private boolean isFavourite;
-    private String location;
     private String Key;
+    private String salaryType;
+    private Location location;
     private String description;
     private String employerId;
+
     private String searchableData;
+
     private List<String> applicants;
     private String acceptedApplicantUid;
 
-    public Job(String jobId, String title, String jobType, String date, String duration, String durationType, String urgencyType, String salary, String salaryType, String location, String description, String employerId) {
+    /**
+     * Default constructor for the Job class.
+     */
+    public Job()  {
+
     }
 
     /**
      * Constructs a new Job object with the provided details.
      *
      * @param jobId         The unique identifier for the job.
-     * @param isFavourite   The unique identifier for the favourite job.
-     * @param Key           The unique key for add job to favourite.
      * @param title         The title of the job.
      * @param jobType       The type of job.
      * @param date          The date when the job is available.
@@ -44,12 +55,12 @@ public class Job implements Serializable {
      * @param description   The job description.
      * @param employerId    The unique identifier of the job's employer.
      */
-    public Job(String jobId, String Key, boolean isFavourite, String title, String jobType, String date, String duration, String durationType, String urgencyType, String salary, String salaryType, String location, String description, String employerId) {
+    public Job(String jobId,String Key,Boolean isFavourite, String title, String jobType, String date, String duration, String durationType, String urgencyType, String salary, String salaryType, Location location, String description, String employerId) {
         this.jobId = jobId;
         this.title = title;
         this.jobType = jobType;
-        this.Key = Key;
         this.date = date;
+        this.Key = Key;
         this.isFavourite = isFavourite;
         this.duration = duration;
         this.durationType = durationType;
@@ -57,11 +68,14 @@ public class Job implements Serializable {
         this.salary = salary;
         this.salaryType = salaryType;
         this.location = location;
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
         this.description = description;
         this.employerId = employerId;
         this.applicants = new ArrayList<>();
         this.acceptedApplicantUid = "";
-        this.searchableData = title.toLowerCase() + " " + jobType.toLowerCase() + " " + date.toLowerCase() + " " + duration.toLowerCase() + " " + durationType.toLowerCase() + " " + urgencyType.toLowerCase() + " " + salary.toLowerCase() + " " + salaryType.toLowerCase() + " " + location.toLowerCase();
+        String locationData = "Latitude: " + latitude + ", Longitude: " + longitude;
+        this.searchableData = title.toLowerCase() + " " + jobType.toLowerCase() + " " + date.toLowerCase() + " " + duration.toLowerCase() + " " + durationType.toLowerCase() + " " + urgencyType.toLowerCase() + " " + salary.toLowerCase() + " " + salaryType.toLowerCase() + " " + locationData.toLowerCase();
 
 
     }
@@ -100,14 +114,6 @@ public class Job implements Serializable {
      */
     public String getDuration() {
         return duration;
-    }
-
-    public String getKey() {
-        return Key;
-    }
-
-    public boolean getIsFavourite(){
-        return isFavourite;
     }
 
     /**
@@ -151,9 +157,18 @@ public class Job implements Serializable {
      *
      * @return The job location.
      */
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
+
+    public String getKey() {
+        return Key;
+    }
+
+    public boolean getIsFavourite(){
+        return isFavourite;
+    }
+
 
     /**
      * Get the job description.
