@@ -1,8 +1,5 @@
 package com.example.quickcashcsci3130g_11;
 
-
-
-
 import android.os.Bundle;
 
 import com.example.quickcashcsci3130g_11.databinding.ActivityIncomeHistoryBinding;
@@ -13,6 +10,7 @@ import com.example.quickcashcsci3130g_11.databinding.ActivityIncomeHistoryBindin
 public class IncomeHistory extends BaseActivity {
 
     ActivityIncomeHistoryBinding incomeHistoryBinding;
+    IncomeManager incomeManager; // Create an instance of IncomeManager
 
     /**
      * Called when the activity is first created. Initializes UI elements and retrieves income/payment history.
@@ -31,6 +29,7 @@ public class IncomeHistory extends BaseActivity {
         appPreferences = new AppPreferences(this);
         String userRole = appPreferences.getUserRole();
 
-        IncomeManager.retrieveAndOrganizePayments(this, userRole);
+        incomeManager = new IncomeManager(); // Instantiate IncomeManager
+        incomeManager.retrieveAndOrganizePayments(this, userRole);
     }
 }

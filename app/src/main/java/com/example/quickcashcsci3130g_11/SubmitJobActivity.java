@@ -223,7 +223,8 @@ public class SubmitJobActivity extends BaseActivity {
         String date = setDateTextView.getText().toString().trim();
         String duration = durationEditText.getText().toString().trim();
         String salary = salaryEditText.getText().toString().trim();
-        String location = locationEditText.getText().toString().trim();
+        String locationText = locationEditText.getText().toString().trim();
+        Location location = parseLocation(locationText);
         String jobType = jobTypeSpinner.getSelectedItem().toString();
         String durationType = durationTypeSpinner.getSelectedItem().toString();
         String urgencyType = urgencyTypeSpinner.getSelectedItem().toString();
@@ -252,7 +253,7 @@ public class SubmitJobActivity extends BaseActivity {
             hasEmptyFields = true;
         }
 
-        if (TextUtils.isEmpty(location)) {
+        if (TextUtils.isEmpty(locationText)) {
             locationEditText.setError("Location is required");
             hasEmptyFields = true;
         }
@@ -268,7 +269,7 @@ public class SubmitJobActivity extends BaseActivity {
         }
 
         if (TextUtils.isEmpty(title) || TextUtils.isEmpty(date) || TextUtils.isEmpty(duration) ||
-                TextUtils.isEmpty(urgencyType) || TextUtils.isEmpty(salary) || TextUtils.isEmpty(location)) {
+                TextUtils.isEmpty(urgencyType) || TextUtils.isEmpty(salary) || TextUtils.isEmpty(locationText)) {
             Toast.makeText(SubmitJobActivity.this, "All fields are required", Toast.LENGTH_SHORT).show();
         } else {
             FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -288,6 +289,24 @@ public class SubmitJobActivity extends BaseActivity {
 
             finish();
         }
+    }
+    private Location parseLocation(String locationText) {
+        // Extract latitude and longitude from the string
+        // Assuming the format is "Latitude: {latitude}, Longitude: {longitude}"
+
+        String[] parts = locationText.split(", ");
+        String latitudeString = parts[0].substring(parts[0].indexOf(":") + 2);
+        String longitudeString = parts[1].substring(parts[1].indexOf(":") + 2);
+
+        double latitude = Double.parseDouble(latitudeString);
+        double longitude = Double.parseDouble(longitudeString);
+
+        // Create a Location object
+        Location location = new Location("");
+        location.setLatitude(latitude);
+        location.setLongitude(longitude);
+
+        return location;
     }
 
     /**

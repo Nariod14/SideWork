@@ -65,7 +65,12 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> impl
         holder.durationTextView.setText(job.getDuration() + " " + job.getDurationType());
         holder.urgencyTextView.setText(job.getUrgencyType());
         holder.salaryTextView.setText("$" + job.getSalary() + " " + job.getSalaryType());
-        holder.locationTextView.setText(job.getLocation());
+        if (job.getLocation() != null) {
+            double latitude = job.getLocation().getLatitude();
+            double longitude = job.getLocation().getLongitude();
+            holder.locationTextView.setText("Latitude: " + latitude + ", Longitude: " + longitude);
+        }
+
         holder.descriptionTextView.setText(job.getDescription());
         holder.employerIdTextView.setText(job.getEmployerId());
     }
@@ -99,13 +104,21 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> impl
                 } else {
                     // Filter jobs based on the search query
                     for (Job job : mJobList) {
+                        String locationString = "";
+
+                        if (job.getLocation() != null) {
+                            double latitude = job.getLocation().getLatitude();
+                            double longitude = job.getLocation().getLongitude();
+                            locationString = "Latitude: " + latitude + ", Longitude: " + longitude;
+                        }
+
                         if (job.getTitle().toLowerCase().contains(query) ||
                                 job.getJobType().toLowerCase().contains(query) ||
                                 job.getDate().toLowerCase().contains(query) ||
                                 job.getDuration().toLowerCase().contains(query) ||
                                 job.getUrgencyType().toLowerCase().contains(query) ||
                                 job.getSalary().toLowerCase().contains(query) ||
-                                job.getLocation().toLowerCase().contains(query) ||
+                                locationString.toLowerCase().contains(query) ||
                                 job.getEmployerId().toLowerCase().contains(query)) {
                             filteredList.add(job);
                         }

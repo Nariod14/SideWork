@@ -67,6 +67,13 @@ public class JobSearchActivity extends BaseActivity implements SearchView.OnQuer
             startActivity(intent);
         });
 
+        Button searchOnMapsButton = findViewById(R.id.searchOnMapsButton);
+        searchOnMapsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(JobSearchActivity.this, JobMapActivity.class);
+            startActivity(intent);
+        });
+
+
         // Add a listener to the SearchView widget
         SearchView searchView = findViewById(R.id.search_view);
         searchView.setOnQueryTextListener(this);
