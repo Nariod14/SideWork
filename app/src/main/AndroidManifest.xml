@@ -32,9 +32,6 @@
             android:name=".PreferredEmployees"
             android:exported="false" />
         <activity
-            android:name=".PreferredEmployers"
-            android:exported="false" />
-        <activity
             android:name=".PreferredJobs"
             android:exported="false" />
         <activity

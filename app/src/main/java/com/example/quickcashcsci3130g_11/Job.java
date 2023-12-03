@@ -5,6 +5,8 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import android.location.Location;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +21,7 @@ public class Job implements Serializable {
     private String urgencyType;
     private String salary;
     private String salaryType;
-    private String location;
+    private Location location;
     private String description;
     private String employerId;
 
@@ -51,7 +53,7 @@ public class Job implements Serializable {
      * @param description   The job description.
      * @param employerId    The unique identifier of the job's employer.
      */
-    public Job(String jobId, String title, String jobType, String date, String duration, String durationType, String urgencyType, String salary, String salaryType, String location, String description, String employerId) {
+    public Job(String jobId, String title, String jobType, String date, String duration, String durationType, String urgencyType, String salary, String salaryType, Location location, String description, String employerId) {
         this.jobId = jobId;
         this.title = title;
         this.jobType = jobType;
@@ -62,11 +64,14 @@ public class Job implements Serializable {
         this.salary = salary;
         this.salaryType = salaryType;
         this.location = location;
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
         this.description = description;
         this.employerId = employerId;
         this.applicants = new ArrayList<>();
         this.acceptedApplicantUid = "";
-        this.searchableData = title.toLowerCase() + " " + jobType.toLowerCase() + " " + date.toLowerCase() + " " + duration.toLowerCase() + " " + durationType.toLowerCase() + " " + urgencyType.toLowerCase() + " " + salary.toLowerCase() + " " + salaryType.toLowerCase() + " " + location.toLowerCase();
+        String locationData = "Latitude: " + latitude + ", Longitude: " + longitude;
+        this.searchableData = title.toLowerCase() + " " + jobType.toLowerCase() + " " + date.toLowerCase() + " " + duration.toLowerCase() + " " + durationType.toLowerCase() + " " + urgencyType.toLowerCase() + " " + salary.toLowerCase() + " " + salaryType.toLowerCase() + " " + locationData.toLowerCase();
 
 
     }
@@ -148,7 +153,7 @@ public class Job implements Serializable {
      *
      * @return The job location.
      */
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 

@@ -34,6 +34,7 @@ public class JobDetailsActivity extends BaseActivity implements ApplicantInterfa
     Button preferredButton;
     ActivityJobDetailsBinding jobDetailsBinding;
     private Job job;
+    private ApplicantAdapter adapter;
     private List<JobApplicant> applicantsList;
 
     /**
@@ -86,7 +87,14 @@ public class JobDetailsActivity extends BaseActivity implements ApplicantInterfa
             urgencyTextView.setText(job.getUrgencyType());
             String retrievedSalary = job.getSalary() + " " + job.getSalaryType();
             salaryTextView.setText(retrievedSalary);
-            locationTextView.setText(job.getLocation());
+
+            if (job.getLocation() != null) {
+                double latitude = job.getLocation().getLatitude();
+                double longitude = job.getLocation().getLongitude();
+                String locationText = "Latitude: " + latitude + ", Longitude: " + longitude;
+                locationTextView.setText(locationText);
+            }
+
             descriptionTextView.setText(job.getDescription());
         }
         String userRole = appPreferences.getUserRole();
@@ -407,4 +415,3 @@ public class JobDetailsActivity extends BaseActivity implements ApplicantInterfa
         }
     }
 }
-

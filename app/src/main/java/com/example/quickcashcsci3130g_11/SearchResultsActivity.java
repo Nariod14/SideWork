@@ -148,7 +148,15 @@ public class SearchResultsActivity extends BaseActivity {
             }
 
             private boolean isLocationMatch(Job job) {
-                return location.isEmpty() || job.getLocation().toLowerCase().contains(location.toLowerCase());
+                if (location.isEmpty() || job.getLocation() == null) {
+                    return true; // If the search location is empty or job location is null, consider it a match
+                }
+
+                double latitude = job.getLocation().getLatitude();
+                double longitude = job.getLocation().getLongitude();
+                String locationString = "Latitude: " + latitude + ", Longitude: " + longitude;
+
+                return locationString.toLowerCase().contains(location.toLowerCase());
             }
 
 
@@ -188,4 +196,3 @@ public class SearchResultsActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 }
-
