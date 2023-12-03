@@ -57,7 +57,7 @@ public class EmployeeActivity extends AppCompatActivity implements OnMapReadyCal
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
-        Button availableJobsButton = findViewById(R.id.availableJobsButton);
+        Button allJobsButton = findViewById(R.id.allJobsReyclerView);
         Button preferredJobsButton = findViewById(R.id.preferredJobs);
         Button acceptedJobsButton = findViewById(R.id.acceptedJobsButton);
         Button reportButton = findViewById(R.id.employeeReportButton);
@@ -109,7 +109,7 @@ public class EmployeeActivity extends AppCompatActivity implements OnMapReadyCal
                 }
             });
 
-            availableJobsButton.setOnClickListener(new View.OnClickListener() {
+            allJobsButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), AllAvailableJobActivity.class);

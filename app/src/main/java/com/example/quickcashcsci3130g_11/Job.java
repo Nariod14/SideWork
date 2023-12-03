@@ -1,10 +1,5 @@
 package com.example.quickcashcsci3130g_11;
 
-import android.widget.Toast;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,29 +14,24 @@ public class Job implements Serializable {
     private String urgencyType;
     private String salary;
     private String salaryType;
-
     private boolean isFavourite;
     private String location;
     private String Key;
     private String description;
     private String employerId;
-
     private String searchableData;
-
     private List<String> applicants;
     private String acceptedApplicantUid;
 
-    /**
-     * Default constructor for the Job class.
-     */
-    public Job()  {
-
+    public Job(String jobId, String title, String jobType, String date, String duration, String durationType, String urgencyType, String salary, String salaryType, String location, String description, String employerId) {
     }
 
     /**
      * Constructs a new Job object with the provided details.
      *
      * @param jobId         The unique identifier for the job.
+     * @param isFavourite   The unique identifier for the favourite job.
+     * @param Key           The unique key for add job to favourite.
      * @param title         The title of the job.
      * @param jobType       The type of job.
      * @param date          The date when the job is available.
@@ -54,7 +44,7 @@ public class Job implements Serializable {
      * @param description   The job description.
      * @param employerId    The unique identifier of the job's employer.
      */
-    public Job(String jobId,String Key,boolean isFavourite, String title, String jobType, String date, String duration, String durationType, String urgencyType, String salary, String salaryType, String location, String description, String employerId) {
+    public Job(String jobId, String Key, boolean isFavourite, String title, String jobType, String date, String duration, String durationType, String urgencyType, String salary, String salaryType, String location, String description, String employerId) {
         this.jobId = jobId;
         this.title = title;
         this.jobType = jobType;
