@@ -67,7 +67,7 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
         Job job = mFilteredJobList.get(position);
         holder.jobNameTextView.setText(job.getTitle());
         holder.salaryTextView.setText("$" + job.getSalary() + " " + job.getSalaryType());
-        holder.locationTextView.setText(job.getLocation());
+        holder.locationTextView.setText((CharSequence) job.getLocation());
         boolean isFavourite = job.getIsFavourite();
         if (isFavourite) {
             holder.isFavourite.setImageResource(R.drawable.ic_bookmark_active); // Set your favorite icon resource
