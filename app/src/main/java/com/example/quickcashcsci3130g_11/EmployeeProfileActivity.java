@@ -1,5 +1,6 @@
 package com.example.quickcashcsci3130g_11;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,9 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,49 +25,41 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class EmployeeProfileActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
-    private String employeeId;
+
     private TextView mDisplayNameTextView;
-    private RatingBar mRatingBar;
-    private EditText mCommentsEditText;
 
-    private ImageButton backButton;
 
-    private FirebaseAuth mAuth;
-
-    private Button mSubmitRatingButton;
-
-    private FirebaseUser selectedUser;
-
-    private RecyclerView mRatingsRecyclerView;
+    private TextView mReputationScoreTextView;
     private RatingsAdapter mRatingsAdapter;
-
-    private String currentUserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EditText mCommentsEditText;
+        RatingBar mRatingBar;
+        String employeeId;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_profile);
 
-        selectedUser = FirebaseAuth.getInstance().getCurrentUser();
-
         mDatabase = FirebaseDatabase.getInstance().getReference();
         employeeId = getIntent().getStringExtra("inputUID");
-        currentUserID = getIntent().getStringExtra("currentUserID");
+        String currentUserID = getIntent().getStringExtra("currentUserID");
 
+        mReputationScoreTextView = findViewById(R.id.reputationScoreTextView);
         mDisplayNameTextView = findViewById(R.id.displayNameTextView);
         mRatingBar = findViewById(R.id.ratingBar);
         mCommentsEditText = findViewById(R.id.commentsEditText);
-        mSubmitRatingButton = findViewById(R.id.submitRatingButton);
-        backButton = findViewById(R.id.backButtonEmployeeProfile);
+        Button mSubmitRatingButton = findViewById(R.id.submitRatingButton);
+        ImageButton backButton = findViewById(R.id.backButtonEmployeeProfile);
 
         // Retrieve and display the employee's information
         retrieveEmployeeInformation(employeeId);
 
         // Initialize RecyclerView for ratings
-        mRatingsRecyclerView = findViewById(R.id.ratingsRecyclerView);
+        RecyclerView mRatingsRecyclerView = findViewById(R.id.ratingsRecyclerView);
         mRatingsAdapter = new RatingsAdapter();
         mRatingsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRatingsRecyclerView.setAdapter(mRatingsAdapter);
@@ -74,9 +67,13 @@ public class EmployeeProfileActivity extends AppCompatActivity {
         // Retrieve and display the employee's ratings
         retrieveEmployeeRatings(employeeId);
 
+        retrieveReputationScore(employeeId);
+
+
         // Check if the current user is viewing their own profile
 
 
+        assert currentUserID != null;
         if (currentUserID.equals(employeeId)) {
             // Hide the RatingBar, EditText, and Button
             findViewById(R.id.ratingBar).setVisibility(View.GONE);
@@ -84,24 +81,42 @@ public class EmployeeProfileActivity extends AppCompatActivity {
             findViewById(R.id.submitRatingButton).setVisibility(View.GONE);
         }
 
-        mSubmitRatingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                float ratingValue = mRatingBar.getRating();
-                String comments = mCommentsEditText.getText().toString();
-                submitRating(employeeId, ratingValue, comments);
-            }
+        mSubmitRatingButton.setOnClickListener(v -> {
+            float ratingValue = mRatingBar.getRating();
+            String comments = mCommentsEditText.getText().toString();
+            submitRating(employeeId, ratingValue, comments);
         });
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-            }
-        });
+        backButton.setOnClickListener(v -> finish());
     }
 
+    private void retrieveReputationScore(String employeeId) {
+        mDatabase.child("employeeRatings").child(employeeId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        float totalScore = 0;
+                        int numReviews = 0;
+                        for (DataSnapshot ratingSnapshot : dataSnapshot.getChildren()) {
+                            Rating rating = ratingSnapshot.getValue(Rating.class);
+                            totalScore += rating != null ? rating.getRatingValue() : 0;
+                            numReviews++;
+                        }
+                        if (numReviews > 0) {
+                            float averageScore = totalScore / numReviews;
+                            mReputationScoreTextView.setText("Reputation Score: " + averageScore);
+                        } else {
+                            mReputationScoreTextView.setText("No reviews yet");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // Handle the error
+                    }
+                });
+    }
     private void retrieveEmployeeInformation(String employeeId) {
         mDatabase.child("users").child(employeeId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -150,11 +165,11 @@ public class EmployeeProfileActivity extends AppCompatActivity {
 
     private void submitRating(String userId, float ratingValue, String comments) {
         // Get the current user's ID
-        String currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String currentUserID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
         // Check if the current user is trying to rate their own profile
         if (currentUserID.equals(userId)) {
-            Snackbar.make(findViewById(R.id.backButtonEmployerProfile), "You cannot rate your own profile!", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.backButtonEmployerProfile), "You cannot rate your own profile!", BaseTransientBottomBar.LENGTH_SHORT).show();
             return; // Exit the method to prevent rating self
         }
 
@@ -164,11 +179,11 @@ public class EmployeeProfileActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            Snackbar.make(findViewById(R.id.backButtonEmployerProfile), "You've already submitted a review!", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(findViewById(R.id.backButtonEmployerProfile), "You've already submitted a review!", BaseTransientBottomBar.LENGTH_SHORT).show();
                         } else {
                             // Store the new rating in the Firebase database
                             mDatabase.child("employeeRatings").child(currentUserID).child(userId).setValue(new Rating(currentUserID, ratingValue, comments));
-                            Snackbar.make(findViewById(R.id.backButtonEmployerProfile), "Review submitted successfully!", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(findViewById(R.id.backButtonEmployerProfile), "Review submitted successfully!", BaseTransientBottomBar.LENGTH_SHORT).show();
                         }
                     }
 
