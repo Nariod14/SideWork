@@ -13,6 +13,17 @@
         android:layout_marginTop="16dp"
         android:layout_centerHorizontal="true" />
 
+
+    <TextView
+        android:id="@+id/reputationScoreTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ratingsRecyclerView"
+        android:layout_marginBottom="-32dp"
+        android:padding="8dp"
+        android:text="Reputation Score: N/A"
+        android:textSize="18sp" />
+
     <ImageButton
         android:id="@+id/backButtonEmployeeProfile"
         android:layout_width="wrap_content"
@@ -42,6 +53,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"/>
 
+
     <Button
         android:id="@+id/submitRatingButton"
         android:layout_width="wrap_content"
@@ -51,12 +63,14 @@
         android:text="Submit Rating"
         android:layout_centerHorizontal="true"/>
 
+
+
     <!-- Add a RecyclerView for displaying ratings -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ratingsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/submitRatingButton"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="37dp" />
 
 </RelativeLayout>

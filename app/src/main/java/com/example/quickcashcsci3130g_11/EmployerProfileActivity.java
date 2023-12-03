@@ -1,5 +1,6 @@
 package com.example.quickcashcsci3130g_11;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -23,39 +25,40 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class EmployerProfileActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
-    private String employerId;
+
     private TextView mDisplayNameTextView;
-    private ImageButton backButton;
-    private RatingBar mRatingBar;
-    private EditText mCommentsEditText;
-    private Button mSubmitRatingButton;
 
-    private RecyclerView mRatingsRecyclerView;
+
+    private TextView mReputationScoreTextView;
+
     private RatingsAdapter mRatingsAdapter;
-
-    private String currentUserID;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EditText mCommentsEditText;
+        RatingBar mRatingBar;
+        String employerId;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employer_profile);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         employerId = getIntent().getStringExtra("inputUID");
-        currentUserID = getIntent().getStringExtra("currentUserID");
+        String currentUserID = getIntent().getStringExtra("currentUserID");
 
 
+        mReputationScoreTextView = findViewById(R.id.reputationScoreTextView);
         mDisplayNameTextView = findViewById(R.id.displayNameTextView);
         mRatingBar = findViewById(R.id.ratingBar);
         mCommentsEditText = findViewById(R.id.commentsEditText);
-        mSubmitRatingButton = findViewById(R.id.submitRatingButton);
-        backButton = findViewById(R.id.backButtonEmployerProfile);
+        Button mSubmitRatingButton = findViewById(R.id.submitRatingButton);
+        ImageButton backButton = findViewById(R.id.backButtonEmployerProfile);
 
-        mRatingsRecyclerView = findViewById(R.id.ratingsRecyclerView);
+        RecyclerView mRatingsRecyclerView = findViewById(R.id.ratingsRecyclerView);
         mRatingsAdapter = new RatingsAdapter();
         mRatingsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRatingsRecyclerView.setAdapter(mRatingsAdapter);
@@ -66,9 +69,10 @@ public class EmployerProfileActivity extends AppCompatActivity {
         // Retrieve and display the employer's ratings
         retrieveEmployerRatings(employerId);
 
+        retrieveReputationScore(employerId);
 
 
-
+        assert currentUserID != null;
         if (currentUserID.equals(employerId)) {
             // Hide the RatingBar, EditText, and Button
             findViewById(R.id.ratingBar).setVisibility(View.GONE);
@@ -76,22 +80,42 @@ public class EmployerProfileActivity extends AppCompatActivity {
             findViewById(R.id.submitRatingButton).setVisibility(View.GONE);
         }
 
-        mSubmitRatingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                float ratingValue = mRatingBar.getRating();
-                String comments = mCommentsEditText.getText().toString();
-                submitRating(employerId, ratingValue, comments);
-            }
+        mSubmitRatingButton.setOnClickListener(v -> {
+            float ratingValue = mRatingBar.getRating();
+            String comments = mCommentsEditText.getText().toString();
+            submitRating(employerId, ratingValue, comments);
         });
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        backButton.setOnClickListener(v -> finish());
+    }
 
-                finish();
-            }
-        });
+    private void retrieveReputationScore(String employeeId) {
+        mDatabase.child("employeeRatings").child(employeeId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        float totalScore = 0;
+                        int numReviews = 0;
+                        for (DataSnapshot ratingSnapshot : dataSnapshot.getChildren()) {
+                            Rating rating = ratingSnapshot.getValue(Rating.class);
+                            assert rating != null;
+                            totalScore += rating.getRatingValue();
+                            numReviews++;
+                        }
+                        if (numReviews > 0) {
+                            float averageScore = totalScore / numReviews;
+                            mReputationScoreTextView.setText("Reputation Score: " + averageScore);
+                        } else {
+                            mReputationScoreTextView.setText("No reviews yet");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // Handle the error
+                    }
+                });
     }
 
     private void retrieveEmployerRatings(String employerId) {
@@ -139,7 +163,7 @@ public class EmployerProfileActivity extends AppCompatActivity {
 
     private void submitRating(String employerId, float ratingValue, String comments) {
         // Create a new Rating object
-        String currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String currentUserID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         Rating rating = new Rating(employerId, ratingValue, comments);
 
         mDatabase.child("employeeRatings").child(currentUserID).child(employerId)
@@ -148,7 +172,7 @@ public class EmployerProfileActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         User employer = dataSnapshot.getValue(User.class);
                         if (employer != null) {
-                            Snackbar.make(findViewById(R.id.backButtonEmployerProfile), "You've already submitted a review!", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(findViewById(R.id.backButtonEmployerProfile), "You've already submitted a review!", BaseTransientBottomBar.LENGTH_SHORT).show();
                         } else
                             // Store the new rating in the Firebase database
                             mDatabase.child("employerRatings").child(employerId).push().setValue(rating);
