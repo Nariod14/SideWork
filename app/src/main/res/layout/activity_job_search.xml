@@ -44,6 +44,7 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <Button
+                android:id="@+id/searchOnMapsButton"
                 android:layout_width="170dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
