@@ -1,16 +1,13 @@
 package com.example.quickcashcsci3130g_11;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -183,6 +180,34 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
 
         } else if (id == R.id.menu_reputation) {
+
+            FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+            String userRole = appPreferences.getUserRole();
+            userRole = appPreferences.getUserRole();
+
+            if (getString(R.string.ROLE_EMPLOYER).equals(userRole)) {
+                // Show a popup dialog to choose between employee and employer profile
+                Intent intent = new Intent(getApplicationContext(), EmployerProfileActivity.class);
+
+                // Pass the current user's UID and role to the profile activity
+                String currentUserID = mUser.getUid();
+                intent.putExtra("currentUserID", currentUserID);
+                intent.putExtra("inputUID", currentUserID);
+                intent.putExtra("userRole", "employer");
+                startActivity(intent);
+
+            } else if (getString(R.string.ROLE_EMPLOYEE).equals(userRole)) {
+                // Show a popup dialog to choose between employee and employer profile
+                Intent intent = new Intent(getApplicationContext(), EmployeeProfileActivity.class);
+
+                // Pass the current user's UID and role to the profile activity
+                String currentUserID = mUser.getUid();
+                intent.putExtra("currentUserID", currentUserID);
+                intent.putExtra("inputUID", currentUserID);
+                intent.putExtra("userRole", "employer");
+                startActivity(intent);
+            }
+
 
         } else if (id == R.id.menu_location_settings) {
 

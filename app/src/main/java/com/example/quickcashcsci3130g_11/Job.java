@@ -1,10 +1,5 @@
 package com.example.quickcashcsci3130g_11;
 
-import android.widget.Toast;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import android.location.Location;
 
 import java.io.Serializable;
@@ -85,6 +80,8 @@ public class Job implements Serializable {
         this.title = title;
         this.jobType = jobType;
         this.date = date;
+        this.Key = Key;
+        this.isFavourite = isFavourite;
         this.duration = duration;
         this.durationType = durationType;
         this.urgencyType = urgencyType;
@@ -97,8 +94,8 @@ public class Job implements Serializable {
         this.employerId = employerId;
         this.applicants = new ArrayList<>();
         this.acceptedApplicantUid = "";
-        String locationData = "Latitude: " + latitude + ", Longitude: " + longitude;
-        this.searchableData = title.toLowerCase() + " " + jobType.toLowerCase() + " " + date.toLowerCase() + " " + duration.toLowerCase() + " " + durationType.toLowerCase() + " " + urgencyType.toLowerCase() + " " + salary.toLowerCase() + " " + salaryType.toLowerCase() + " " + locationData.toLowerCase();
+
+        this.searchableData = title.toLowerCase() + " " + jobType.toLowerCase() + " " + date.toLowerCase() + " " + duration.toLowerCase() + " " + durationType.toLowerCase() + " " + urgencyType.toLowerCase() + " " + salary.toLowerCase() + " " + salaryType.toLowerCase() + " " + location.toString();
 
 
     }
