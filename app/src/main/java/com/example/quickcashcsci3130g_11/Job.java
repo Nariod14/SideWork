@@ -80,6 +80,29 @@ public class Job implements Serializable {
 
     }
 
+    public Job(String jobId, String title, String jobType, String date, String duration, String durationType, String urgencyType, String salary, String salaryType, Location location, String description, String employerId) {
+        this.jobId = jobId;
+        this.title = title;
+        this.jobType = jobType;
+        this.date = date;
+        this.duration = duration;
+        this.durationType = durationType;
+        this.urgencyType = urgencyType;
+        this.salary = salary;
+        this.salaryType = salaryType;
+        this.location = location;
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        this.description = description;
+        this.employerId = employerId;
+        this.applicants = new ArrayList<>();
+        this.acceptedApplicantUid = "";
+        String locationData = "Latitude: " + latitude + ", Longitude: " + longitude;
+        this.searchableData = title.toLowerCase() + " " + jobType.toLowerCase() + " " + date.toLowerCase() + " " + duration.toLowerCase() + " " + durationType.toLowerCase() + " " + urgencyType.toLowerCase() + " " + salary.toLowerCase() + " " + salaryType.toLowerCase() + " " + locationData.toLowerCase();
+
+
+    }
+
     /**
      * Get the title of the job.
      *
