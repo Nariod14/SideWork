@@ -4,13 +4,10 @@
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-    <meta-data
-        android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyCvBGCDOkwOzlHPy3TKBBi9M9FVoSgNIYk" />
+
 
     <application
         android:allowBackup="true"
@@ -22,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuickCashCSCI3130G11"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCvBGCDOkwOzlHPy3TKBBi9M9FVoSgNIYk" />
         <activity
             android:name=".AcceptedJobsActivity"
             android:exported="false" />
@@ -111,6 +111,9 @@
             android:exported="true" />
         <activity
             android:name=".SearchResultsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".JobMapActivity"
             android:exported="true" />
         <activity
             android:name=".PaymentsActivity"

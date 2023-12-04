@@ -1,15 +1,16 @@
 package com.example.quickcashcsci3130g_11;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,22 +30,24 @@ public class JobMapActivity extends AppCompatActivity implements OnMapReadyCallb
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_job_search);
+        setContentView(R.layout.job_map_activity);
 
         initializeMap();
 
         // Initialize the Firebase database reference
         mDatabase = FirebaseDatabase.getInstance().getReference("jobs");
 
-        // Fetch and display job postings on the map
-        fetchAndDisplayJobPostingsOnMap();
+        // Fetch and display all job postings on the map
+        fetchAndDisplayAllJobPostingsOnMap();
     }
 
     private void initializeMap() {
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapView);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(this);
-        }
+        SupportMapFragment mapFragment = new SupportMapFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.mapContainer, mapFragment)
+                .commit();
+
+        mapFragment.getMapAsync(this);
     }
 
     @Override
@@ -52,20 +55,31 @@ public class JobMapActivity extends AppCompatActivity implements OnMapReadyCallb
         mMap = googleMap;
     }
 
-    private void fetchAndDisplayJobPostingsOnMap() {
-        Query query = mDatabase.orderByChild("location");
-
-        query.addValueEventListener(new ValueEventListener() {
+    private void fetchAndDisplayAllJobPostingsOnMap() {
+        mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<Job> jobList = new ArrayList<>();
 
                 for (DataSnapshot jobSnapshot : dataSnapshot.getChildren()) {
                     Job job = jobSnapshot.getValue(Job.class);
-                    if (job != null && job.getLocation() != null) {
+                    if (job != null && job.getLocationString() != null) {
+                        // Convert locationString to Location
+                        job.setLocation(convertStringToLocation(job.getLocationString()));
                         jobList.add(job);
                         displayJobOnMap(job);
                     }
+                }
+
+                // After adding all job markers, adjust camera to show all markers
+                if (!jobList.isEmpty() && mMap != null) {
+                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                    for (Job job : jobList) {
+                        LatLng jobLocation = new LatLng(job.getLocation().getLatitude(), job.getLocation().getLongitude());
+                        builder.include(jobLocation);
+                    }
+                    LatLngBounds bounds = builder.build();
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50)); // '50' is padding
                 }
             }
 
@@ -80,7 +94,34 @@ public class JobMapActivity extends AppCompatActivity implements OnMapReadyCallb
         if (mMap != null && job.getLocation() != null) {
             LatLng jobLocation = new LatLng(job.getLocation().getLatitude(), job.getLocation().getLongitude());
             mMap.addMarker(new MarkerOptions().position(jobLocation).title(job.getTitle()));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(jobLocation));
         }
+    }
+
+    private Location convertStringToLocation(String locationString) {
+        Location location = new Location("provider"); // You can provide any provider name
+
+        // Sample locationString: "Latitude: 37.7749, Longitude: -122.4194"
+        String[] parts = locationString.split(", ");
+        if (parts.length == 2) {
+            // Extract latitude and longitude values
+            String latitudeString = parts[0].substring(parts[0].indexOf(":") + 2);
+            String longitudeString = parts[1].substring(parts[1].indexOf(":") + 2);
+
+            try {
+                // Parse latitude and longitude as doubles
+                double latitude = Double.parseDouble(latitudeString);
+                double longitude = Double.parseDouble(longitudeString);
+
+                // Set the values to the Location object
+                location.setLatitude(latitude);
+                location.setLongitude(longitude);
+
+                return location;
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null; // Return null if parsing fails
     }
 }

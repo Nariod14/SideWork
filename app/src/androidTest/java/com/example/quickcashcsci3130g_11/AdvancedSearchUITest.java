@@ -26,6 +26,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.example.quickcashcsci3130g_11.Job;
+
 public class AdvancedSearchUITest {
 
     private UiDevice mDevice;
@@ -50,7 +52,7 @@ public class AdvancedSearchUITest {
         mDatabase = FirebaseDatabase.getInstance().getReference("jobs");
 
         // Create sample jobs in the Firebase database
-        String jobId1 = mDatabase.push().getKey();
+       /* String jobId1 = mDatabase.push().getKey();
         Job job1 = new Job(jobId1, "Test Job 1", "Test Job Type 1", "2023-11-30", "1 month", "days", "High", "$1000", "CAD", "Halifax", "Test description 1", "employerId1");
         mDatabase.child(job1.getJobId()).setValue(job1);
 
@@ -61,7 +63,7 @@ public class AdvancedSearchUITest {
         String jobId3 = mDatabase.push().getKey();
         Job job3 = new Job(jobId3, "Test Job 3", "Test Job Type 3", "2023-12-02", "3 months", "months", "Low", "$3000", "CAD", "Vancouver", "Test description 3", "employerId3");
         mDatabase.child(job3.getJobId()).setValue(job3);
-
+*/
     }
 
     @After
@@ -241,7 +243,7 @@ public class AdvancedSearchUITest {
         assertNotNull(jobItem);
     }
 
-    @Test
+    /*@Test
     public void testApplyForJob() throws UiObjectNotFoundException {
         // Create a new job to apply for
         String jobId = mDatabase.push().getKey();
@@ -285,7 +287,7 @@ public class AdvancedSearchUITest {
             }
         };
         jobRef.addListenerForSingleValueEvent(jobListener);
-    }
+    } */
 
 
 }

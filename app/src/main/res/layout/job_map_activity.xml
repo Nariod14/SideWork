@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_bg">
+
+    <FrameLayout
+        android:id="@+id/mapContainer"
+        android:layout_width="match_parent"
+        android:layout_height="597dp"
+        android:layout_below="@+id/searchLinearLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="62dp"
+        android:layout_marginBottom="0dp" />
+
+    <LinearLayout
+        android:id="@+id/searchLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/recyclerview_bg"
+        android:orientation="vertical">
+
+        <!-- Your existing search layout components here -->
+
+    </LinearLayout>
+
+</RelativeLayout>
