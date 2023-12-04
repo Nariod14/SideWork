@@ -4,10 +4,14 @@ import android.location.Location;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Job implements Serializable {
     private String jobId;
+
+    private String locationString;
     private String title;
     private String jobType;
     private String date;
@@ -49,7 +53,7 @@ public class Job implements Serializable {
      * @param description   The job description.
      * @param employerId    The unique identifier of the job's employer.
      */
-    public Job(String jobId,Boolean isFavourite, String title, String jobType, String date, String duration, String durationType, String urgencyType, String salary, String salaryType, Location location, String description, String employerId) {
+    public Job(String jobId,Boolean isFavourite, String title, String jobType, String date, String duration, String durationType, String urgencyType, String salary, String salaryType, String location, String description, String employerId) {
         this.jobId = jobId;
         this.title = title;
         this.jobType = jobType;
@@ -60,39 +64,12 @@ public class Job implements Serializable {
         this.urgencyType = urgencyType;
         this.salary = salary;
         this.salaryType = salaryType;
-        this.location = location;
-        double latitude = location.getLatitude();
-        double longitude = location.getLongitude();
+        this.locationString = location;
         this.description = description;
         this.employerId = employerId;
         this.applicants = new ArrayList<>();
         this.acceptedApplicantUid = "";
-        String locationData = "Latitude: " + latitude + ", Longitude: " + longitude;
-        this.searchableData = title.toLowerCase() + " " + jobType.toLowerCase() + " " + date.toLowerCase() + " " + duration.toLowerCase() + " " + durationType.toLowerCase() + " " + urgencyType.toLowerCase() + " " + salary.toLowerCase() + " " + salaryType.toLowerCase() + " " + locationData.toLowerCase();
-
-
-    }
-
-    public Job(String jobId, String title, String jobType, String date, String duration, String durationType, String urgencyType, String salary, String salaryType, Location location, String description, String employerId) {
-        this.jobId = jobId;
-        this.title = title;
-        this.jobType = jobType;
-        this.date = date;
-        this.isFavourite = isFavourite;
-        this.duration = duration;
-        this.durationType = durationType;
-        this.urgencyType = urgencyType;
-        this.salary = salary;
-        this.salaryType = salaryType;
-        this.location = location;
-        double latitude = location.getLatitude();
-        double longitude = location.getLongitude();
-        this.description = description;
-        this.employerId = employerId;
-        this.applicants = new ArrayList<>();
-        this.acceptedApplicantUid = "";
-
-        this.searchableData = title.toLowerCase() + " " + jobType.toLowerCase() + " " + date.toLowerCase() + " " + duration.toLowerCase() + " " + durationType.toLowerCase() + " " + urgencyType.toLowerCase() + " " + salary.toLowerCase() + " " + salaryType.toLowerCase() + " " + location.toString();
+        this.searchableData = title.toLowerCase() + " " + jobType.toLowerCase() + " " + date.toLowerCase() + " " + duration.toLowerCase() + " " + durationType.toLowerCase() + " " + urgencyType.toLowerCase() + " " + salary.toLowerCase() + " " + salaryType.toLowerCase() + " " + location;
 
 
     }
@@ -233,5 +210,37 @@ public class Job implements Serializable {
     public void setAcceptedApplicantUid(String applicantUid) {
         acceptedApplicantUid = applicantUid;
     }
+    public String getLocationString() {
+        return locationString;
+    }
+
+    public void setLocationString(String locationString) {
+        this.locationString = locationString;
+    }
+
+    public void setLocation(Location location) {
+        this.locationString = convertLocationToString(location);
+    }
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        // Exclude the Location object, and use the locationString instead
+        map.put("locationString", locationString);
+        // Add other fields as needed
+        // ...
+        return map;
+    }
+
+    private String convertLocationToString(Location location) {
+        if (location != null) {
+            return "Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude();
+        } else {
+            return null;
+        }
+
+
+
+    }
+
 
 }

@@ -1,9 +1,5 @@
 package com.example.quickcashcsci3130g_11;
 
-import static androidx.core.content.ContextCompat.startActivity;
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
-
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +9,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +72,13 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> impl
             double longitude = job.getLocation().getLongitude();
             holder.locationTextView.setText("Latitude: " + latitude + ", Longitude: " + longitude);
         }
+
+        String targetUserId = job.getEmployerId();
+
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
+        String displayName = "";
+
+
 
         holder.descriptionTextView.setText(job.getDescription());
         holder.employerIdTextView.setText(job.getEmployerId());
@@ -171,5 +180,41 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> impl
             descriptionTextView = itemView.findViewById(R.id.description_text_view);
             employerIdTextView = itemView.findViewById(R.id.employer_id_text_view);
         }
+    }
+
+    public void fetchUserByUid(String targetUserId, UserCallback callback) {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
+
+        usersRef.child(targetUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    User targetUser = dataSnapshot.getValue(User.class);
+
+                    if (targetUser != null) {
+                        // User data found
+                        callback.onUserRetrieved(targetUser);
+                    } else {
+                        // Handle the case where user is null
+                        callback.onFailure("User is null");
+                    }
+                } else {
+                    // Handle the case where user data doesn't exist
+                    callback.onFailure("User data not found");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle the error
+                callback.onFailure(databaseError.getMessage());
+            }
+        });
+    }
+
+
+    public interface UserCallback {
+        void onUserRetrieved(User user);
+        void onFailure(String error);
     }
 }
