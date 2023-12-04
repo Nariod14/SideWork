@@ -132,6 +132,7 @@ public class JobDetailsActivity extends BaseActivity implements ApplicantInterfa
                 acceptedApplicantsLayout.setVisibility(View.VISIBLE);
 
                 rateEmployerButton.setVisibility(View.VISIBLE);
+                onRateEmployerClick();
 
             } else {
                 // User is not the accepted applicant, show applyButton and preferredButton, hide rateEmployerButton
@@ -336,6 +337,7 @@ public class JobDetailsActivity extends BaseActivity implements ApplicantInterfa
 
                             displayAcceptedApplicantDetails(acceptedApplicantUid);
                             onPayButtonClick();
+                            onRateEmployeeClick();
                         } else {
                             displayAcceptedApplicant(false);
                         }
@@ -408,6 +410,50 @@ public class JobDetailsActivity extends BaseActivity implements ApplicantInterfa
                     intent.putExtra("jobType", jobType);
                     intent.putExtra("employerUserId", employerUserId);
                     intent.putExtra("employeeUserId", employeeUserId);
+
+                    startActivity(intent);
+                }
+            });
+        }
+    }
+
+    void onRateEmployeeClick(){
+        Button employeeButton;
+        employeeButton = findViewById(R.id.rateEmployeeButton);
+        if (employeeButton != null){
+            employeeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), EmployeeProfileActivity.class);
+                    String employerUserId = job.getEmployerId();
+                    String employeeUserId = job.getAcceptedApplicantUid();
+                    // Pass the current user's UID and role to the profile activity
+
+                    intent.putExtra("currentUserID", employerUserId);
+                    intent.putExtra("inputUID", employeeUserId);
+                    intent.putExtra("userRole", "employer");
+
+                    startActivity(intent);
+                }
+            });
+        }
+    }
+
+    void onRateEmployerClick(){
+        Button employerButton;
+        employerButton = findViewById(R.id.rateEmployerButton);
+        if (employerButton != null){
+            employerButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), EmployeeProfileActivity.class);
+                    String employerUserId = job.getEmployerId();
+                    String employeeUserId = job.getAcceptedApplicantUid();
+                    // Pass the current user's UID and role to the profile activity
+
+                    intent.putExtra("currentUserID", employeeUserId);
+                    intent.putExtra("inputUID", employerUserId);
+                    intent.putExtra("userRole", "employee");
 
                     startActivity(intent);
                 }

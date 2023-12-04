@@ -12,26 +12,22 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.DatePicker;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.quickcashcsci3130g_11.databinding.ActivitySubmitJobBinding;
-import com.fasterxml.jackson.databind.ser.Serializers;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -277,7 +273,9 @@ public class SubmitJobActivity extends BaseActivity {
 
             String jobId = databaseReference.push().getKey();
 
-            Job job = new Job(jobId, title, jobType, date, duration, durationType, urgencyType, salary, salaryType, location, description, employerId);
+            location.setAltitude(0.0);
+
+            Job job = new Job(jobId, false, title, jobType, date, duration, durationType, urgencyType, salary, salaryType, locationText, description, employerId);
 
             assert jobId != null;
             databaseReference.child(jobId).setValue(job);
