@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class EmployeeProfile implements Serializable {
 
-        private String EmployeeId;
         private String EmployeeName;
         private String EmployeeEmail;
         private String EmployeeLocation;
@@ -14,8 +13,7 @@ public class EmployeeProfile implements Serializable {
     public EmployeeProfile() {
     }
 
-        public EmployeeProfile(String EmployeeId,String EmployeeKey,boolean EmployeeisFavourite, String EmployeeName, String EmployeeEmail, String EmployeeLocation) {
-            this.EmployeeId = EmployeeId;
+        public EmployeeProfile(String EmployeeKey,boolean EmployeeisFavourite, String EmployeeName, String EmployeeEmail, String EmployeeLocation) {
             this.EmployeeKey = EmployeeKey;
             this.EmployeeisFavourite = EmployeeisFavourite;
             this.EmployeeName = EmployeeName;
@@ -26,7 +24,7 @@ public class EmployeeProfile implements Serializable {
         public String getEmployeeLocation() {
             return EmployeeLocation;
         }
-        public String getEmployeeId() {return EmployeeId;}
+
 
     public Boolean getEmployeeisFavourite(){
         return EmployeeisFavourite;
