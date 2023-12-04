@@ -78,7 +78,6 @@ public class Job implements Serializable {
         this.title = title;
         this.jobType = jobType;
         this.date = date;
-        this.Key = Key;
         this.isFavourite = isFavourite;
         this.duration = duration;
         this.durationType = durationType;

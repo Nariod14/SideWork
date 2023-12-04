@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -14,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.quickcashcsci3130g_11.databinding.ActivityEmployeeBinding;
+import com.example.quickcashcsci3130g_11.databinding.ActivityEmployerProfileBinding;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class EmployerProfileActivity extends AppCompatActivity {
+public class EmployerProfileActivity extends BaseActivity {
     private DatabaseReference mDatabase;
 
     private TextView mDisplayNameTextView;
@@ -36,6 +39,7 @@ public class EmployerProfileActivity extends AppCompatActivity {
     private TextView mReputationScoreTextView;
 
     private RatingsAdapter mRatingsAdapter;
+    ActivityEmployerProfileBinding employerProfileBinding;
 
 
     @Override
@@ -44,7 +48,11 @@ public class EmployerProfileActivity extends AppCompatActivity {
         RatingBar mRatingBar;
         String employerId;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_employer_profile);
+        employerProfileBinding = ActivityEmployerProfileBinding.inflate(getLayoutInflater());
+        setContentView(employerProfileBinding.getRoot());
+
+        String activityTitle = getString(R.string.MY_PROFILE);
+        setToolbarTitle(activityTitle);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         employerId = getIntent().getStringExtra("inputUID");
@@ -56,7 +64,6 @@ public class EmployerProfileActivity extends AppCompatActivity {
         mRatingBar = findViewById(R.id.ratingBar);
         mCommentsEditText = findViewById(R.id.commentsEditText);
         Button mSubmitRatingButton = findViewById(R.id.submitRatingButton);
-        ImageButton backButton = findViewById(R.id.backButtonEmployerProfile);
 
         RecyclerView mRatingsRecyclerView = findViewById(R.id.ratingsRecyclerView);
         mRatingsAdapter = new RatingsAdapter();
@@ -85,8 +92,6 @@ public class EmployerProfileActivity extends AppCompatActivity {
             String comments = mCommentsEditText.getText().toString();
             submitRating(employerId, ratingValue, comments);
         });
-
-        backButton.setOnClickListener(v -> finish());
     }
 
     private void retrieveReputationScore(String employeeId) {
@@ -172,7 +177,8 @@ public class EmployerProfileActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         User employer = dataSnapshot.getValue(User.class);
                         if (employer != null) {
-                            Snackbar.make(findViewById(R.id.backButtonEmployerProfile), "You've already submitted a review!", BaseTransientBottomBar.LENGTH_SHORT).show();
+                            LinearLayout employerProfileLayout = findViewById(R.id.employerProfileLayout);
+                            Snackbar.make(employerProfileLayout, "You've already submitted a review!", BaseTransientBottomBar.LENGTH_SHORT).show();
                         } else
                             // Store the new rating in the Firebase database
                             mDatabase.child("employerRatings").child(employerId).push().setValue(rating);

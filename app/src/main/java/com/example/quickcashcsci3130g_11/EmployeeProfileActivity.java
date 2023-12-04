@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.quickcashcsci3130g_11.databinding.ActivityEmployeeProfileBinding;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class EmployeeProfileActivity extends AppCompatActivity {
+public class EmployeeProfileActivity extends BaseActivity {
     private DatabaseReference mDatabase;
 
     private TextView mDisplayNameTextView;
@@ -41,8 +43,14 @@ public class EmployeeProfileActivity extends AppCompatActivity {
         EditText mCommentsEditText;
         RatingBar mRatingBar;
         String employeeId;
+
+        ActivityEmployeeProfileBinding employeeProfileBinding;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_employee_profile);
+        employeeProfileBinding = ActivityEmployeeProfileBinding.inflate(getLayoutInflater());
+        setContentView(employeeProfileBinding.getRoot());
+
+        String activityTitle = getString(R.string.MY_PROFILE);
+        setToolbarTitle(activityTitle);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         employeeId = getIntent().getStringExtra("inputUID");
@@ -53,7 +61,6 @@ public class EmployeeProfileActivity extends AppCompatActivity {
         mRatingBar = findViewById(R.id.ratingBar);
         mCommentsEditText = findViewById(R.id.commentsEditText);
         Button mSubmitRatingButton = findViewById(R.id.submitRatingButton);
-        ImageButton backButton = findViewById(R.id.backButtonEmployeeProfile);
 
         // Retrieve and display the employee's information
         retrieveEmployeeInformation(employeeId);
@@ -86,8 +93,6 @@ public class EmployeeProfileActivity extends AppCompatActivity {
             String comments = mCommentsEditText.getText().toString();
             submitRating(employeeId, ratingValue, comments);
         });
-
-        backButton.setOnClickListener(v -> finish());
     }
 
     private void retrieveReputationScore(String employeeId) {
@@ -169,7 +174,8 @@ public class EmployeeProfileActivity extends AppCompatActivity {
 
         // Check if the current user is trying to rate their own profile
         if (currentUserID.equals(userId)) {
-            Snackbar.make(findViewById(R.id.backButtonEmployerProfile), "You cannot rate your own profile!", BaseTransientBottomBar.LENGTH_SHORT).show();
+            LinearLayout employeeProfileLayout = findViewById(R.id.employeeProfileLayout);
+            Snackbar.make(employeeProfileLayout, "You've already submitted a review!", BaseTransientBottomBar.LENGTH_SHORT).show();
             return; // Exit the method to prevent rating self
         }
 
@@ -183,7 +189,8 @@ public class EmployeeProfileActivity extends AppCompatActivity {
                         } else {
                             // Store the new rating in the Firebase database
                             mDatabase.child("employeeRatings").child(currentUserID).child(userId).setValue(new Rating(currentUserID, ratingValue, comments));
-                            Snackbar.make(findViewById(R.id.backButtonEmployerProfile), "Review submitted successfully!", BaseTransientBottomBar.LENGTH_SHORT).show();
+                            LinearLayout employeeProfileLayout = findViewById(R.id.employeeProfileLayout);
+                            Snackbar.make(employeeProfileLayout,  "Review submitted successfully!", BaseTransientBottomBar.LENGTH_SHORT).show();
                         }
                     }
 

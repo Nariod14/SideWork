@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.example.quickcashcsci3130g_11.databinding.ActivityEmployeeBinding;
+import com.example.quickcashcsci3130g_11.databinding.ActivityEmployeeProfileBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -25,7 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class EmployeeActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class EmployeeActivity extends BaseActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private MapView mapView;
@@ -39,10 +41,13 @@ public class EmployeeActivity extends AppCompatActivity implements OnMapReadyCal
     private LocationAccess mLocationAccess;
 
     private AppPreferences appPreferences;
+    ActivityEmployeeBinding employeeBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        employeeBinding = ActivityEmployeeBinding.inflate(getLayoutInflater());
+        setContentView(employeeBinding.getRoot());
 
         appPreferences = new AppPreferences(this);
         appPreferences.setUserRole("employee");
