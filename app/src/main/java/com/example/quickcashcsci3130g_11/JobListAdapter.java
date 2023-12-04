@@ -79,10 +79,10 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 if(isFavourite){
-                    mDatabase.child("favourite").setValue(job.getKey()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    mDatabase.child("favourite").setValue(job.getEmployerId()).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            mDatabase.child("jobs").child(job.getKey()).child("isFavourite").setValue(false)
+                            mDatabase.child("jobs").child(job.getEmployerId()).child("isFavourite").setValue(false)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
@@ -95,12 +95,12 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
                 }else {
                     DatabaseReference favouriteReference = FirebaseDatabase.getInstance().getReference().child("Favourite");
                     Map<String, Object> favourite = new HashMap<>();
-                    favourite.put("favouriteKey", job.getKey());
+                    favourite.put("favouriteKey", job.getEmployerId());
 
                     favouriteReference.setValue(favourite).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            mDatabase.child("jobs").child(job.getKey()).child("isFavourite").setValue(true)
+                            mDatabase.child("jobs").child(job.getEmployerId()).child("isFavourite").setValue(true)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {

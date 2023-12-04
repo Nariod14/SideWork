@@ -11,28 +11,46 @@
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:contentDescription="Speakable Text Here"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/allJobsReyclerView"
-        android:layout_width="198dp"
-        android:layout_height="67dp"
+        android:id="@+id/preferredEmployerButton"
+        android:layout_width="178dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="12dp"
+        android:layout_marginEnd="15dp"
+        android:backgroundTint="@color/lightBlue"
+        android:text="Preferred Employer"
+        android:textSize="18sp"
+        app:cornerRadius="30dp"
+        app:layout_constraintEnd_toStartOf="@+id/allJobsReyclerView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch2EmployeeButton" />
+
+    <Button
+        android:id="@+id/allJobsReyclerView"
+        android:layout_width="174dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="20dp"
         android:backgroundTint="@color/lightBlue"
         android:text="Jobs"
         android:textSize="18sp"
         app:cornerRadius="30dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch2EmployerButton" />
+        app:layout_constraintTop_toBottomOf="@+id/switch2EmployeeButton" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -47,16 +65,16 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/switch2EmployerButton"
-        android:layout_width="370dp"
-        android:layout_height="50dp"
-        android:layout_below="@id/employeeTextView"
-        android:layout_marginTop="72dp"
+        android:id="@+id/switch2EmployeeButton"
+        android:layout_width="255dp"
+        android:layout_height="62dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
         android:backgroundTint="@color/orange"
-        android:text="Switch Role to Employer"
+        android:text="Switch Role to Employee"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.39"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/logout"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <Button
@@ -147,29 +165,29 @@
         android:id="@+id/appliedJob"
         android:layout_width="170dp"
         android:layout_height="150dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/lightBlue"
         android:text="Applied Jobs"
         android:textSize="18sp"
         app:cornerRadius="30dp"
-        android:backgroundTint="@color/lightBlue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/availableJobsButton"
-        app:layout_constraintTop_toBottomOf="@+id/switch2EmployerButton" />
+        app:layout_constraintTop_toBottomOf="@+id/allJobsReyclerView" />
 
     <Button
         android:id="@+id/availableJobsButton"
         android:layout_width="170dp"
         android:layout_height="150dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/lightBlue"
         android:text="Available Jobs"
         android:textSize="18sp"
         app:cornerRadius="30dp"
-        android:backgroundTint="@color/lightBlue"
         app:layout_constraintEnd_toStartOf="@+id/appliedJob"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch2EmployerButton" />
+        app:layout_constraintTop_toBottomOf="@+id/allJobsReyclerView" />
 
     <Button
         android:id="@+id/acceptedJobsButton"
@@ -187,16 +205,17 @@
 
     <Button
         android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="94dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="6dp"
         android:text="Logout"
         app:layout_constraintBaseline_toBottomOf="parent"
         app:layout_constraintBaseline_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/switch2EmployerButton"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/switch2EmployeeButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.291" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <Button
         android:id="@+id/paymentButton2"
