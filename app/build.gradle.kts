@@ -60,12 +60,12 @@ android {
     }
 
 
-dependencies {
+    dependencies {
 
 //    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
-    // Import the Firebase BoM
-    implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
+        // Import the Firebase BoM
+        implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
 
 
         // TODO: Add the dependencies for Firebase products you want to use
