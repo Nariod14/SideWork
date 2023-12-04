@@ -58,7 +58,7 @@ public class EmployeeActivity extends AppCompatActivity implements OnMapReadyCal
         mapView.getMapAsync(this);
 
         Button allJobsButton = findViewById(R.id.allJobsReyclerView);
-        Button preferredJobsButton = findViewById(R.id.preferredJobs);
+        Button preferredJobsButton = findViewById(R.id.preferredEmployerButton);
         Button acceptedJobsButton = findViewById(R.id.acceptedJobsButton);
         Button reportButton = findViewById(R.id.employeeReportButton);
         Button logoutButton = findViewById(R.id.logout);

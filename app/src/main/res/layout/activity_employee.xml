@@ -37,20 +37,20 @@
         app:cornerRadius="30dp"
         app:layout_constraintEnd_toStartOf="@+id/allJobsReyclerView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch2EmployeeButton" />
+        app:layout_constraintTop_toBottomOf="@+id/switch2EmployerButton" />
 
     <Button
         android:id="@+id/allJobsReyclerView"
         android:layout_width="174dp"
         android:layout_height="64dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="20dp"
         android:backgroundTint="@color/lightBlue"
         android:text="Jobs"
         android:textSize="18sp"
         app:cornerRadius="30dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch2EmployeeButton" />
+        app:layout_constraintTop_toBottomOf="@+id/switch2EmployerButton" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -65,7 +65,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/switch2EmployeeButton"
+        android:id="@+id/switch2EmployerButton"
         android:layout_width="255dp"
         android:layout_height="62dp"
         android:layout_marginStart="6dp"
@@ -213,7 +213,7 @@
         android:text="Logout"
         app:layout_constraintBaseline_toBottomOf="parent"
         app:layout_constraintBaseline_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/switch2EmployeeButton"
+        app:layout_constraintEnd_toStartOf="@+id/switch2EmployerButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
