@@ -1,6 +1,7 @@
 package com.example.quickcashcsci3130g_11;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -88,9 +89,9 @@ public class JobDetailsActivity extends BaseActivity implements ApplicantInterfa
             String retrievedSalary = job.getSalary() + " " + job.getSalaryType();
             salaryTextView.setText(retrievedSalary);
 
-            if (job.getLocation() != null) {
-                double latitude = job.getLocation().getLatitude();
-                double longitude = job.getLocation().getLongitude();
+            if (job.getLocationString() != null) {
+                double latitude = convertStringToLocation(job.getLocationString()).getLatitude();
+                double longitude = convertStringToLocation(job.getLocationString()).getLongitude();
                 String locationText = "Latitude: " + latitude + ", Longitude: " + longitude;
                 locationTextView.setText(locationText);
             }
@@ -187,6 +188,33 @@ public class JobDetailsActivity extends BaseActivity implements ApplicantInterfa
             }
         });
     }
+    private Location convertStringToLocation(String locationString) {
+        Location location = new Location("provider"); // You can provide any provider name
+
+        // Sample locationString: "Latitude: 37.7749, Longitude: -122.4194"
+        String[] parts = locationString.split(", ");
+        if (parts.length == 2) {
+            // Extract latitude and longitude values
+            String latitudeString = parts[0].substring(parts[0].indexOf(":") + 2);
+            String longitudeString = parts[1].substring(parts[1].indexOf(":") + 2);
+
+            try {
+                // Parse latitude and longitude as doubles
+                double latitude = Double.parseDouble(latitudeString);
+                double longitude = Double.parseDouble(longitudeString);
+
+                // Set the values to the Location object
+                location.setLatitude(latitude);
+                location.setLongitude(longitude);
+                return location;
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return null;
+    }
+
 
     /**
      * Retrieves the list of applicants for the displayed job from the Firebase database.

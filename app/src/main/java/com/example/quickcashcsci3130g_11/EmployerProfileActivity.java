@@ -5,17 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.quickcashcsci3130g_11.databinding.ActivityEmployeeBinding;
 import com.example.quickcashcsci3130g_11.databinding.ActivityEmployerProfileBinding;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -95,7 +92,7 @@ public class EmployerProfileActivity extends BaseActivity {
     }
 
     private void retrieveReputationScore(String employeeId) {
-        mDatabase.child("employeeRatings").child(employeeId)
+        mDatabase.child("employerRatings").child(employeeId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @SuppressLint("SetTextI18n")
                     @Override
@@ -171,7 +168,7 @@ public class EmployerProfileActivity extends BaseActivity {
         String currentUserID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         Rating rating = new Rating(employerId, ratingValue, comments);
 
-        mDatabase.child("employeeRatings").child(currentUserID).child(employerId)
+        mDatabase.child("employerRatings").child(currentUserID).child(employerId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

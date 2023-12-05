@@ -1,13 +1,12 @@
 package com.example.quickcashcsci3130g_11;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -148,12 +147,12 @@ public class SearchResultsActivity extends BaseActivity {
             }
 
             private boolean isLocationMatch(Job job) {
-                if (location.isEmpty() || job.getLocation() == null) {
+                if (location.isEmpty() || job.getLocationString() == null) {
                     return true; // If the search location is empty or job location is null, consider it a match
                 }
 
-                double latitude = job.getLocation().getLatitude();
-                double longitude = job.getLocation().getLongitude();
+                double latitude = convertStringToLocation(job.getLocationString()).getLatitude();
+                double longitude = convertStringToLocation(job.getLocationString()).getLongitude();
                 String locationString = "Latitude: " + latitude + ", Longitude: " + longitude;
 
                 return locationString.toLowerCase().contains(location.toLowerCase());
@@ -167,6 +166,32 @@ public class SearchResultsActivity extends BaseActivity {
         });
     }
 
+    private Location convertStringToLocation(String locationString) {
+        Location location = new Location("provider"); // You can provide any provider name
+
+        // Sample locationString: "Latitude: 37.7749, Longitude: -122.4194"
+        String[] parts = locationString.split(", ");
+        if (parts.length == 2) {
+            // Extract latitude and longitude values
+            String latitudeString = parts[0].substring(parts[0].indexOf(":") + 2);
+            String longitudeString = parts[1].substring(parts[1].indexOf(":") + 2);
+
+            try {
+                // Parse latitude and longitude as doubles
+                double latitude = Double.parseDouble(latitudeString);
+                double longitude = Double.parseDouble(longitudeString);
+
+                // Set the values to the Location object
+                location.setLatitude(latitude);
+                location.setLongitude(longitude);
+                return location;
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return null;
+    }
 
     /**
      * Initialize the contents of the activity's standard options menu. Inflates the menu

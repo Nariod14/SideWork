@@ -1,12 +1,8 @@
 package com.example.quickcashcsci3130g_11;
 
-import android.location.Location;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Job implements Serializable {
     private String jobId;
@@ -21,7 +17,6 @@ public class Job implements Serializable {
     private String salary;
     private boolean isFavourite;
     private String salaryType;
-    private Location location;
     private String description;
     private String employerId;
 
@@ -146,15 +141,6 @@ public class Job implements Serializable {
         return salaryType;
     }
 
-    /**
-     * Get the location where the job is available.
-     *
-     * @return The job location.
-     */
-    public Location getLocation() {
-        return location;
-    }
-
     public boolean getIsFavourite(){
         return isFavourite;
     }
@@ -216,30 +202,6 @@ public class Job implements Serializable {
 
     public void setLocationString(String locationString) {
         this.locationString = locationString;
-    }
-
-    public void setLocation(Location location) {
-        this.locationString = convertLocationToString(location);
-    }
-
-    public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<>();
-        // Exclude the Location object, and use the locationString instead
-        map.put("locationString", locationString);
-        // Add other fields as needed
-        // ...
-        return map;
-    }
-
-    private String convertLocationToString(Location location) {
-        if (location != null) {
-            return "Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude();
-        } else {
-            return null;
-        }
-
-
-
     }
 
 

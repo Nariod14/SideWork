@@ -3,8 +3,10 @@ package com.example.quickcashcsci3130g_11;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -16,8 +18,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,8 +66,7 @@ public class JobMapActivity extends AppCompatActivity implements OnMapReadyCallb
                 for (DataSnapshot jobSnapshot : dataSnapshot.getChildren()) {
                     Job job = jobSnapshot.getValue(Job.class);
                     if (job != null && job.getLocationString() != null) {
-                        // Convert locationString to Location
-                        job.setLocation(convertStringToLocation(job.getLocationString()));
+                        // Convert locationString to Location;
                         jobList.add(job);
                         displayJobOnMap(job);
                     }
@@ -75,7 +76,7 @@ public class JobMapActivity extends AppCompatActivity implements OnMapReadyCallb
                 if (!jobList.isEmpty() && mMap != null) {
                     LatLngBounds.Builder builder = new LatLngBounds.Builder();
                     for (Job job : jobList) {
-                        LatLng jobLocation = new LatLng(job.getLocation().getLatitude(), job.getLocation().getLongitude());
+                        LatLng jobLocation = new LatLng(convertStringToLocation(job.getLocationString()).getLatitude(), convertStringToLocation(job.getLocationString()).getLongitude());
                         builder.include(jobLocation);
                     }
                     LatLngBounds bounds = builder.build();
@@ -91,11 +92,13 @@ public class JobMapActivity extends AppCompatActivity implements OnMapReadyCallb
     }
 
     private void displayJobOnMap(Job job) {
-        if (mMap != null && job.getLocation() != null) {
-            LatLng jobLocation = new LatLng(job.getLocation().getLatitude(), job.getLocation().getLongitude());
+        if (mMap != null && job.getLocationString() != null) {
+            LatLng jobLocation = new LatLng(convertStringToLocation(job.getLocationString()).getLatitude(), convertStringToLocation(job.getLocationString()).getLongitude());
             mMap.addMarker(new MarkerOptions().position(jobLocation).title(job.getTitle()));
         }
     }
+
+
 
     private Location convertStringToLocation(String locationString) {
         Location location = new Location("provider"); // You can provide any provider name
@@ -115,13 +118,13 @@ public class JobMapActivity extends AppCompatActivity implements OnMapReadyCallb
                 // Set the values to the Location object
                 location.setLatitude(latitude);
                 location.setLongitude(longitude);
-
                 return location;
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
-        }
 
-        return null; // Return null if parsing fails
+        }
+        return null;
     }
+
 }

@@ -66,6 +66,9 @@ public class SignUpActivity extends AppCompatActivity {
         // Initialize Firebase
         FirebaseApp.initializeApp(this);
 
+
+        AppPreferences appPreferences = new AppPreferences(this);
+
         // Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
         mDatabaseConnector = new DatabaseConnector();
@@ -161,9 +164,9 @@ public class SignUpActivity extends AppCompatActivity {
                                                     User newUser = new User(email, displayName);
                                                     usersRef.child(userId).setValue(newUser);
 
-                                                    AppPreferences appPreferences = null;
                                                     appPreferences.setUserRole(getString(R.string.ROLE_EMPLOYER));
                                                     Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                                                    startActivity(intent);
                                                     finish();
                                                 } else {
                                                     Snackbar.make(v, "Error setting display name!", Snackbar.LENGTH_SHORT).show();

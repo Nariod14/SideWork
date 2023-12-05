@@ -6,9 +6,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.util.HashMap;
-import java.util.Map;
-
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,7 +14,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Adapter class for populating a RecyclerView with job listings and providing filtering functionality.
@@ -67,7 +66,7 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
         Job job = mFilteredJobList.get(position);
         holder.jobNameTextView.setText(job.getTitle());
         holder.salaryTextView.setText("$" + job.getSalary() + " " + job.getSalaryType());
-        holder.locationTextView.setText((CharSequence) job.getLocation());
+        holder.locationTextView.setText((CharSequence) job.getLocationString());
         boolean isFavourite = job.getIsFavourite();
         if (isFavourite) {
             holder.isFavourite.setImageResource(R.drawable.ic_bookmark_active); // Set your favorite icon resource
