@@ -5,13 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -175,8 +173,8 @@ public class EmployeeProfileActivity extends BaseActivity {
         // Check if the current user is trying to rate their own profile
         if (currentUserID.equals(userId)) {
             LinearLayout employeeProfileLayout = findViewById(R.id.employeeProfileLayout);
-            Snackbar.make(employeeProfileLayout, "You've already submitted a review!", BaseTransientBottomBar.LENGTH_SHORT).show();
-            return; // Exit the method to prevent rating self
+            Snackbar.make(employeeProfileLayout, "You can't rate yourself!", BaseTransientBottomBar.LENGTH_SHORT).show();
+            return;
         }
 
         // Check if the current user has already submitted a review

@@ -1,5 +1,6 @@
 package com.example.quickcashcsci3130g_11;
 
+import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,13 +68,34 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> impl
         holder.durationTextView.setText(job.getDuration() + " " + job.getDurationType());
         holder.urgencyTextView.setText(job.getUrgencyType());
         holder.salaryTextView.setText("$" + job.getSalary() + " " + job.getSalaryType());
-        if (job.getLocation() != null) {
-            double latitude = job.getLocation().getLatitude();
-            double longitude = job.getLocation().getLongitude();
+        if (job.getLocationString() != null) {
+            double latitude = convertStringToLocation(job.getLocationString()).getLatitude();
+            double longitude = convertStringToLocation(job.getLocationString()).getLongitude();
             holder.locationTextView.setText("Latitude: " + latitude + ", Longitude: " + longitude);
         }
 
         String targetUserId = job.getEmployerId();
+
+        // Fetch user by UID and set the display name
+        fetchUserByUid(targetUserId, new UserCallback() {
+            @Override
+            public void onUserRetrieved(User user) {
+                if (user != null) {
+                    // User data found
+                    String displayName = user.getDisplayName();
+                    holder.employerIdTextView.setText(displayName);
+                } else {
+                    // Handle the case where user is null
+                    holder.employerIdTextView.setText("Unknown User");
+                }
+            }
+
+            @Override
+            public void onFailure(String error) {
+                // Handle the failure case
+                holder.employerIdTextView.setText("Error fetching user");
+            }
+        });
 
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
         String displayName = "";
@@ -114,10 +136,11 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> impl
                     // Filter jobs based on the search query
                     for (Job job : mJobList) {
                         String locationString = "";
+                        Location jobLocation = convertStringToLocation(job.getLocationString());
 
-                        if (job.getLocation() != null) {
-                            double latitude = job.getLocation().getLatitude();
-                            double longitude = job.getLocation().getLongitude();
+                        if (jobLocation != null) {
+                            double latitude = jobLocation.getLatitude();
+                            double longitude = jobLocation.getLongitude();
                             locationString = "Latitude: " + latitude + ", Longitude: " + longitude;
                         }
 
@@ -146,6 +169,33 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> impl
                 notifyDataSetChanged();
             }
         };
+    }
+
+    private Location convertStringToLocation(String locationString) {
+        Location location = new Location("provider"); // You can provide any provider name
+
+        // Sample locationString: "Latitude: 37.7749, Longitude: -122.4194"
+        String[] parts = locationString.split(", ");
+        if (parts.length == 2) {
+            // Extract latitude and longitude values
+            String latitudeString = parts[0].substring(parts[0].indexOf(":") + 2);
+            String longitudeString = parts[1].substring(parts[1].indexOf(":") + 2);
+
+            try {
+                // Parse latitude and longitude as doubles
+                double latitude = Double.parseDouble(latitudeString);
+                double longitude = Double.parseDouble(longitudeString);
+
+                // Set the values to the Location object
+                location.setLatitude(latitude);
+                location.setLongitude(longitude);
+                return location;
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return null;
     }
 
     /**

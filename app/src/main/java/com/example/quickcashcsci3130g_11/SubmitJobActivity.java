@@ -274,6 +274,7 @@ public class SubmitJobActivity extends BaseActivity {
             String jobId = databaseReference.push().getKey();
 
             location.setAltitude(0.0);
+            location.setAccuracy(1.0F);
 
             Job job = new Job(jobId, false, title, jobType, date, duration, durationType, urgencyType, salary, salaryType, locationText, description, employerId);
 
